@@ -1,4 +1,5 @@
 {
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "competlab-ci-skills",
   "owner": {
     "name": "CompetLab",
@@ -6,24 +7,30 @@
   },
   "metadata": {
     "description": "Competitive intelligence skills powered by CompetLab — AI visibility reports, competitor dossiers, battlecards, weekly briefings, and landscape analysis.",
-    "version": "1.0.0",
-    "website": "https://competlab.com",
-    "repository": "https://github.com/competlab/competlab-ci-skills"
+    "version": "1.0.0"
   },
   "plugins": [
     {
-      "id": "competlab-ci-skills",
-      "metadata": {
-        "name": "CompetLab CI Skills",
-        "description": "5 competitive intelligence skills backed by real monitoring data across AI Visibility, Tech & Trust, Content, Positioning, and Pricing dimensions.",
-        "version": "1.0.0"
+      "name": "competlab-ci-skills",
+      "source": "./",
+      "description": "5 competitive intelligence skills backed by real monitoring data across AI Visibility, Tech & Trust, Content, Positioning, and Pricing dimensions.",
+      "version": "1.0.0",
+      "author": {
+        "name": "CompetLab",
+        "email": "support@competlab.com"
       },
+      "homepage": "https://competlab.com",
+      "repository": "https://github.com/competlab/competlab-ci-skills",
+      "license": "MIT",
+      "keywords": ["competitive-intelligence", "ai-visibility", "battlecard", "competitor-analysis", "b2b-saas", "market-intelligence"],
+      "category": "intelligence",
+      "strict": false,
       "skills": [
-        "skills/competlab-ai-visibility",
-        "skills/competlab-weekly-briefing",
-        "skills/competlab-competitor-dive",
-        "skills/competlab-battlecard",
-        "skills/competlab-landscape"
+        "./skills/competlab-ai-visibility",
+        "./skills/competlab-weekly-briefing",
+        "./skills/competlab-competitor-dive",
+        "./skills/competlab-battlecard",
+        "./skills/competlab-landscape"
       ]
     }
   ]

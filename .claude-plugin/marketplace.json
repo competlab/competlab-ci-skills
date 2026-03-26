@@ -1,0 +1,30 @@
+{
+  "name": "competlab-ci-skills",
+  "owner": {
+    "name": "CompetLab",
+    "email": "support@competlab.com"
+  },
+  "metadata": {
+    "description": "Competitive intelligence skills powered by CompetLab — AI visibility reports, competitor dossiers, battlecards, weekly briefings, and landscape analysis.",
+    "version": "1.0.0",
+    "website": "https://competlab.com",
+    "repository": "https://github.com/competlab/competlab-ci-skills"
+  },
+  "plugins": [
+    {
+      "id": "competlab-ci-skills",
+      "metadata": {
+        "name": "CompetLab CI Skills",
+        "description": "5 competitive intelligence skills backed by real monitoring data across AI Visibility, Tech & Trust, Content, Positioning, and Pricing dimensions.",
+        "version": "1.0.0"
+      },
+      "skills": [
+        "skills/competlab-ai-visibility",
+        "skills/competlab-weekly-briefing",
+        "skills/competlab-competitor-dive",
+        "skills/competlab-battlecard",
+        "skills/competlab-landscape"
+      ]
+    }
+  ]
+}

@@ -76,6 +76,15 @@ npx skills add competlab/competlab-ci-skills --skill competlab-weekly-briefing
 npx skills add competlab/competlab-ci-skills --all -g
 ```
 
+### Via Claude Code Plugin Marketplace
+
+If you use Claude Code (v1.0.33+), you can install via the native plugin system:
+
+```
+/plugin marketplace add competlab/competlab-ci-skills
+/plugin install competlab-ci-skills@competlab-ci-skills
+```
+
 ### Manual
 
 ```bash

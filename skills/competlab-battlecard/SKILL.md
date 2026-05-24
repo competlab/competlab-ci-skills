@@ -5,10 +5,10 @@ description: |
 argument-hint: <competitor-name-or-domain>
 license: MIT
 compatibility: Requires CompetLab MCP server (competlab.com) with API key and an active project. Web access recommended for live market research.
-allowed-tools: mcp__claude_ai_CompetlabMCP__list_projects mcp__claude_ai_CompetlabMCP__get_project mcp__claude_ai_CompetlabMCP__list_competitors mcp__claude_ai_CompetlabMCP__get_competitor mcp__claude_ai_CompetlabMCP__get_pricing_dashboard mcp__claude_ai_CompetlabMCP__get_positioning_dashboard mcp__claude_ai_CompetlabMCP__get_tech_trust_dashboard mcp__claude_ai_CompetlabMCP__get_ai_visibility_dashboard mcp__claude_ai_CompetlabMCP__get_content_dashboard WebSearch WebFetch
+allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_competitor mcp__competlab__get_pricing_dashboard mcp__competlab__get_positioning_dashboard mcp__competlab__get_tech_trust_dashboard mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_content_dashboard WebSearch WebFetch
 metadata:
   author: competlab
-  version: "1.0.0"
+  version: "2.0.0"
   website: https://competlab.com
   category: competitive-intelligence
 ---

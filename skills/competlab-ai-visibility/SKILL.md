@@ -4,10 +4,10 @@ description: |
   Analyzes how AI models (ChatGPT, Claude, Gemini) mention, rank, and recommend your brand vs competitors using CompetLab monitoring data. Use this skill when the user asks "how do LLMs see my brand", "AI visibility report", "AI brand check", "what does ChatGPT say about us", "GEO analysis", "AI SEO report", "LLM rankings", "AI mentions", "AI perception", or "who do AI models recommend in my space". NOT for traditional SEO, Google rankings, or web traffic analysis. Requires CompetLab MCP server (competlab.com) with an active project.
 license: MIT
 compatibility: Requires CompetLab MCP server (competlab.com) with API key and an active project. Web access recommended for live market research.
-allowed-tools: mcp__claude_ai_CompetlabMCP__list_projects mcp__claude_ai_CompetlabMCP__get_project mcp__claude_ai_CompetlabMCP__list_competitors mcp__claude_ai_CompetlabMCP__get_ai_visibility_dashboard mcp__claude_ai_CompetlabMCP__get_ai_visibility_trend mcp__claude_ai_CompetlabMCP__get_ai_visibility_history mcp__claude_ai_CompetlabMCP__get_ai_visibility_check_detail WebSearch WebFetch
+allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_ai_visibility_trend mcp__competlab__get_ai_visibility_history mcp__competlab__get_ai_visibility_check_detail WebSearch WebFetch
 metadata:
   author: competlab
-  version: "1.0.0"
+  version: "2.0.0"
   website: https://competlab.com
   category: competitive-intelligence
 ---

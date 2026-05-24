@@ -5,13 +5,15 @@
 # CompetLab AI Skills
 
 [![Agent Skills](https://img.shields.io/badge/Agent_Skills-Standard-7C3AED?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0id2hpdGUiPjxwYXRoIGQ9Ik0xMiAyQzYuNDggMiAyIDYuNDggMiAxMnM0LjQ4IDEwIDEwIDEwIDEwLTQuNDggMTAtMTBTMTcuNTIgMiAxMiAyem0wIDE4Yy00LjQyIDAtOC0zLjU4LTgtOHMzLjU4LTggOC04IDggMy41OCA4IDgtMy41OCA0LTggOHoiLz48L3N2Zz4=)](https://agentskills.io)
-[![5 Skills](https://img.shields.io/badge/Skills-5-brightgreen)](#skills)
+[![13 Skills](https://img.shields.io/badge/Skills-13-brightgreen)](#skills)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Cross-Agent](https://img.shields.io/badge/Works_with-Claude_Code_·_Cursor_·_Codex_·_Gemini_CLI-blue)](#cross-agent-compatibility)
 
 > Turn competitive monitoring data into executive-ready intelligence — automatically.
 
-40% of B2B buyers ask AI before they Google. These skills give your AI agent a competitive intelligence analyst's toolkit: landscape analysis, competitor dossiers, AI visibility reports, weekly briefings, and sales battlecards. All powered by real monitoring data from [CompetLab](https://competlab.com)'s 5 dimensions.
+40% of B2B buyers ask AI before they Google. These skills give your AI agent a competitive intelligence analyst's toolkit: landscape analysis, competitor dossiers, AI visibility reports, weekly briefings, sales battlecards — plus 8 forward-indicator skills (status/funding/hiring/agent-readiness/product velocity/customer voice/ai-ecosystem) and an orchestrator that produces complete CMO-grade strategic briefings. All powered by real monitoring data from [CompetLab](https://competlab.com)'s 5 dimensions.
+
+**v2.0 — Leading + Lagging Indicators.** The original 5 skills covered lagging indicators (what's already visible in monitoring data). The 8 new skills add leading indicators (what your competitors are about to do — funding rounds before press cycles, hiring patterns before product launches, MCP server presence before category-wide agent adoption). The orchestrator combines all 13 into a single one-command CMO briefing.
 
 ## Install
 
@@ -27,6 +29,14 @@ npx skills add competlab/competlab-ci-skills --skill competlab-ai-visibility
 
 ## Skills
 
+### Orchestrator (1)
+
+| Skill | What It Does | Say This |
+|-------|-------------|----------|
+| **[competlab-cmo-report](skills/competlab-cmo-report/)** | Complete CMO-grade strategic briefing — sequences all sub-skills + dashboards into 1 main briefing + 12 dimension docs + 3-5 competitor deep-dives | _"CMO briefing for [project]"_ / _"Itrinity briefing"_ |
+
+### Lagging-indicator skills (5 — the original set, also runnable standalone)
+
 | Skill | What It Does | Say This |
 |-------|-------------|----------|
 | **[competlab-ai-visibility](skills/competlab-ai-visibility/)** | How AI models mention and rank your brand vs competitors | _"AI visibility report"_ |
@@ -34,6 +44,29 @@ npx skills add competlab/competlab-ci-skills --skill competlab-ai-visibility
 | **[competlab-competitor-dive](skills/competlab-competitor-dive/)** | Full competitor dossier with SWOT from 5 dimensions + web research | _"Deep dive on [competitor]"_ |
 | **[competlab-battlecard](skills/competlab-battlecard/)** | Sales-ready battlecards with objection handling | _"Battlecard vs [competitor]"_ |
 | **[competlab-landscape](skills/competlab-landscape/)** | Full landscape — market dynamics, matrices, strategic recommendations | _"Competitive landscape review"_ |
+
+### Leading-indicator skills (7 NEW — surfaces what competitors are about to do)
+
+| Skill | What It Does | Say This |
+|-------|-------------|----------|
+| **[competlab-status-watch](skills/competlab-status-watch/)** | Probes competitor status pages — outages, incidents, reliability posture, transparency gaps (sales-ready evidence) | _"Competitor reliability"_ |
+| **[competlab-funding-watch](skills/competlab-funding-watch/)** | Funding events, ownership changes, ARR estimates, M&A activity, exec transitions, category-adjacent capital pressure | _"Funding posture for [project]"_ |
+| **[competlab-ai-ecosystem](skills/competlab-ai-ecosystem/)** | External developer-ecosystem signals — GitHub orgs, npm/PyPI volumes, community MCP servers, marketplace presence | _"Developer adoption"_ |
+| **[competlab-hiring-signals](skills/competlab-hiring-signals/)** | Hiring + GTM-motion via ATS APIs (Ashby/Greenhouse/Lever/Workable) + LinkedIn + exec transitions | _"Competitor hiring"_ |
+| **[competlab-agent-adoption](skills/competlab-agent-adoption/)** | First-party MCP server + llms.txt + Schema.org agent-readiness verification via JSON-RPC POST (no false positives) | _"Agent-adoption posture"_ |
+| **[competlab-product-watch](skills/competlab-product-watch/)** | Snapshots competitor changelogs, GitHub Releases, named-asset directories, MCP marketplaces, API doc versions | _"What did competitors ship recently"_ |
+| **[competlab-customer-voice-snapshot](skills/competlab-customer-voice-snapshot/)** | G2/Capterra/Trustpilot snapshots + Reddit/HN recovery for developer-tool categories | _"Customer voice for [competitor]"_ |
+
+### Companion docs (load-bearing for orchestrator + sub-skills)
+
+The orchestrator reads 6 companion docs at start. Sub-skills consuming Perplexity output also reference URL Verification pattern.
+
+- **`PATTERN-url-verification.md`** — URL Verification discipline + MCP JSON-RPC POST sub-pattern + categorical-zero discovery-vs-capability carve-out
+- **`KNOWLEDGE-platform-mechanics-and-failures.md`** — how each CompetLab dimension works, failure modes, cross-dim cascade map, vendor-discontinuation detection pattern, scan-failure-as-customer-facing-signal framing
+- **`TEMPLATE-briefing.md`** / **`TEMPLATE-dim-doc.md`** / **`TEMPLATE-comp-doc.md`** — L3 briefing + L2 dim doc + L2 competitor deep-dive structures (including lite-comp variant + cross-dim convergence-paragraph pattern)
+- **`SKILLS-INDEX.md`** — full skill index + install paths + cross-skill improvements
+
+All companion docs live in `skills/` root alongside the 13 skill folders, so a single `cp -r skills/. .claude/skills/` install grabs everything in one command.
 
 ## How It Works
 
@@ -85,12 +118,22 @@ If you use Claude Code (v1.0.33+), you can install via the native plugin system:
 /plugin install competlab-ci-skills@competlab-ci-skills
 ```
 
-### Manual
+### Manual (simplest — all 13 skills + 6 companion docs in one command)
 
 ```bash
 git clone https://github.com/competlab/competlab-ci-skills.git
+mkdir -p .claude/skills
+cp -r competlab-ci-skills/skills/. .claude/skills/
+```
+
+The `skills/.` (trailing slash + dot) copies the **contents** of `skills/` into `.claude/skills/` — the 13 skill folders AND the 6 companion docs at root. The orchestrator's `competlab-cmo-report` skill needs the companion docs at `.claude/skills/` root to find them via Phase 0 mandatory reading.
+
+For single-skill install:
+```bash
 cp -r competlab-ci-skills/skills/competlab-ai-visibility .claude/skills/
 ```
+
+(Note: individual standalone skills like `competlab-ai-visibility` work without companion docs. Only the orchestrator `competlab-cmo-report` and sub-skills that consume Perplexity output need them.)
 
 ## Requirements
 
@@ -111,7 +154,7 @@ These skills follow the [Agent Skills](https://agentskills.io) open standard. Th
 
 Full functionality requires the CompetLab MCP server configured in your agent. Without it, skills can still run using web research only, but output will be less precise without structured monitoring data.
 
-**Note:** The `allowed-tools` field in each skill uses Claude Code's MCP tool naming convention (`mcp__claude_ai_CompetlabMCP__*`). Other agents may name the same MCP tools differently. The skill instructions and workflows are agent-agnostic.
+**Note:** The `allowed-tools` field in each skill uses Claude Code's MCP tool naming convention (`mcp__competlab__*`). Other agents may name the same MCP tools differently. The skill instructions and workflows are agent-agnostic.
 
 ## Also Available
 

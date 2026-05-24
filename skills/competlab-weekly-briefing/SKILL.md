@@ -4,10 +4,10 @@ description: |
   Generates a weekly competitive intelligence briefing from CompetLab monitoring data — what changed, what it means, and what to do about it. Use this skill when the user asks for "weekly briefing", "CI update", "competitive update", "what changed with competitors", "Monday briefing", "competitive summary", "competitive news", "CI digest", or "catch me up on competitors". NOT for deep single-competitor analysis (use competlab-competitor-dive) or full landscape reviews (use competlab-landscape). Requires CompetLab MCP server (competlab.com) with an active project.
 license: MIT
 compatibility: Requires CompetLab MCP server (competlab.com) with API key and an active project. Web access recommended for live market research.
-allowed-tools: mcp__claude_ai_CompetlabMCP__list_projects mcp__claude_ai_CompetlabMCP__get_project mcp__claude_ai_CompetlabMCP__list_competitors mcp__claude_ai_CompetlabMCP__get_action_plan mcp__claude_ai_CompetlabMCP__list_alerts mcp__claude_ai_CompetlabMCP__get_ai_visibility_dashboard mcp__claude_ai_CompetlabMCP__get_tech_trust_dashboard mcp__claude_ai_CompetlabMCP__get_content_dashboard mcp__claude_ai_CompetlabMCP__get_positioning_dashboard mcp__claude_ai_CompetlabMCP__get_pricing_dashboard mcp__claude_ai_CompetlabMCP__get_content_changelog WebSearch
+allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_action_plan mcp__competlab__list_alerts mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_tech_trust_dashboard mcp__competlab__get_content_dashboard mcp__competlab__get_positioning_dashboard mcp__competlab__get_pricing_dashboard mcp__competlab__get_content_changelog WebSearch
 metadata:
   author: competlab
-  version: "1.0.0"
+  version: "2.0.0"
   website: https://competlab.com
   category: competitive-intelligence
 ---

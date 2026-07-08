@@ -1,7 +1,7 @@
 # CompetLab AI Skills v2 — Index
 
 > **NOT theoretical specs — grounded in real-world validation across multiple verticals.**
-> Each new SKILL.md was authored against empirical friction encountered during cold-start CMO briefing builds, then iterated based on cold-instance validation runs across diverse B2B SaaS categories.
+> Each new SKILL.md was authored against empirical friction encountered during cold-start CMO report builds, then iterated based on cold-instance validation runs across diverse B2B SaaS categories.
 
 ## 8 NEW SKILLS
 

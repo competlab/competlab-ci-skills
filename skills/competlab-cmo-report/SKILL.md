@@ -1,7 +1,7 @@
 ---
 name: competlab-cmo-report
 description: |
-  Orchestrator skill. Generates a complete CMO-grade strategic briefing for a CompetLab project by sequencing all dimension dashboards + on-demand research skills (status-watch, funding-watch, ai-ecosystem, hiring-signals, agent-adoption, product-watch, customer-voice-snapshot) + URL Verification middleware + the layered backing-docs synthesis. Output: 1 main briefing (L3) + 12 per-dimension docs (L2 — 4 dashboard-derived + 8 sub-skill-derived) + per-Tier-1-competitor deep dives (L2) + per-Tier-2-light-recon for monitoring-suggestions, with two-axis cross-references between docs. Use when the user asks for "CMO report", "strategic briefing", "Itrinity briefing", "full competitive analysis for [project]", "cold-start briefing". Replaces manual sequencing of individual skills with a single one-command run.
+  Orchestrator skill. Composes a complete CMO report for a CompetLab project by sequencing all dimension dashboards + on-demand research skills (status-watch, funding-watch, ai-ecosystem, hiring-signals, agent-adoption, product-watch, customer-voice-snapshot) + URL Verification middleware + the layered backing-docs synthesis. Output: 1 main report (L3) + 12 per-dimension docs (L2 — 4 dashboard-derived + 8 sub-skill-derived) + per-Tier-1-competitor deep dives (L2) + per-Tier-2-light-recon for monitoring-suggestions, with two-axis cross-references between docs. Use when the user asks for "CMO report", "strategic briefing", "Itrinity briefing", "full competitive analysis for [project]", "cold-start briefing". Replaces manual sequencing of individual skills with a single one-command run.
 effort: high
 license: MIT
 compatibility: Requires the CompetLab MCP server (`mcp__competlab__fetch_url`) + Perplexity MCP. All sub-skills (status-watch, funding-watch, ai-ecosystem, hiring-signals, agent-adoption, product-watch, customer-voice-snapshot, ai-visibility, landscape, competitor-dive) must be installed.
@@ -15,7 +15,7 @@ metadata:
 
 # CMO Strategic Briefing — Orchestrator
 
-You are the orchestrator that produces a complete CMO-grade strategic briefing for a CompetLab project. The output is **NOT a single document** — it's a navigable knowledge base: 1 main briefing (L3) + 12 dimension reports (L2 — 4 dashboard-derived + 8 sub-skill-derived) + 3-5 competitor deep-dives (L2), with two-axis cross-references and a Monitoring Suggestions section informed by AI-visible-but-unmonitored cheap recon.
+You are the orchestrator that composes a complete CMO report for a CompetLab project. The output is **NOT a single document** — it's a navigable knowledge base: 1 main report (L3) + 12 dimension reports (L2 — 4 dashboard-derived + 8 sub-skill-derived) + 3-5 competitor deep-dives (L2), with two-axis cross-references and a Monitoring Suggestions section informed by AI-visible-but-unmonitored cheap recon.
 
 This is the killer feature of the CompetLab Skills suite. A single command produces decision-grade output that previously required a senior analyst spending half a day.
 
@@ -296,7 +296,7 @@ The summary message is a CMO-direct briefing-preview, not a status report on the
 
 - **Briefing length:** 200-250 lines / 8-10k words. Tighter than data-dumps; substantive enough for CMO digestibility.
 - **L2 docs:** 50-150 lines each. Self-contained mini-reports with their own thesis.
-- **Naming + frame:** ask the user once at start which they prefer ("CMO Briefing" vs "CMO Report"). Default: "Briefing."
+- **Naming + frame:** title the output a **CMO Report** (the default). Do NOT title it "Strategic Briefing" — that's the platform's separate persistent product this composition fetches via `get_briefing`, not what it produces.
 - **Cheapest high-leverage move callout:** mandatory. Search dim docs for 1-day-fix items with disproportionate impact. Promote ONE to the briefing's sidebar.
 - **convergence paragraph:** mandatory for top 1-2 strategic competitors. Multi-dimensional convergence in same-window: hiring + funding + product + ai-eco + positioning. Don't write the briefing without one.
 - **Don't hedge.** Don't perform confidence either. Name what's actually there.

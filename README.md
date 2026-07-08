@@ -11,9 +11,9 @@
 
 > Turn competitive monitoring data into executive-ready intelligence — automatically.
 
-These skills give your AI agent a competitive intelligence analyst's toolkit: landscape analysis, competitor dossiers, AI visibility reports, on-demand briefings, sales battlecards — plus 8 forward-indicator skills (status/funding/hiring/agent adoption/product velocity/customer voice/ai-ecosystem) and an orchestrator that produces complete CMO-grade strategic briefings. All powered by real monitoring data from [CompetLab](https://competlab.com)'s 5 dimensions.
+These skills give your AI agent a competitive intelligence analyst's toolkit: landscape analysis, competitor dossiers, AI visibility reports, on-demand briefings, sales battlecards — plus 7 forward-indicator skills (status/funding/hiring/agent adoption/product velocity/customer voice/ai-ecosystem) and an orchestrator that composes a complete CMO report from the whole suite. All powered by real monitoring data from [CompetLab](https://competlab.com)'s 5 dimensions.
 
-**v2.0 — Leading + Lagging Indicators.** The original 5 skills covered lagging indicators (what's already visible in monitoring data). The 8 new skills add leading indicators (what your competitors are about to do — funding rounds before press cycles, hiring patterns before product launches, MCP server presence before category-wide agent adoption). The orchestrator combines all 13 into a single one-command CMO briefing.
+**v2.0 — Leading + Lagging Indicators.** The original 5 skills covered lagging indicators (what's already visible in monitoring data). The 8 new skills are 7 leading-indicator skills plus an orchestrator: the leading indicators surface what your competitors are about to do (funding rounds before press cycles, hiring patterns before product launches, MCP server presence before category-wide agent adoption), and the orchestrator combines all 13 into a single one-command CMO report.
 
 ## Install
 
@@ -33,7 +33,7 @@ npx skills add competlab/competlab-ci-skills --skill competlab-ai-visibility
 
 | Skill | What It Does | Say This |
 |-------|-------------|----------|
-| **[competlab-cmo-report](skills/competlab-cmo-report/)** | Complete CMO-grade strategic briefing — sequences all sub-skills + dashboards into 1 main briefing + 12 dimension docs + 3-5 competitor deep-dives | _"CMO briefing for [project]"_ / _"Itrinity briefing"_ |
+| **[competlab-cmo-report](skills/competlab-cmo-report/)** | Complete CMO report — sequences all sub-skills + dashboards into 1 main report + 12 dimension docs + 3-5 competitor deep-dives | _"CMO report for [project]"_ / _"Itrinity briefing"_ |
 
 ### Lagging-indicator skills (5 — the original set, also runnable standalone)
 

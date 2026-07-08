@@ -7,14 +7,14 @@
   },
   "metadata": {
     "description": "Competitive intelligence skills powered by CompetLab — 13 skills covering lagging indicators (AI visibility, competitor dossiers, battlecards, weekly briefings, landscape analysis) + leading indicators (status, funding, hiring, agent adoption, product launches, customer voice, AI ecosystem) + an orchestrator that composes CMO reports from the whole suite.",
-    "version": "2.0.0"
+    "version": "2.0.1"
   },
   "plugins": [
     {
       "name": "competlab-ci-skills",
       "source": "./",
       "description": "13 competitive intelligence skills, including an orchestrator that composes CMO reports from the suite. Backed by real monitoring data across AI Visibility, Tech & Trust, Content, Positioning, Pricing — plus on-demand research for status, funding, hiring, agent adoption, product velocity, customer voice, and developer ecosystem.",
-      "version": "2.0.0",
+      "version": "2.0.1",
       "author": {
         "name": "CompetLab",
         "email": "support@competlab.com"

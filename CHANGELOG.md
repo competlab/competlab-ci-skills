@@ -6,6 +6,26 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ---
 
+## [2.0.1] — 2026-07-08
+
+Maintenance release: aligns the repo with the shipped product, fixes a broken tool reference, and adopts the "Agent Skills" name. No new skills and no breaking changes — every slug is unchanged.
+
+### Fixed
+
+- `get_action_plan` → `get_briefing` in `competlab-weekly-briefing`, `competlab-landscape`, and `competlab-cmo-report`. `get_action_plan` is not a CompetLab MCP tool, so those skills' briefing step would have failed.
+- Corrected an install command that referenced the wrong GitHub org.
+
+### Changed
+
+- Renamed the suite to **CompetLab Agent Skills** (from "CompetLab AI Skills"). Display name only — the plugin, package, and install id `competlab-ci-skills` are unchanged.
+- Clarified **CMO report vs. Strategic Briefing**: the `competlab-cmo-report` orchestrator composes a live *CMO report* from the skills; the *Strategic Briefing* is the platform's persistent monthly product the skills fetch via `get_briefing` rather than produce.
+- Consistent terminology across the suite — "AI Visibility Score" (not "rank"), "Agent Adoption" (not "agent-readiness") — and corrected tool/method counts (33 MCP tools, 34 SDK methods).
+- Reframed `competlab-weekly-briefing` as an on-demand briefing you run whenever you want, rather than implying a fixed weekly cadence.
+
+### Removed
+
+- Index entries for `_state.json` shared session state and a `--output-format` flag, which no skill implements.
+
 ## [2.0.0] — 2026-05-24
 
 The "leading + lagging indicators" release. Skills set expands from 5 to 13. The original 5 skills cover **lagging indicators** (what's already visible in monitoring data); the 8 new skills add **leading indicators** (what competitors are about to do — funding rounds before press cycles, hiring patterns before product launches, MCP servers before category-wide agent adoption). A new orchestrator (`competlab-cmo-report`) sequences all 13 into a single one-command CMO-grade strategic briefing.

@@ -13,7 +13,7 @@ metadata:
   category: competitive-intelligence
 ---
 
-# CMO Strategic Briefing — Orchestrator
+# CMO Report — Orchestrator
 
 You are the orchestrator that composes a complete CMO report for a CompetLab project. The output is **NOT a single document** — it's a navigable knowledge base: 1 main report (L3) + 12 dimension reports (L2 — 4 dashboard-derived + 8 sub-skill-derived) + 3-5 competitor deep-dives (L2), with two-axis cross-references and a Monitoring Suggestions section informed by AI-visible-but-unmonitored cheap recon.
 
@@ -279,7 +279,7 @@ That's the entire customer-final folder. No `_internal/`. No working-state files
 
 **README navigation** lists the customer-visible files with one-line descriptions of what each contains. Keep it short and CMO-natural — a project title + brief intro + file list is enough. Write it the way you'd write the front page of a briefing folder for your most important customer: a clear navigation experience, no audit-checklist tone, no methodology summary, no verification meta-commentary. The customer opens this README to find their way around the folder; that's the only job it has.
 
-**Briefing footer + README** mention data sources at the category level (e.g., "Strategic briefing prepared from CompetLab competitive monitoring + Perplexity-grounded research across 12 dimensions, {N} competitors covered"). Skip references to working files, verification logs, or any orchestrator-internal scaffolding — those don't belong in the customer's view of their deliverable.
+**CMO report footer + README** mention data sources at the category level (e.g., "CMO report prepared from CompetLab competitive monitoring + Perplexity-grounded research across 12 dimensions, {N} competitors covered"). Skip references to working files, verification logs, or any orchestrator-internal scaffolding — those don't belong in the customer's view of their deliverable.
 
 **Your summary-message to the user when the run completes:** lead with the strategic findings — the 3-5 sharpest discoveries the briefing surfaces (canonical convergence pattern on top vendor, structural threat newly discovered, cheapest high-leverage move, AI Viz position shift, etc.). The summary mirrors the briefing's voice: strategic, direct, customer-natural. The user's first contact with your output IS this summary; treat it as a teaser-of-the-briefing, not a recipe-completion report.
 

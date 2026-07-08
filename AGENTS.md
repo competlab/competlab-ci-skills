@@ -1,4 +1,4 @@
-# CompetLab AI Skills
+# CompetLab Agent Skills
 
 This repository contains competitive intelligence skills following the [Agent Skills](https://agentskills.io) open standard.
 

@@ -1,4 +1,4 @@
-# Contributing to CompetLab AI Skills
+# Contributing to CompetLab Agent Skills
 
 Thanks for your interest in contributing!
 

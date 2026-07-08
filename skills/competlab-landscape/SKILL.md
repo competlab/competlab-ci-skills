@@ -5,7 +5,7 @@ description: |
 effort: high
 license: MIT
 compatibility: Requires CompetLab MCP server (competlab.com) with API key and an active project. Web access recommended for live market research.
-allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_competitor mcp__competlab__get_action_plan mcp__competlab__list_alerts mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_ai_visibility_trend mcp__competlab__get_tech_trust_dashboard mcp__competlab__get_content_dashboard mcp__competlab__get_content_changelog mcp__competlab__get_positioning_dashboard mcp__competlab__get_pricing_dashboard mcp__competlab__list_schedules WebSearch WebFetch
+allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_competitor mcp__competlab__get_briefing mcp__competlab__list_alerts mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_ai_visibility_trend mcp__competlab__get_tech_trust_dashboard mcp__competlab__get_content_dashboard mcp__competlab__get_content_changelog mcp__competlab__get_positioning_dashboard mcp__competlab__get_pricing_dashboard mcp__competlab__list_schedules WebSearch WebFetch
 metadata:
   author: competlab
   version: "2.0.0"
@@ -39,9 +39,9 @@ Pull everything. This is the structured foundation.
 
 1. **`list_projects`** + **`get_project`** — project context and data freshness
 2. **`list_competitors`** — full competitive roster
-3. **`get_action_plan`** — highest-level strategic insights (start here to orient)
+3. **`get_briefing`** — the Strategic Briefing: the synthesized cross-dimensional read (what changed, what it means, what to do). Start here to orient.
 4. **All 5 dashboard tools:**
-   - `get_ai_visibility_dashboard` — AI perception rankings
+   - `get_ai_visibility_dashboard` — AI Visibility Score (mention and recommend rates across AI models)
    - `get_tech_trust_dashboard` — tech stacks, security, trust signals
    - `get_content_dashboard` — content strategies, volumes, categories
    - `get_positioning_dashboard` — homepage messaging, value props, CTAs
@@ -79,9 +79,9 @@ This is where the landscape skill goes beyond dashboards. The MCP gives you comp
 
 **Prioritization:** Not all categories apply to every market. Start with Industry Trends and Emerging Competition (always relevant). Add Buyer Behavior and Technology Shifts only if the first searches reveal significant market movement. Target 4-6 total web searches, not 12+.
 
-### Phase 3: Cross-Dimensional Analysis (the synthesis that only CompetLab enables)
+### Phase 3: Cross-Dimensional Analysis (synthesis across all 5 dimensions)
 
-This is the unique value. No other skill or tool can do this because they lack the structured multi-dimensional data.
+This is the synthesis layer — combining the structured data across all 5 dimensions to surface cross-dimensional patterns that single dashboards don't show on their own.
 
 **Find these patterns:**
 

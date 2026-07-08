@@ -1,7 +1,7 @@
 ---
 name: competlab-agent-adoption
 description: |
-  Wraps CompetLab's existing 25-check Agent-Adoption Scan (open Agent-Adoption Specification) for each monitored competitor + adds on-demand JSON-RPC POST verification for any MCP-server URLs detected by the scan. The platform scan covers discoverability, access control, content readability, and agent endpoints. This skill's value-add: PROTOCOL-LEVEL verification of MCP claims (browser GET 200 ≠ MCP exists), cross-competitor synthesis, strategic interpretation. Use when the user asks "does competitor X have a real MCP server", "agent-adoption posture in [category]", "AI-agent-readiness comparison", "is competitor's MCP claim real". Requires CompetLab MCP (start_agent_adoption_scan + get_agent_adoption_scan + list_competitors) + Bash for JSON-RPC POST verification.
+  Wraps CompetLab's existing 25-check Agent-Adoption Scan (open Agent-Adoption Specification) for each monitored competitor + adds on-demand JSON-RPC POST verification for any MCP-server URLs detected by the scan. The platform scan covers discoverability, access control, content readability, and agent endpoints. This skill's value-add: PROTOCOL-LEVEL verification of MCP claims (browser GET 200 ≠ MCP exists), cross-competitor synthesis, strategic interpretation. Use when the user asks "does competitor X have a real MCP server", "agent-adoption posture in [category]", "Agent Adoption comparison", "is competitor's MCP claim real". Requires CompetLab MCP (start_agent_adoption_scan + get_agent_adoption_scan + list_competitors) + Bash for JSON-RPC POST verification.
 effort: low
 license: MIT
 allowed-tools: mcp__competlab__list_projects mcp__competlab__list_competitors mcp__competlab__start_agent_adoption_scan mcp__competlab__get_agent_adoption_scan mcp__competlab__check_ai_crawlers mcp__competlab__fetch_url Bash
@@ -160,7 +160,7 @@ Cross-vendor:
 - **Don't bypass the platform scan and DIY-probe candidate URLs.** The platform's 25-check scan is comprehensive; this skill ADDS verification on top, doesn't replace.
 - **Don't report platform-scan "MCP detected" as verified MCP.** Detection is Stage 1; JSON-RPC POST verification is Stage 2. Both required for a real claim.
 - **Don't include AI-crawler signals as "agent adoption."** They're related but distinct. AI crawlers consume content; agents call actions. Surface both, label clearly.
-- **Don't list `/llms.txt` as agent infrastructure.** `llms.txt` is an AI-CRAWLER preference declaration (similar to robots.txt for LLMs), NOT an agent endpoint. Different concept. If `/llms.txt` is interesting for the briefing, it belongs in the AI-crawler readiness signal via `check_ai_crawlers`, not agent-adoption.
+- **Don't list `/llms.txt` as agent infrastructure.** `llms.txt` is an AI-CRAWLER preference declaration (similar to robots.txt for LLMs), NOT an agent endpoint. Different concept. If `/llms.txt` is interesting for the briefing, it belongs in the AI-crawler access signal via `check_ai_crawlers`, not agent-adoption.
 
 ## Decision Questions
 
@@ -170,7 +170,7 @@ Cross-vendor:
 
 ## Error Handling
 
-- **Underlying scan returns no result or times out for a competitor:** record as "agent-readiness signal unavailable for {vendor} in this run." If the broader pattern suggests bot-protection (other dimensions also returning thin data for the same vendor), surface that as a customer-facing finding — bot-protection in 2026 means invisible to AI training crawlers + agent toolkits + comparison-engine bots, which is itself competitive intelligence about the vendor's discoverability posture.
+- **Underlying scan returns no result or times out for a competitor:** record as "Agent Adoption signal unavailable for {vendor} in this run." If the broader pattern suggests bot-protection (other dimensions also returning thin data for the same vendor), surface that as a customer-facing finding — bot-protection in 2026 means invisible to AI training crawlers + agent toolkits + comparison-engine bots, which is itself competitive intelligence about the vendor's discoverability posture.
 - **JSON-RPC POST returns 5xx:** retry once; if persistent, flag as inconclusive
 - **GitHub API rate limit (60/hr unauth):** mention in output; suggest authenticated mode if user has GH_TOKEN
 

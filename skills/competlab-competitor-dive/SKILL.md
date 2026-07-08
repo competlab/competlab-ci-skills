@@ -49,7 +49,7 @@ Pull all dimension dashboards. For each, extract data specifically about the tar
 2. **`get_positioning_dashboard`** — their homepage messaging: headline, tagline, value prop, CTAs, target audience, differentiators
 3. **`get_tech_trust_dashboard`** — their tech stack, security headers, trust signals, AI bot policies
 4. **`get_content_dashboard`** — their content volume, categories, strategic URLs, content gaps
-5. **`get_ai_visibility_dashboard`** — how AI models perceive them, their mention rate, provider-specific rankings
+5. **`get_ai_visibility_dashboard`** — how AI models perceive them, their mention rate, provider-specific AI Visibility Scores
 6. **`list_alerts`** filtered by this competitor — recent changes detected
 7. **`get_content_changelog`** filtered by this competitor — what they've published or removed recently
 

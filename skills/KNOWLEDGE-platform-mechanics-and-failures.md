@@ -62,7 +62,7 @@ That distinction is the single most strategic insight skills can produce, and it
 **Cascade to other dimensions:**
 - **Positioning dimension** — usually still has partial pricing signals (`pricingMentioned: true`, `startingPrice` parsed from homepage CTA copy). **THIS IS WHERE THE DISCREPANCY SURFACES.**
 - **AI Visibility** — LLMs can still mention the brand but can't cite prices in comparison queries
-- **Action plan** — generates "no enterprise tier" / "no free trial visible" recommendations that may be wrong (the customer might have both, just unscrapeable)
+- **Strategic Briefing** — generates "no enterprise tier" / "no free trial visible" recommendations that may be wrong (the customer might have both, just unscrapeable)
 
 **What to surface in briefing when customer's pricing dimension returns null:**
 
@@ -87,7 +87,7 @@ That distinction is the single most strategic insight skills can produce, and it
 - **Sitemap returns enormous URL set** that triggers truncation (>50 sitemap URLs, depth-2 cap)
 
 **Cascade:**
-- **Action plan** generates "0 blog posts" / "no docs" / "no comparison pages" recommendations
+- **Strategic Briefing** generates "0 blog posts" / "no docs" / "no comparison pages" recommendations
 - **AI Visibility** — directly correlated with content volume in many categories; broken sitemap = artificially-suppressed perceived content footprint
 
 **What to surface in briefing when customer has subdomain content not in main sitemap:**
@@ -109,7 +109,7 @@ That distinction is the single most strategic insight skills can produce, and it
 - **Bot-protected homepage** → returns 403 or challenge page
 
 **Cascade:**
-- **AI Visibility action plan** — surfaces "GAP: missing AI/automation in messaging" when actually the right-language version DOES have AI messaging (scan-artifact)
+- **Strategic Briefing (AI Visibility read)** — surfaces "GAP: missing AI/automation in messaging" when actually the right-language version DOES have AI messaging (scan-artifact)
 - **Strategic recommendations downstream** — based on wrong-language headline / wrong-locale messaging
 
 **What to surface in briefing when locale-redirect detected:**
@@ -131,7 +131,7 @@ That distinction is the single most strategic insight skills can produce, and it
 - **Tech-stack misdetection** — some stacks (e.g., Astro + minimal deps) have low detection-rule match → reported as light-stack even when production-mature
 
 **Cascade:**
-- **Action plan** — surfaces "0 compliance signals" for vendor that actually has them (false negative)
+- **Strategic Briefing** — surfaces "0 compliance signals" for vendor that actually has them (false negative)
 - **Customer briefing** — could miss the strongest positioning angle
 
 **What to surface when trust signal false-negative suspected:**
@@ -142,12 +142,12 @@ That distinction is the single most strategic insight skills can produce, and it
 
 ### 6. AI Visibility dimension (independent — has its own failure modes)
 
-**How it works.** Sends 3 prompts × 3 LLM providers (OpenAI, Claude, Gemini) = 9 queries per check. Parses each LLM response for brand mentions, computes mention rate, average rank, per-provider breakdown. Aggregates to AI Score (0-100). Tracks competitor rankings + AI Analysis insights.
+**How it works.** Sends 3 prompts × 3 LLM providers (OpenAI, Claude, Gemini) = 9 queries per check. Parses each LLM response for brand mentions, computes mention rate and per-provider breakdown. Aggregates to an AI Visibility Score (0-100). Tracks competitor AI Visibility Scores + AI Analysis insights.
 
 **Failure modes:**
 - **Small sample size noise** (n=9 per check) — single-week swings can be sample noise, not signal
 - **Category-semantic widening** — LLMs categorize "X retention automation" to include adjacent categories (email marketing tools, etc.) — Sequenzy-style finding
-- **Customer-brand absent from top-N** — could mean (a) genuinely not surfaced, (b) surfaced but rank > 10 cutoff, (c) sample didn't include the right query phrasing
+- **Customer-brand absent from results** — could mean (a) genuinely not surfaced, (b) mentioned but not recommended (below the AI Visibility Score cutoff), (c) sample didn't include the right query phrasing
 
 **Cascade:**
 - This dimension has FEW cascades because it's mostly self-contained
@@ -169,7 +169,7 @@ That distinction is the single most strategic insight skills can produce, and it
 
 **Cascade:**
 - This dimension is rich because it touches many sub-signals
-- Drives the briefing's agent-readiness recommendations
+- Drives the briefing's Agent Adoption recommendations
 - Currently zero CompetLab dimension consumes its output downstream (agent-adoption is the dimension; nothing else uses its data)
 
 **What to surface:** if score is capped (e.g., 39 max because no llms.txt), surface the SPECIFIC cap-cause as the cheapest-high-leverage move ("Ship llms.txt in 7 days, lifts score from 31 capped at 39 to ~50+").

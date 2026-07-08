@@ -26,7 +26,7 @@ The "X of Y dimensions yielded data" line signals graceful degradation. If hirin
 The single most important strategic statement about THIS competitor's trajectory. Examples:
 
 - *"[Competitor] is executing a coordinated upmarket pivot across 5 dimensions in the same 30-day window: [evidence]. Strategically: [competitor] competes less directly with [user's brand] in 2026 H2, but creates more SEO + AI-agent-ecosystem pressure."*
-- *"[Competitor]'s public-record evidence shows [classification]: [funding posture] + [product velocity] + [hiring pattern] + [AI-rank trend]. The competitive relationship to [user's brand] is [direct / adjacent / divergent]."*
+- *"[Competitor]'s public-record evidence shows [classification]: [funding posture] + [product velocity] + [hiring pattern] + [AI Visibility Score trend]. The competitive relationship to [user's brand] is [direct / adjacent / divergent]."*
 
 This thesis is what the CMO remembers about this competitor after reading.
 
@@ -40,7 +40,7 @@ This thesis is what the CMO remembers about this competitor after reading.
 | Funding posture | [public / PE / bootstrap / VC-stage / M&A-volatile] |
 | ARR estimate | [if known, with source] |
 | Team size | [if known] |
-| AI Visibility rank | [in user's category] |
+| AI Visibility Score | [in user's category] |
 | Tagline | [from homepage] |
 | Status page | [URL / not present / broken] |
 ```
@@ -53,7 +53,7 @@ One subsection per dimension that yielded data. Each subsection:
 
 - **Pricing & Packaging** (if data available)
 - **Positioning & Messaging**
-- **AI Visibility** (rank + per-provider breakdown + trend)
+- **AI Visibility** (mention rate and score + per-provider breakdown + trend)
 - **Funding & Capital**
 - **Hiring & GTM** (with disambiguation if name-collision pollution applies)
 - **Product & Releases** (changelog signals, recent shipment)
@@ -122,7 +122,7 @@ Sections to OMIT:
 - Section 5 (trajectory direction with explicit signal-to-watch) — optional; include only if a discrete watch-signal exists
 - The remaining 8-9 per-dimension sections
 
-**Mini-thesis shape for lite-comp:** name the qualitative case explicitly. Example: *"[Vendor] surfaces in OpenAI rank-1 for category-redefining-by-free-tier positioning. Single-provider AI Viz signal (not cross-provider), so doesn't earn full deep-dive — but the action plan calls it out by name as a category-redefining threat to customer's paid-tier model, and it outperforms Tier-1 monitored on agent-readiness. Worth a 30-50 line summary so the operator can decide whether to elevate to Tier-1 monitoring in the next planning cycle."*
+**Mini-thesis shape for lite-comp:** name the qualitative case explicitly. Example: *"[Vendor] surfaces with a leading OpenAI AI Visibility Score for category-redefining-by-free-tier positioning. Single-provider AI Viz signal (not cross-provider), so doesn't earn full deep-dive — but the Strategic Briefing calls it out by name as a category-redefining threat to customer's paid-tier model, and it outperforms Tier-1 monitored on Agent Adoption. Worth a 30-50 line summary so the operator can decide whether to elevate to Tier-1 monitoring in the next planning cycle."*
 
 ---
 

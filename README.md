@@ -11,7 +11,7 @@
 
 > Turn competitive monitoring data into executive-ready intelligence — automatically.
 
-40% of B2B buyers ask AI before they Google. These skills give your AI agent a competitive intelligence analyst's toolkit: landscape analysis, competitor dossiers, AI visibility reports, weekly briefings, sales battlecards — plus 8 forward-indicator skills (status/funding/hiring/agent-readiness/product velocity/customer voice/ai-ecosystem) and an orchestrator that produces complete CMO-grade strategic briefings. All powered by real monitoring data from [CompetLab](https://competlab.com)'s 5 dimensions.
+These skills give your AI agent a competitive intelligence analyst's toolkit: landscape analysis, competitor dossiers, AI visibility reports, on-demand briefings, sales battlecards — plus 8 forward-indicator skills (status/funding/hiring/agent adoption/product velocity/customer voice/ai-ecosystem) and an orchestrator that produces complete CMO-grade strategic briefings. All powered by real monitoring data from [CompetLab](https://competlab.com)'s 5 dimensions.
 
 **v2.0 — Leading + Lagging Indicators.** The original 5 skills covered lagging indicators (what's already visible in monitoring data). The 8 new skills add leading indicators (what your competitors are about to do — funding rounds before press cycles, hiring patterns before product launches, MCP server presence before category-wide agent adoption). The orchestrator combines all 13 into a single one-command CMO briefing.
 
@@ -39,8 +39,8 @@ npx skills add competlab/competlab-ci-skills --skill competlab-ai-visibility
 
 | Skill | What It Does | Say This |
 |-------|-------------|----------|
-| **[competlab-ai-visibility](skills/competlab-ai-visibility/)** | How AI models mention and rank your brand vs competitors | _"AI visibility report"_ |
-| **[competlab-weekly-briefing](skills/competlab-weekly-briefing/)** | Weekly CI briefing — what changed, what it means, what to do | _"Weekly competitive update"_ |
+| **[competlab-ai-visibility](skills/competlab-ai-visibility/)** | How AI models mention and recommend your brand vs competitors | _"AI visibility report"_ |
+| **[competlab-weekly-briefing](skills/competlab-weekly-briefing/)** | On-demand CI delta briefing — what changed, what it means, what to do (run it whenever you want a pulse; many teams run it weekly) | _"Weekly competitive update"_ |
 | **[competlab-competitor-dive](skills/competlab-competitor-dive/)** | Full competitor dossier with SWOT from 5 dimensions + web research | _"Deep dive on [competitor]"_ |
 | **[competlab-battlecard](skills/competlab-battlecard/)** | Sales-ready battlecards with objection handling | _"Battlecard vs [competitor]"_ |
 | **[competlab-landscape](skills/competlab-landscape/)** | Full landscape — market dynamics, matrices, strategic recommendations | _"Competitive landscape review"_ |
@@ -53,7 +53,7 @@ npx skills add competlab/competlab-ci-skills --skill competlab-ai-visibility
 | **[competlab-funding-watch](skills/competlab-funding-watch/)** | Funding events, ownership changes, ARR estimates, M&A activity, exec transitions, category-adjacent capital pressure | _"Funding posture for [project]"_ |
 | **[competlab-ai-ecosystem](skills/competlab-ai-ecosystem/)** | External developer-ecosystem signals — GitHub orgs, npm/PyPI volumes, community MCP servers, marketplace presence | _"Developer adoption"_ |
 | **[competlab-hiring-signals](skills/competlab-hiring-signals/)** | Hiring + GTM-motion via ATS APIs (Ashby/Greenhouse/Lever/Workable) + LinkedIn + exec transitions | _"Competitor hiring"_ |
-| **[competlab-agent-adoption](skills/competlab-agent-adoption/)** | First-party MCP server + llms.txt + Schema.org agent-readiness verification via JSON-RPC POST (no false positives) | _"Agent-adoption posture"_ |
+| **[competlab-agent-adoption](skills/competlab-agent-adoption/)** | First-party MCP server + llms.txt + Schema.org agent adoption verification via JSON-RPC POST (no false positives) | _"Agent-adoption posture"_ |
 | **[competlab-product-watch](skills/competlab-product-watch/)** | Snapshots competitor changelogs, GitHub Releases, named-asset directories, MCP marketplaces, API doc versions | _"What did competitors ship recently"_ |
 | **[competlab-customer-voice-snapshot](skills/competlab-customer-voice-snapshot/)** | G2/Capterra/Trustpilot snapshots + Reddit/HN recovery for developer-tool categories | _"Customer voice for [competitor]"_ |
 
@@ -84,13 +84,13 @@ Competitive intelligence for the AI era. One platform, 5 dimensions, monitored a
 
 | Dimension | What It Tracks |
 |-----------|---------------|
-| **AI Visibility** | How ChatGPT, Claude, and Gemini rank your brand vs competitors (AI Visibility Score 0-100) |
+| **AI Visibility** | How ChatGPT, Claude, and Gemini mention and recommend your brand vs competitors (AI Visibility Score 0-100) |
 | **Tech & Trust** | Tech stacks, security headers (grade A-F), trust signals, robots.txt AI bot blocking |
 | **Content** | Sitemap analysis, content categories, publishing cadence, content gaps |
 | **Positioning** | Homepage messaging, value props, CTAs, target audience, differentiators |
 | **Pricing** | Plans, billing models, free tiers, enterprise pricing, gap analysis |
 
-AI Visibility is what makes CompetLab unique — no other CI platform tracks how LLMs recommend brands in real time.
+AI Visibility tracks how ChatGPT, Claude, and Gemini mention and recommend brands in real time.
 
 > [Start free trial](https://app.competlab.com/register) (14 days, no credit card) | [Learn more](https://competlab.com)
 
@@ -162,8 +162,8 @@ CompetLab offers multiple ways to access competitive intelligence:
 
 | Tool | Best For |
 |------|----------|
-| **[MCP Server](https://github.com/competlab/competlab-mcp-server)** | Direct AI agent access to raw data (24 tools) |
-| **[TypeScript SDK](https://github.com/competlab/competlab-sdk)** | Programmatic access in Node.js apps (25 methods) |
+| **[MCP Server](https://github.com/competlab/competlab-mcp-server)** | Direct AI agent access to raw data (33 tools) |
+| **[TypeScript SDK](https://github.com/competlab/competlab-sdk)** | Programmatic access in Node.js apps (34 methods) |
 | **[REST API](https://competlab.com/developers/api)** | Any language, any platform |
 | **Agent Skills** (this repo) | Pre-built CI workflows for AI coding agents |
 

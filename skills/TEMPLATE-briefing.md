@@ -16,7 +16,7 @@
 > Data freshness: ✓ all dimensions ran within 24h  /  ⚠ some within 7d  /  ✗ older
 
 > *Backing layers* (navigable in app, available as files in this folder):
-> *Per dimension: [dim-landscape] · [dim-ai-visibility] · [dim-funding-capital] · [dim-hiring-gtm] · [dim-product-launches] · [dim-ai-agent-readiness] · [dim-reliability-status] · [dim-customer-voice]*
+> *Per dimension: [dim-landscape] · [dim-ai-visibility] · [dim-funding-capital] · [dim-hiring-gtm] · [dim-product-launches] · [dim-agent-adoption] · [dim-reliability-status] · [dim-customer-voice]*
 > *Per competitor: [comp-{a}] · [comp-{b}] · [comp-{c}] · [comp-{d}] · [comp-{e}]*
 ```
 
@@ -91,13 +91,13 @@ A boxed paragraph in the briefing, named explicitly. Often surfaces from the per
 
 Cheap-recon findings on AI-visible-unmonitored brands. For each of the top-3 candidates:
 
-> "**Brand Y** (not currently monitored): AI rank #[N] in your category, [funding event], [product event], [ecosystem event]. **Consider adding** — this is the competitor you didn't know to watch."
+> "**Brand Y** (not currently monitored): AI Visibility Score [N] in your category, [funding event], [product event], [ecosystem event]. **Consider adding** — this is the competitor you didn't know to watch."
 >
-> "**Brand Z** (currently monitored): AI rank #[N], no significant activity across cheap-recon dimensions. **Consider removing** if monitoring slot is constrained."
+> "**Brand Z** (currently monitored): AI Visibility Score [N], no significant activity across cheap-recon dimensions. **Consider removing** if monitoring slot is constrained."
 
 Brief. The reasoning is in the data; the CMO either acts on it or doesn't. Plus a one-sentence link to the GUI: "Adjust monitored set in project settings."
 
-**Customer-natural framing for promotion decisions** (banked from real-world validation): when surfacing an auto-promoted candidate's qualifications, use plain language naming the specific reasons, NOT internal-criteria-math. Customer-natural: *"Verified MCP server + cross-LLM consistency + named-in-action-plan + structural blind spot — warrants deep-dive coverage."* Internal-vocabulary (avoid in customer text): *"Auto-promoted to FULL comp-doc per Phase 5.6 criteria (4/4: ...)."* The criteria-math is your decision tool; the customer reads the conclusion in their language.
+**Customer-natural framing for promotion decisions** (banked from real-world validation): when surfacing an auto-promoted candidate's qualifications, use plain language naming the specific reasons, NOT internal-criteria-math. Customer-natural: *"Verified MCP server + cross-LLM consistency + named-in-briefing + structural blind spot — warrants deep-dive coverage."* Internal-vocabulary (avoid in customer text): *"Auto-promoted to FULL comp-doc per Phase 5.6 criteria (4/4: ...)."* The criteria-math is your decision tool; the customer reads the conclusion in their language.
 
 ### Section 8 — What this briefing didn't cover (acknowledged gaps)
 

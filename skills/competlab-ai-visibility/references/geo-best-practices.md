@@ -5,7 +5,7 @@
 
 ---
 
-## How AI Models Discover and Rank Brands
+## How AI Models Discover and Recommend Brands
 
 AI language models form brand associations during training and through retrieval-augmented generation (RAG). The key factors that influence whether an AI model mentions your brand:
 
@@ -68,9 +68,9 @@ AI language models form brand associations during training and through retrieval
 
 ## Interpreting CompetLab AI Visibility Scores
 
-- **AI Visibility Score (0-100):** Weighted composite of mention rate, ranking position, and sentiment across all providers. Higher = more visible to AI.
+- **AI Visibility Score (0-100):** Weighted composite of mention rate, recommendation rate, and sentiment across all providers. Higher = more visible to AI.
 - **Mention Rate:** Fraction of monitored queries where the brand appears in AI responses. A rate of 0.67 means the brand is mentioned in 2 out of 3 queries.
-- **Per-Provider Scores:** Each AI provider (OpenAI, Claude, Gemini) may rank brands differently based on their training data, RAG sources, and weighting. Divergence between providers reveals which AI ecosystems you're strong/weak in.
+- **Per-Provider Scores:** Each AI provider (OpenAI, Claude, Gemini) may mention and recommend brands differently based on their training data, RAG sources, and weighting. Divergence between providers reveals which AI ecosystems you're strong/weak in.
 
 ### Score Interpretation Guide
 | Score Range | Interpretation |

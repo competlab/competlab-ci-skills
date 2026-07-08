@@ -1,6 +1,6 @@
 # TEMPLATE — L2 Dimension Doc (horizontal slice, one per dimension)
 
-**Filename convention:** `dim-{slug}.md` (e.g., `dim-funding-capital.md`, `dim-hiring-gtm.md`, `dim-ai-agent-readiness.md`).
+**Filename convention:** `dim-{slug}.md` (e.g., `dim-funding-capital.md`, `dim-hiring-gtm.md`, `dim-agent-adoption.md`).
 **Target length:** 60-150 lines. Substantive but not the briefing.
 **Audience:** CMO who clicked "By Dimension → [this dimension]" from the briefing nav, OR an analyst diving into a specific lens.
 
@@ -103,7 +103,7 @@ The customer reads this as practical intelligence about their category's actual 
 
 ### Section 6 (optional) — Forward signals to watch
 
-If the dimension lends itself to threshold-monitoring (e.g., "if [vendor X]'s AI-rank delta crosses [threshold] in next 2 checks, the lead is at risk"), name the watch-numbers here. Optional but high-value when applicable.
+If the dimension lends itself to threshold-monitoring (e.g., "if [vendor X]'s AI Visibility Score change crosses [threshold] in next 2 checks, the lead is at risk"), name the watch-numbers here. Optional but high-value when applicable.
 
 ---
 

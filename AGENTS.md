@@ -1,11 +1,11 @@
-# CompetLab AI Skills
+# CompetLab Agent Skills
 
 This repository contains competitive intelligence skills following the [Agent Skills](https://agentskills.io) open standard.
 
 ## Available Skills
 
-- **competlab-ai-visibility** — Analyzes how AI models (ChatGPT, Claude, Gemini) mention and rank brands
-- **competlab-weekly-briefing** — Generates weekly competitive intelligence briefings from monitoring data
+- **competlab-ai-visibility** — Analyzes how AI models (ChatGPT, Claude, Gemini) mention and recommend brands
+- **competlab-weekly-briefing** — Generates an on-demand competitive intelligence briefing from monitoring data — run it whenever you want a pulse; many teams run it weekly
 - **competlab-competitor-dive** — Builds comprehensive competitor dossiers with SWOT analysis
 - **competlab-battlecard** — Generates sales-ready competitive battlecards with objection handling
 - **competlab-landscape** — Full competitive landscape analysis with market dynamics and strategic recommendations

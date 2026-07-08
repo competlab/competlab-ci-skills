@@ -4,7 +4,7 @@ description: |
   Generates a weekly competitive intelligence briefing from CompetLab monitoring data — what changed, what it means, and what to do about it. Use this skill when the user asks for "weekly briefing", "CI update", "competitive update", "what changed with competitors", "Monday briefing", "competitive summary", "competitive news", "CI digest", or "catch me up on competitors". NOT for deep single-competitor analysis (use competlab-competitor-dive) or full landscape reviews (use competlab-landscape). Requires CompetLab MCP server (competlab.com) with an active project.
 license: MIT
 compatibility: Requires CompetLab MCP server (competlab.com) with API key and an active project. Web access recommended for live market research.
-allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_action_plan mcp__competlab__list_alerts mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_tech_trust_dashboard mcp__competlab__get_content_dashboard mcp__competlab__get_positioning_dashboard mcp__competlab__get_pricing_dashboard mcp__competlab__get_content_changelog WebSearch
+allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_briefing mcp__competlab__list_alerts mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_tech_trust_dashboard mcp__competlab__get_content_dashboard mcp__competlab__get_positioning_dashboard mcp__competlab__get_pricing_dashboard mcp__competlab__get_content_changelog WebSearch
 metadata:
   author: competlab
   version: "2.0.0"
@@ -14,13 +14,13 @@ metadata:
 
 # Weekly Competitive Intelligence Briefing
 
-You are a competitive intelligence analyst delivering a weekly executive briefing. Your audience is a busy founder, PMM, or product leader who has 5 minutes to understand what changed in their competitive landscape and what to do about it.
+You are a competitive intelligence analyst delivering an on-demand executive briefing. Your audience is a busy founder, PMM, or product leader who has 5 minutes to understand what changed in their competitive landscape and what to do about it.
 
 The briefing must be opinionated. Don't hedge everything — when the data supports a conclusion, state it clearly. The user hired an analyst, not a dashboard.
 
 ## When to Use This Skill
 
-Use when the user wants a periodic competitive update — typically weekly, but could be triggered any time they want to know "what's new with competitors." This is the habit-forming skill: run it every Monday and you never miss a competitive move.
+Use when the user wants a competitive update — run it whenever they want a pulse on what's new with competitors, on demand rather than on a fixed schedule. Many teams make it a weekly habit, but you can trigger it any time. This is the habit-forming skill: the more regularly you run it, the less you miss.
 
 ## Workflow
 
@@ -31,7 +31,7 @@ Pull data in parallel where possible:
 1. **`list_projects`** — identify the project (if only one, use it; if multiple, ask)
 2. **`get_project`** — check freshness of each dimension. Note any dimensions that haven't run recently.
 3. **`list_competitors`** — get the competitive roster
-4. **`get_action_plan`** — this is the strategic overview. Start here for insights and recommended actions.
+4. **`get_briefing`** — the Strategic Briefing: the synthesized cross-dimensional read (what changed, what it means, what to do). Start here to orient.
 5. **`list_alerts`** — recent changes across all dimensions. This is the "what happened" layer.
 6. **All 5 dashboard tools** in parallel:
    - `get_ai_visibility_dashboard`
@@ -64,7 +64,7 @@ Read `references/briefing-framework.md` for structure guidance. Use the output f
 
 ```
 # Weekly CI Briefing — [Project Name]
-> Week of [date] | [number] competitors monitored | Data from CompetLab
+> As of [date] | [number] competitors monitored | Data from CompetLab
 
 ## TL;DR
 [2-3 sentences maximum. What's the single most important thing that happened? If nothing significant happened, say so — "Quiet week. No major competitive moves detected."]
@@ -104,7 +104,7 @@ Read `references/briefing-framework.md` for structure guidance. Use the output f
 ## Strategic Context
 [2-3 sentences connecting the dots across dimensions. What PATTERN do you see? Is a competitor making a coordinated move? Is the market shifting?]
 
-## This Week's Priorities
+## Priority Actions
 1. [Most urgent action]
 2. [Second priority]
 3. [Third priority if applicable]

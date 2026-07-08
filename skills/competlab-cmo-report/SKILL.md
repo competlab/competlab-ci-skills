@@ -1,11 +1,11 @@
 ---
 name: competlab-cmo-report
 description: |
-  Orchestrator skill. Generates a complete CMO-grade strategic briefing for a CompetLab project by sequencing all dimension dashboards + on-demand research skills (status-watch, funding-watch, ai-ecosystem, hiring-signals, agent-adoption, product-watch, customer-voice-snapshot) + URL Verification middleware + the layered backing-docs synthesis. Output: 1 main briefing (L3) + 12 per-dimension docs (L2 — 4 dashboard-derived + 8 sub-skill-derived) + per-Tier-1-competitor deep dives (L2) + per-Tier-2-light-recon for monitoring-suggestions, with two-axis cross-references between docs. Use when the user asks for "CMO report", "strategic briefing", "Itrinity briefing", "full competitive analysis for [project]", "cold-start briefing". Replaces manual sequencing of individual skills with a single one-command run.
+  Orchestrator skill. Composes a complete CMO report for a CompetLab project by sequencing all dimension dashboards + on-demand research skills (status-watch, funding-watch, ai-ecosystem, hiring-signals, agent-adoption, product-watch, customer-voice-snapshot) + URL Verification middleware + the layered backing-docs synthesis. Output: 1 main report (L3) + 12 per-dimension docs (L2 — 4 dashboard-derived + 8 sub-skill-derived) + per-Tier-1-competitor deep dives (L2) + per-Tier-2-light-recon for monitoring-suggestions, with two-axis cross-references between docs. Use when the user asks for "CMO report", "strategic briefing", "Itrinity briefing", "full competitive analysis for [project]", "cold-start briefing". Replaces manual sequencing of individual skills with a single one-command run.
 effort: high
 license: MIT
-compatibility: Requires CompetLab MCP + competlab-fetch-service MCP (fetch_url) + Perplexity MCP. All sub-skills (status-watch, funding-watch, ai-ecosystem, hiring-signals, agent-adoption, product-watch, customer-voice-snapshot, ai-visibility, landscape, competitor-dive) must be installed.
-allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_competitor mcp__competlab__get_action_plan mcp__competlab__list_alerts mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_ai_visibility_trend mcp__competlab__get_ai_visibility_history mcp__competlab__get_tech_trust_dashboard mcp__competlab__get_content_dashboard mcp__competlab__get_content_changelog mcp__competlab__get_positioning_dashboard mcp__competlab__get_pricing_dashboard mcp__competlab__fetch_url Bash WebSearch mcp__perplexity__perplexity_ask
+compatibility: Requires the CompetLab MCP server (`mcp__competlab__fetch_url`) + Perplexity MCP. All sub-skills (status-watch, funding-watch, ai-ecosystem, hiring-signals, agent-adoption, product-watch, customer-voice-snapshot, ai-visibility, landscape, competitor-dive) must be installed.
+allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_competitor mcp__competlab__get_briefing mcp__competlab__list_alerts mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_ai_visibility_trend mcp__competlab__get_ai_visibility_history mcp__competlab__get_tech_trust_dashboard mcp__competlab__get_content_dashboard mcp__competlab__get_content_changelog mcp__competlab__get_positioning_dashboard mcp__competlab__get_pricing_dashboard mcp__competlab__fetch_url Bash WebSearch mcp__perplexity__perplexity_ask
 metadata:
   author: competlab
   version: "2.0.0"
@@ -13,9 +13,9 @@ metadata:
   category: competitive-intelligence
 ---
 
-# CMO Strategic Briefing — Orchestrator
+# CMO Report — Orchestrator
 
-You are the orchestrator that produces a complete CMO-grade strategic briefing for a CompetLab project. The output is **NOT a single document** — it's a navigable knowledge base: 1 main briefing (L3) + 12 dimension reports (L2 — 4 dashboard-derived + 8 sub-skill-derived) + 3-5 competitor deep-dives (L2), with two-axis cross-references and a Monitoring Suggestions section informed by AI-visible-but-unmonitored cheap recon.
+You are the orchestrator that composes a complete CMO report for a CompetLab project. The output is **NOT a single document** — it's a navigable knowledge base: 1 main report (L3) + 12 dimension reports (L2 — 4 dashboard-derived + 8 sub-skill-derived) + 3-5 competitor deep-dives (L2), with two-axis cross-references and a Monitoring Suggestions section informed by AI-visible-but-unmonitored cheap recon.
 
 This is the killer feature of the CompetLab Skills suite. A single command produces decision-grade output that previously required a senior analyst spending half a day.
 
@@ -71,13 +71,13 @@ Then execute Phase 0:
 0. **Sub-skill discovery check** — run `Glob({pattern: "**/competlab-*/SKILL.md"})` to confirm the expected 13 skills are installed (5 existing: landscape, weekly-briefing, competitor-dive, ai-visibility, battlecard; 8 new: status-watch, funding-watch, ai-ecosystem, hiring-signals, agent-adoption, product-watch, customer-voice-snapshot, cmo-report). If any are missing, document in PRE-FLIGHT.md and produce a degraded-coverage briefing with explicit gap notes in the relevant dim docs (rather than silently producing partial output).
 1. Pull `list_projects` + `get_project` for project context + data freshness check
 2. Pull `list_competitors` for monitored set
-3. Pull `get_ai_visibility_dashboard` to identify Tier-2 candidates (AI-visible-but-unmonitored brands ranked above strategic-relevance threshold). **Cross-provider consistency check** (banked from real-world validation): when ranking candidates by aiScore, also check the per-provider mention pattern. A vendor with aiScore N driven entirely by a single provider (e.g., OpenAI rank 1 only, absent in Claude + Gemini) is a less stable candidate than a vendor with lower aiScore surfacing across 2+ providers — the second represents broader buyer recognition while the first may be category-classifier-edge-case in a single LLM. Prefer cross-provider-consistent candidates when ranked similarly. If a single-provider candidate is included, note the lens-specific position explicitly in PRE-FLIGHT.md.
+3. Pull `get_ai_visibility_dashboard` to identify Tier-2 candidates (AI-visible-but-unmonitored brands ranked above strategic-relevance threshold). **Cross-provider consistency check** (banked from real-world validation): when ranking candidates by aiScore, also check the per-provider mention pattern. A vendor with aiScore N driven entirely by a single provider (e.g., mentioned by OpenAI only, absent in Claude + Gemini) is a less stable candidate than a vendor with lower aiScore surfacing across 2+ providers — the second represents broader buyer recognition while the first may be category-classifier-edge-case in a single LLM. Prefer cross-provider-consistent candidates when ranked similarly. If a single-provider candidate is included, note the lens-specific position explicitly in PRE-FLIGHT.md.
 4. Confirm fresh-enough data per dimension (note any stale dimensions in briefing header traffic-light)
 5. Create `_internal/` folder for your orchestrator working state (raw skill outputs, research compilations, MCP probe logs, pre-flight scoping notes). Sub-skills don't read from `_internal/` — each sub-skill pulls its own data fresh per its workflow.
 6. Write your pre-flight scoping notes to `_internal/_pre-flight-notes.md` (orchestrator-private — never referenced from customer-visible files), identifying:
    - All monitored competitors → primary deep-dive targets (full set per `list_competitors`)
    - Top-3 AI-visible-unmonitored → candidates for additional cheap-recon
-   - Top-N+ AI-surfaced brands (ranked 4-10) → appear in `dim-ai-visibility.md` as table rows with no further synthesis
+   - Top-N+ AI-surfaced brands (positions 4-10 by AI Visibility Score) → appear in `dim-ai-visibility.md` as table rows with no further synthesis
 
 ### Phase 1 — Skill fan-out (parallel, ~5-10 min)
 
@@ -139,7 +139,7 @@ Saves ~30-50% of skill-fan-out wall time on bootstrapped-indie projects.
 
 ### Phase 2 — Per-dimension synthesis (parallel, ~5 min)
 
-**Incremental-writing rule** (banked from real-world validation): begin writing Tier-1 dim docs as soon as their constituent data is in. Don't block on sub-agents whose outputs feed DIFFERENT dim docs. Example: AI Viz / Positioning / Pricing / Content / Tech & Trust / Agent Readiness depend on platform-dashboard data that's available immediately after Phase 0. Writing those 6 dim docs in parallel with Phase 1 sub-agent fan-out (which feeds Funding / Hiring / Product / Customer Voice dim docs) saves orchestrator wall-time and keeps the parent's working context lean.
+**Incremental-writing rule** (banked from real-world validation): begin writing Tier-1 dim docs as soon as their constituent data is in. Don't block on sub-agents whose outputs feed DIFFERENT dim docs. Example: AI Viz / Positioning / Pricing / Content / Tech & Trust / Agent Adoption depend on platform-dashboard data that's available immediately after Phase 0. Writing those 6 dim docs in parallel with Phase 1 sub-agent fan-out (which feeds Funding / Hiring / Product / Customer Voice dim docs) saves orchestrator wall-time and keeps the parent's working context lean.
 
 For each of the 12 dimensions (4 dashboard-derived + 8 sub-skill-derived), synthesize all Tier-1 + Tier-2 raw data into a single L2 dimension doc. **Use these exact filenames** (so future runs + cross-doc references stay consistent):
 
@@ -147,7 +147,7 @@ For each of the 12 dimensions (4 dashboard-derived + 8 sub-skill-derived), synth
 |---|---|
 | `competlab-landscape` (synthesis from dashboard data) | `dim-landscape.md` |
 | `competlab-ai-visibility` (or `get_ai_visibility_dashboard`) | `dim-ai-visibility.md` |
-| `competlab-agent-adoption` + agent-adoption-scan | `dim-ai-agent-readiness.md` |
+| `competlab-agent-adoption` + agent-adoption-scan | `dim-agent-adoption.md` |
 | `competlab-funding-watch` | `dim-funding-capital.md` |
 | `competlab-hiring-signals` | `dim-hiring-gtm.md` |
 | `competlab-product-watch` | `dim-product-launches.md` |
@@ -157,7 +157,7 @@ For each of the 12 dimensions (4 dashboard-derived + 8 sub-skill-derived), synth
 | `get_content_dashboard` | `dim-content.md` |
 | `get_pricing_dashboard` | `dim-pricing.md` |
 | `get_tech_trust_dashboard` + tech-stack-scan + trust-signals-scan | `dim-tech-trust.md` |
-| `competlab-ai-ecosystem` | folded INTO `dim-ai-agent-readiness.md` as a sub-section (external-vs-first-party signals) OR shipped as `dim-ai-ecosystem.md` standalone when ecosystem signal density is high enough to warrant its own doc |
+| `competlab-ai-ecosystem` | folded INTO `dim-agent-adoption.md` as a sub-section (external-vs-first-party signals) OR shipped as `dim-ai-ecosystem.md` standalone when ecosystem signal density is high enough to warrant its own doc |
 
 (12 dim docs total — 8 new-skill ones + 4 traditional dashboard ones)
 
@@ -223,16 +223,16 @@ For each Tier-2 candidate, evaluate against 4 criteria:
 |---|---|
 | AI Viz mention rate | **≥ median(surfaced brands' mention rates) OR ≥ 50%** — whichever is LOWER. (Handles small-set-vs-large-set cases consistently. In a category where the median mention rate is 22%, a Tier-2 candidate at 44% clearly passes "top half" even though it's below 50%. In a category where median is 60%, the 50% floor applies.) |
 | AI Viz cross-provider consistency | mentioned in ≥ 2 of 3 LLM providers |
-| Agent-readiness OR trust signal | platform agent-adoption score ≥ median(Tier-1 monitored) OR trust-signals tier ≥ "substantial" (30/100+) OR llms.txt detected |
+| Agent Adoption OR trust signal | platform agent-adoption score ≥ median(Tier-1 monitored) OR trust-signals tier ≥ "substantial" (30/100+) OR llms.txt detected |
 | Strategic signal type | "blind spot" (Tier-2 outperforms ≥ 50% of monitored Tier-1) OR "category-redefining" (positioning frame challenges customer's category boundary) |
 
-**Handling agent-readiness data unavailability in the Tier-1 median computation** (banked from real-world validation): if any Tier-1 monitored vendor has no readable agent-readiness signal (typically because their site is bot-protected → invisible to your monitoring AND to all other automated systems), EXCLUDE that vendor from the median computation rather than treating as null/zero. Rationale: the unavailability reflects the vendor's discoverability posture, not their agent-adoption capability — including them as low-scores would unfairly lower the Tier-1 median and over-promote Tier-2 candidates against an artificially-degraded baseline. (The bot-protection itself is still surfaced as a customer-facing finding in the relevant comp doc — it just doesn't enter the agent-readiness baseline math.)
+**Handling agent-adoption data unavailability in the Tier-1 median computation** (banked from real-world validation): if any Tier-1 monitored vendor has no readable agent-adoption signal (typically because their site is bot-protected → invisible to your monitoring AND to all other automated systems), EXCLUDE that vendor from the median computation rather than treating as null/zero. Rationale: the unavailability reflects the vendor's discoverability posture, not their agent-adoption capability — including them as low-scores would unfairly lower the Tier-1 median and over-promote Tier-2 candidates against an artificially-degraded baseline. (The bot-protection itself is still surfaced as a customer-facing finding in the relevant comp doc — it just doesn't enter the agent-adoption baseline math.)
 
 **Decision:**
 - **4/4 criteria** → AUTO-PROMOTE to FULL comp-doc + flag in Monitoring Suggestions as "auto-promoted; recommend Tier-1 monitoring upgrade"
-- **3/4 criteria with strong-qualitative case** (signal type is "category-redefining" OR action-plan-cited-by-name OR outperforms ≥50% of Tier-1 on ≥1 dimension) → FULL comp-doc
+- **3/4 criteria with strong-qualitative case** (signal type is "category-redefining" OR briefing-cited-by-name OR outperforms ≥50% of Tier-1 on ≥1 dimension) → FULL comp-doc
 - **3/4 criteria with weaker-qualitative case** (signal type is "adjacent-enterprise context" — vendor competes for buyer mindshare but not direct procurement, e.g., a much-larger-segment player that shows up in AI Viz queries but isn't on customer's shortlist) → LITE comp-doc
-- **2/4 criteria with strong qualitative case** (banked from real-world validation): NEW INTERMEDIATE TIER — "lite comp doc" (30-50 lines covering the 2-3 most strategically loaded dimensions, NO full convergence paragraph). Eligibility: candidate must hit BOTH (a) action-plan-cited-by-name as category-redefining threat AND (b) outperforms ≥ 50% of Tier-1 monitored on ≥ 1 dimension AND (c) qualitative strategic relevance argues for monitoring. Handles the "qualitatively important but quantitatively borderline" case (e.g., free-tier-category-redefining vendor with low aiScore).
+- **2/4 criteria with strong qualitative case** (banked from real-world validation): NEW INTERMEDIATE TIER — "lite comp doc" (30-50 lines covering the 2-3 most strategically loaded dimensions, NO full convergence paragraph). Eligibility: candidate must hit BOTH (a) briefing-cited-by-name as category-redefining threat AND (b) outperforms ≥ 50% of Tier-1 monitored on ≥ 1 dimension AND (c) qualitative strategic relevance argues for monitoring. Handles the "qualitatively important but quantitatively borderline" case (e.g., free-tier-category-redefining vendor with low aiScore).
 - **≤ 2 criteria (no qualitative exception)** → cheap-recon only; appears in Monitoring Suggestions; no comp-doc
 
 **Tiebreaker when ≥2 candidates pass 3/4:** the qualitative-signal-type ranking is the landing-zone rule. Rank in order: (1) named-by-industry-analyst-leader-report > (2) recent M&A activity > (3) positioning-frame-direct-overlap-with-customer > (4) outperforms-Tier-1-on-≥1-dimension > (5) larger-review-base. Strongest qualitative signal → FULL comp-doc. Weaker qualitative signal → LITE comp-doc. Additional 3/4 candidates beyond the top 2 remain Tier-2 light-recon only.
@@ -267,7 +267,7 @@ cmo-reports/{project-slug}-{date}/
 ├── briefing.md                 # main deliverable (includes § 9 Decision Questions)
 ├── dim-landscape.md            # per-dimension docs (12)
 ├── dim-ai-visibility.md
-├── dim-ai-agent-readiness.md
+├── dim-agent-adoption.md
 ├── dim-funding-capital.md
 ├── ... (etc)
 ├── comp-{name1}.md             # per-competitor deep dives (3-5)
@@ -279,7 +279,7 @@ That's the entire customer-final folder. No `_internal/`. No working-state files
 
 **README navigation** lists the customer-visible files with one-line descriptions of what each contains. Keep it short and CMO-natural — a project title + brief intro + file list is enough. Write it the way you'd write the front page of a briefing folder for your most important customer: a clear navigation experience, no audit-checklist tone, no methodology summary, no verification meta-commentary. The customer opens this README to find their way around the folder; that's the only job it has.
 
-**Briefing footer + README** mention data sources at the category level (e.g., "Strategic briefing prepared from CompetLab competitive monitoring + Perplexity-grounded research across 12 dimensions, {N} competitors covered"). Skip references to working files, verification logs, or any orchestrator-internal scaffolding — those don't belong in the customer's view of their deliverable.
+**CMO report footer + README** mention data sources at the category level (e.g., "CMO report prepared from CompetLab competitive monitoring + Perplexity-grounded research across 12 dimensions, {N} competitors covered"). Skip references to working files, verification logs, or any orchestrator-internal scaffolding — those don't belong in the customer's view of their deliverable.
 
 **Your summary-message to the user when the run completes:** lead with the strategic findings — the 3-5 sharpest discoveries the briefing surfaces (canonical convergence pattern on top vendor, structural threat newly discovered, cheapest high-leverage move, AI Viz position shift, etc.). The summary mirrors the briefing's voice: strategic, direct, customer-natural. The user's first contact with your output IS this summary; treat it as a teaser-of-the-briefing, not a recipe-completion report.
 
@@ -296,7 +296,7 @@ The summary message is a CMO-direct briefing-preview, not a status report on the
 
 - **Briefing length:** 200-250 lines / 8-10k words. Tighter than data-dumps; substantive enough for CMO digestibility.
 - **L2 docs:** 50-150 lines each. Self-contained mini-reports with their own thesis.
-- **Naming + frame:** ask the user once at start which they prefer ("CMO Briefing" vs "CMO Report"). Default: "Briefing."
+- **Naming + frame:** title the output a **CMO Report** (the default). Do NOT title it "Strategic Briefing" — that's the platform's separate persistent product this composition fetches via `get_briefing`, not what it produces.
 - **Cheapest high-leverage move callout:** mandatory. Search dim docs for 1-day-fix items with disproportionate impact. Promote ONE to the briefing's sidebar.
 - **convergence paragraph:** mandatory for top 1-2 strategic competitors. Multi-dimensional convergence in same-window: hiring + funding + product + ai-eco + positioning. Don't write the briefing without one.
 - **Don't hedge.** Don't perform confidence either. Name what's actually there.
@@ -320,7 +320,7 @@ When you would naturally write the internal name, write the customer-visible equ
 | Tier-2 unmonitored candidates | "consideration candidates" / "not currently in your monitored set" / "AI-visible-unmonitored" if descriptive context is helpful |
 | Tier-3 (mention-only) | "additional brands surfaced in AI Visibility queries" |
 | FULL comp-doc / LITE comp-doc / lite-comp variant | "full deep-dive" / "lighter-touch profile" |
-| Phase 5.6 / Phase 5.5 / auto-promoted per criteria | the actual qualitative reasons in plain language ("verified MCP server + cross-LLM consistency + named in your action plan + structural blind spot — warrants deep-dive coverage") |
+| Phase 5.6 / Phase 5.5 / auto-promoted per criteria | the actual qualitative reasons in plain language ("verified MCP server + cross-LLM consistency + named in your Strategic Briefing + structural blind spot — warrants deep-dive coverage") |
 | Convergence paragraph (≥5-dim) | the paragraph itself, with a customer-natural section heading (e.g., "[Vendor]'s coordinated 60-day repositioning") — no parenthetical mention of the pattern's template-name |
 | Discovery-vs-capability carve-out | the actual finding ("vendor X has shipped an MCP server, verified live at api.vendor.com/mcp") |
 | Categorical-zero / categorical-absence | "Where this signal lives in your category" |

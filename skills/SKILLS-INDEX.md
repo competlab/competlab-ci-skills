@@ -1,7 +1,7 @@
-# CompetLab AI Skills v2 — Index
+# CompetLab Agent Skills v2 — Index
 
 > **NOT theoretical specs — grounded in real-world validation across multiple verticals.**
-> Each new SKILL.md was authored against empirical friction encountered during cold-start CMO briefing builds, then iterated based on cold-instance validation runs across diverse B2B SaaS categories.
+> Each new SKILL.md was authored against empirical friction encountered during cold-start CMO report builds, then iterated based on cold-instance validation runs across diverse B2B SaaS categories.
 
 ## 8 NEW SKILLS
 
@@ -16,31 +16,23 @@
 | 7 | `competlab-product-watch` | Snapshot changelogs / GitHub Releases / named-asset directories | SNAPSHOT only — velocity requires dimension promotion. 9th adapter: sitemap-diff for `/features/*` additions (works in categories without structured `/changelog`). |
 | 8 | `competlab-customer-voice-snapshot` | G2/Capterra/Trustpilot snapshot via Perplexity | SNAPSHOT only — limited by design (review platforms 403-block scrapers). Categorical-absence early-halt after 2-3 null returns. B2B/consumer split for B2C-adjacent vendors. |
 
-## 5 EXISTING SKILLS — Refactor Plan
+## 5 EXISTING SKILLS
 
-| Skill | Action | Specific changes |
-|---|---|---|
-| `competlab-landscape` | **REFACTOR** | Trim AI section to 2-paragraph teaser → hand-off to `competlab-ai-visibility`. Trim per-competitor sections — that's now `competlab-competitor-dive` territory. Keep the macro shifts + cross-dimensional patterns + strategic recommendations. |
-| `competlab-weekly-briefing` | **REFACTOR** | Narrow to STRICT delta-since-last-check. Very short output (200-400 words). Drop the dimension snapshots (those are now per-dim docs). |
-| `competlab-competitor-dive` | **REFACTOR** | Drop redundant `get_competitor` step. Add references to new-skill outputs so it pulls from shared `_state.json` rather than re-deriving. Output becomes a synthesis of the per-dim+per-comp data assembled by the orchestrator. |
-| `competlab-ai-visibility` | **KEEP + IMPROVE** | Add DECISION-QUESTIONS section. Add `_state.json` integration. Add output-format flexibility. |
-| `competlab-battlecard` | **KEEP as-is** | Sales-specific, narrow scope. Add DECISION-QUESTIONS section. Otherwise no changes. |
+| Skill | Scope |
+|---|---|
+| `competlab-landscape` | Macro shifts, cross-dimensional patterns, and strategic recommendations. The AI section is a short teaser that hands off to `competlab-ai-visibility`; per-competitor detail lives in `competlab-competitor-dive`. |
+| `competlab-weekly-briefing` | Strict delta-since-last-check — a short (200-400 word) pulse you run on demand (many teams run it weekly). Dimension detail lives in the per-dim docs. |
+| `competlab-competitor-dive` | Per-competitor synthesis of the per-dim + per-comp data assembled by the orchestrator. |
+| `competlab-ai-visibility` | AI Visibility read, ending in a DECISION-QUESTIONS section. |
+| `competlab-battlecard` | Sales-specific, narrow scope, ending in a DECISION-QUESTIONS section. |
 
-## Cross-Skill Improvements (apply to ALL 13 skills)
+## Cross-Skill Conventions
 
 ### Decision Questions discipline
 Every skill output ends with 3-5 questions whose answers materially change recommendations. NOT generic clarifications — tied to identified strategic ambiguities. Default to **conditional-prescription framing** (state both branches of recommendation pending answer) over pure-clarifying.
 
 ### Narrative recommendations (not template-driven)
 Reasoning layer between raw data and recommendation output. Action-plan generation is skill-level, not platform-level. Platform exposes data; skills do reasoning.
-
-### Shared session state (`_state.json`)
-- Cached dashboard data with timestamps (avoid redundant pulls within recency window)
-- Recent skill outputs in this session (downstream skills reference rather than re-derive)
-- Questions already answered by operator (downstream skills don't re-ask)
-
-### Output format flexibility
-Add `--output-format` parameter: markdown / styled-html / deck-outline (4-7 slides) / notion / slack-summary (200 words) / investor-update.
 
 ## URL Verification Discipline (applies to all skills consuming Perplexity output)
 
@@ -103,7 +95,7 @@ After this, `.claude/skills/` contains the 13 skill folders + 6 companion docs a
 
 **Path 2 — Claude Code plugin marketplace** (after `marketplace.json` is updated to declare all 13 skills + companion docs):
 ```bash
-npx skills add ORI-Solutions/competlab-ci-skills --all
+npx skills add competlab/competlab-ci-skills --all
 ```
 
 **Path 3 — User-level** (available across all projects):

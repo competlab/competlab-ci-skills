@@ -299,6 +299,6 @@ It's a skill-prompt convention. If you find yourself building infrastructure to 
 ## Related
 
 - `mcp__competlab__fetch_url` is exposed by the CompetLab MCP server — schema includes `url`, `bodyNeeded`, `headersNeeded`, `cleanHtml`, `bodyMaxBytes`, `maxTimeoutMs`.
-- cl-fetch service (the implementation behind the MCP tool): `competlab-fetch-service` repo.
+- The `fetch_url` tool is backed by CompetLab's own server-side fetch service; skills only ever reach it through the `mcp__competlab__fetch_url` MCP tool.
 - Empirical evidence for fabrication rate: surfaced during CRM-category validation research (significant percentage of Perplexity-cited GitHub MCP repo URLs were 404 / fabricated).
 - URL Verification Middleware was named as Q1-mandatory prerequisite in the original Skills Improvement Plan.

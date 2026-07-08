@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to the CompetLab AI Skills suite.
+All notable changes to the CompetLab Agent Skills suite.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
@@ -39,7 +39,7 @@ The "leading + lagging indicators" release. Skills set expands from 5 to 13. The
 - **Categorical-zero discovery-vs-capability carve-out:** when well-known-path discovery returns zero candidates across all vendors, check alternative channels (content dashboard URLs, npm registry, GitHub search, API endpoint patterns) BEFORE declaring categorical zero. Empirical basis: a real-world validation run found a vendor's real MCP server at an API endpoint without `/.well-known/mcp` mount, which the strict early-exit would have missed.
 - **Vendor-discontinuation 3-signal convergence rule:** positioning dashboard captures parent-brand content + AI Viz 0% across all 3 providers + agent-adoption scan `finalUrl` ≠ requested domain → likely discontinued/absorbed. Verify via parent-company page fetch for shutdown language. (Surfaced when a real-world cold-instance run discovered one monitored competitor had been discontinued 12 months prior.)
 - **Cross-tool reconciliation discipline (Phase 5.5):** when two CompetLab tools disagree on the same underlying surface, the orchestrator writes a canonical `Phase-5.5-reconciliation.md` audit-trail file with one section per disagreement. Dim docs and briefing reference this file by section anchor rather than restating analysis.
-- **Tier-2 auto-promotion 4-criterion checklist (Phase 5.6):** AI Viz mention rate ≥ median(surfaced brands) OR ≥ 50% (whichever lower) + cross-provider consistency (≥2 of 3 LLM providers) + agent-readiness OR trust-signal threshold + strategic signal type (blind-spot OR category-redefining).
+- **Tier-2 auto-promotion 4-criterion checklist (Phase 5.6):** AI Viz mention rate ≥ median(surfaced brands) OR ≥ 50% (whichever lower) + cross-provider consistency (≥2 of 3 LLM providers) + Agent Adoption OR trust-signal threshold + strategic signal type (blind-spot OR category-redefining).
 
 ### Changed
 
@@ -71,8 +71,8 @@ The Customerscore.io cold-instance backwards-validation run with published skill
 ## [1.0.0] — 2025
 
 Initial 5-skill release covering lagging indicators:
-- `competlab-ai-visibility` — AI model mention/ranking reports
-- `competlab-weekly-briefing` — weekly CI briefing
+- `competlab-ai-visibility` — AI model mention and recommendation reports
+- `competlab-weekly-briefing` — on-demand CI briefing you can run any time (many teams run it weekly)
 - `competlab-competitor-dive` — full competitor dossier with SWOT
 - `competlab-battlecard` — sales-ready battlecards
 - `competlab-landscape` — full landscape with market dynamics

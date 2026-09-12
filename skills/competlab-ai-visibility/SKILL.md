@@ -1,140 +1,146 @@
 ---
 name: competlab-ai-visibility
 description: |
-  Analyzes how AI models (ChatGPT, Claude, Gemini) mention and recommend your brand vs competitors using CompetLab monitoring data. Use this skill when the user asks "how do LLMs see my brand", "AI visibility report", "AI brand check", "what does ChatGPT say about us", "GEO analysis", "AI SEO report", "AI Visibility Score", "AI mentions", "AI perception", or "who do AI models recommend in my space". NOT for traditional SEO, Google rankings, or web traffic analysis. Requires CompetLab MCP server (competlab.com) with an active project.
+  Answers one question: which companies do AI models recommend in this category, and is the customer one of them? Reads CompetLab's AI Visibility market map across ChatGPT, Claude, Gemini, Perplexity and Google AI Overviews. Use when the user asks "who do AI models recommend in my space", "are we in the core", "AI visibility report", "what does ChatGPT say about us", "do LLMs recommend us", "AI brand check", "GEO analysis", or "market map". NOT for traditional SEO or Google rankings, and NOT for which pages the models read to decide (use competlab-ai-sources). Requires the CompetLab MCP server with an active project.
 license: MIT
-compatibility: Requires CompetLab MCP server (competlab.com) with API key and an active project. Web access recommended for live market research.
-allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_ai_visibility_trend mcp__competlab__get_ai_visibility_history mcp__competlab__get_ai_visibility_check_detail WebSearch WebFetch
+allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_ai_visibility_trend mcp__competlab__get_ai_visibility_history mcp__competlab__get_ai_visibility_check_detail Read
 metadata:
   author: competlab
-  version: "2.0.0"
+  version: "3.0.0"
   website: https://competlab.com
   category: competitive-intelligence
 ---
 
-# AI Visibility Intelligence Report
+# AI Visibility — core or tail
 
-You are a B2B SaaS competitive intelligence analyst specializing in AI-era brand visibility. Your job is not to present data — it's to tell the user what the data MEANS for their business and what to DO about it.
+## The question this dimension answers
 
-AI Visibility is the newest competitive dimension: how AI language models perceive, mention, and recommend brands when users ask for product recommendations. This is becoming a primary discovery channel — when someone asks ChatGPT "what's the best [category] tool?", the answer shapes buying decisions. CompetLab monitors this systematically across OpenAI, Claude, and Gemini.
+**Who is recommended by AI in this category, and is the customer one of them?**
 
-## When to Use This Skill
+There is a **core** of companies that AI answers name, and a **tail**. The core is stable — it changes
+seldom, and a limited number of questions is enough to detect it. Asking more only confirms it.
 
-Use when the user wants to understand:
-- How AI models currently perceive their brand vs competitors
-- Whether their AI visibility is improving or declining over time
-- Which AI providers favor them (or don't)
-- What competitors are doing that earns them AI mentions
-- Concrete actions to improve their AI recommendation rate
+The customer cares about one thing: **are they in the core.** In the tail, they can fight. In neither,
+that is different work.
 
-## Inputs
+Everything else this dimension produces — presence, ranges, per-engine splits, endorsement, the
+blended score — is **the mechanism that decides membership, not the answer.**
 
-Required:
-- A CompetLab project with AI Visibility monitoring enabled
+## Before you start
 
-Optional (the user may specify):
-- A specific competitor to focus on
-- A time range for trend analysis
-- A specific AI provider (openai, claude, gemini) to drill into
+Read `references/reading-the-data.md`. It is not optional here: this dimension has more ways to be
+read wrong than any other in the platform, and the two worst are leading with a score and ordering two
+brands whose ranges overlap.
 
-If the user doesn't specify a project and there's only one, use it. If multiple projects exist, ask which one.
+## Steps
 
-## Workflow
+**1. Resolve the project.**
+`list_projects` → `get_project` for the prompts and per-dimension freshness → `list_competitors` for
+the roster (the customer's own domain is in it, marked `isOwn: true`).
 
-### Step 1: Gather CompetLab Data
+**2. Read the market map.**
+`get_ai_visibility_dashboard`. Go to `summary.marketMap`.
 
-Pull data in this order:
+**3. Check `summary.promptMarket` before you use the map.**
 
-1. **`list_projects`** — find the relevant project
-2. **`get_project`** — check AI Visibility dimension freshness (if data is older than 7 days, note this in the report)
-3. **`list_competitors`** — get the full competitive set
-4. **`get_ai_visibility_dashboard`** — the latest AI Visibility Scores and per-provider breakdowns for all competitors
-5. **`get_ai_visibility_trend`** — historical movement (request last 90 days by default, or user-specified range)
+Unless its state is `rivals_named_in_most_answers`, **say the prompts may not describe this project's
+market, and do not lead with the map.** A map built from questions that return registries rather than
+vendors is measuring the wrong thing, and reporting it as the market is the worst error available
+here. This check comes first, every time.
 
-If the user wants a deep dive on a specific check or time period:
-6. **`get_ai_visibility_history`** — paginated check list
-7. **`get_ai_visibility_check_detail`** — full detail for a specific check
+**4. State membership.**
 
-### Step 2: Analyze the Data (this is where you earn your keep)
+> "Nine companies make up this market as the AI models draw it. The customer is one of them, tied for
+> 7th of 9 by how often it is named."
 
-Don't just list numbers. Find the STORY in the data:
+or
 
-- **Who's winning and why?** The highest-scored competitor isn't just "ahead" — figure out what they're doing that earns AI mentions. Look at their content strategy, documentation quality, API availability, community presence.
-- **Provider divergence:** If OpenAI mentions competitor A frequently but Claude doesn't, that's a signal. Different LLMs weight different factors. Explain what each provider seems to care about.
-- **Trend direction matters more than absolute score:** A competitor at 30 but trending up from 15 is more threatening than a competitor at 50 but flat. Identify velocity, not just position.
-- **Your brand's gaps:** Where is the user's brand NOT being mentioned? Which queries miss them entirely? This is the actionable goldmine.
+> "Eight companies make up this market. The customer is not one of them — named in 1 of the 15 answers
+> this check, against the leader's 14."
 
-### Step 3: Research What's Working (Web Research Layer)
+Find the customer's row by `isOwn: true`. Use `marketMap.coreSize`, `rankByPresence`, and the presence
+figure **with its range and its count**.
 
-First, read `references/geo-best-practices.md` for established GEO techniques and score interpretation. You'll need this context for both research and recommendations.
+While `marketMap.tailIsProvable` is false, say **no brand can be ruled out of this market yet.**
 
-Then use WebSearch and WebFetch to add context the MCP data can't provide:
+**5. Read the per-engine split before calling anything core.**
+A brand core to one model and a brand core to all five look identical on the pooled figure. Read
+`perEngine`. A brand named everywhere is a different finding from a brand one model likes.
 
-1. **Search for the top-scoring competitor + "AI" or "LLM" or "ChatGPT"** — find what content, integrations, or strategies they're using that might explain their AI visibility
-2. **Search for "[user's brand] + [category] + ChatGPT/AI recommendations"** — see what the web says about how AI models perceive them
-3. **Search for "how to improve AI visibility" or "GEO optimization [year]"** — find the latest best practices and techniques
-4. **Check if top competitors have**: MCP servers, API documentation, AI-focused landing pages, Schema.org structured data, active AI-related content (use WebFetch on their homepage to check)
+**6. Only now, the supporting reading.**
+- `get_ai_visibility_trend` — one row per company, a reading now and at the window's start, and
+  whether they are separable. A digest, not a plot; `detail: "series"` adds up to 12 points per
+  company if you genuinely need them. Either way, if the ranges overlap that is two readings, not a
+  movement.
+- `get_ai_visibility_history` → `get_ai_visibility_check_detail` for a specific past check.
+- `includeAnswers: true` with `brand=`, `provider=` or `promptIndex=` when you need what was actually
+  said. Unfiltered is 25k–46k tokens; `brand=` is about 2k.
 
-### Step 4: Synthesize the Report
+## Reporting rules specific to this dimension
 
-Use the output structure below. Every insight must cite specific data. Every recommendation must explain WHY it would work based on the evidence.
+**Never lead with the AI Visibility Score.** It is a blended figure and it answers a question nobody
+asked. A brand named once can read 2; a brand named often and placed low can read 1. If you mention it
+at all, mention it after membership, and say what it is: a 0–100 figure over the top five positions
+only.
 
-## Output Structure
+**Never report a position or an average position.** The field does not exist, by design. Order is by
+presence — how often a brand is named — and nothing else.
 
-Always use this structure with these exact headings:
+**Never order two brands whose ranges overlap.** They are tied. Say so.
 
+**Check the sign on `mentionRateGap`** — it is the customer minus the leader, so negative means
+behind. Reporting a trailing brand as leading is the most damaging mistake on this dimension.
+
+**Google AI Overviews names companies and ranks nothing.** Any order you see there is CompetLab's
+order of first mention. Its rows carry no description, which is why `marketMap.profileEngines` lists
+four engines, not five.
+
+**An engine absent from a check was not asked.** Older checks ran three or four engines. That is not a
+brand's absence from that engine.
+
+**Model prose is the model's.** "Claude described them as…", never "they are…".
+
+## Output
+
+Short. The answer is a membership statement, not a dashboard.
+
+```markdown
+# AI Visibility — {Project}
+*{n} answers on the {date} check; {N} pooled across {k} checks in the current window.*
+
+## Core or tail
+{One sentence: how many companies make up this market, and where the customer sits.}
+
+## The market as the models draw it
+| Company | Named in | Presence | Monitored |
+|---|---|---|---|
+{rows — presence with its range; ties marked as ties}
+
+## Per engine
+{Which engines name the customer and which never have. Name the ones that produced nothing.}
+
+## What this means
+{2–4 sentences. Membership first. What would have to change for it to move.}
+
+## What we did not measure
+{Engines not asked, checks that came back short, prompt-market caveat if it fired.}
 ```
-# AI Visibility Report — [Brand Name]
-> Generated [date] | Data from CompetLab | [number] competitors tracked
 
-## Executive Summary
-[3-5 sentences: who's winning, key finding, biggest opportunity, urgency level]
+## What NOT to do
 
-## AI Visibility Scorecard
+- Do not lead with a score, a mention rate, a position, or a citation count.
+- Do not compute a percentage from a small answer set without its count and range beside it.
+- Do not call a difference a rise or a fall when the intervals overlap.
+- Do not pool engines, and do not draw them as slices of one whole.
+- Do not report Google AI Overviews' order as a ranking Google gave.
+- Do not present model prose as fact.
+- Do not tell the user what to do about the sources behind the answers — that is
+  `competlab-ai-sources`, and it has its own limits.
 
-| Brand | AI Visibility Score | Mention Rate | OpenAI | Claude | Gemini | Trend (90d) |
-|-------|-------------------|--------------|--------|--------|--------|-------------|
-[Table of all competitors, sorted by score descending. User's brand highlighted with **bold**.]
+## Decision questions
 
-## Provider Deep Dive
+End with 3–5 questions whose answers would change the recommendation. Tie them to what the data
+actually showed — not generic clarifications. State both branches where you can:
 
-### OpenAI (ChatGPT)
-[Who does OpenAI favor? What patterns explain this? Specific queries where the user's brand appears or is absent.]
-
-### Claude (Anthropic)
-[Same analysis for Claude.]
-
-### Gemini (Google)
-[Same analysis for Google's model.]
-
-## Trend Analysis
-[Who's rising? Who's declining? What happened at inflection points? Velocity comparison.]
-
-## What Top Competitors Are Doing Right
-[Evidence-based analysis from web research: what content, integrations, or strategies explain their high scores]
-
-## Your Gaps & Opportunities
-[Specific areas where the user's brand is missing from AI responses, with estimated impact]
-
-## Recommended Actions
-[Prioritized list, each with: what to do, why it should work (citing evidence), expected difficulty, expected impact]
-
----
-*Report powered by [CompetLab](https://competlab.com) AI Visibility monitoring — tracking how ChatGPT, Claude, and Gemini mention and recommend B2B brands.*
-```
-
-## Error Handling
-
-- **CompetLab MCP not available:** "This skill requires the CompetLab MCP server. Set up your account at competlab.com, configure the MCP server, and create a project with competitors to monitor."
-- **No AI Visibility data:** "AI Visibility monitoring hasn't run yet for this project. Check that the dimension is enabled in your project settings and that at least one monitoring cycle has completed."
-- **Data is stale (>7 days old):** Note this prominently at the top: "Note: AI Visibility data was last updated [date]. Results may not reflect recent changes. Consider triggering a new monitoring run."
-- **Only one competitor or no competitors:** The skill still works but note that competitive analysis is limited. Recommend adding more competitors for richer insights.
-- **Web research fails:** Proceed with CompetLab data only. Note that web context is limited and recommendations may be less specific.
-
-## What NOT To Do
-
-- Don't present raw API responses — always synthesize into narrative
-- Don't make claims about AI model internals ("GPT-4 uses PageRank") — we observe behavior, we don't know the mechanism
-- Don't promise specific score improvements — AI model behavior is not directly controllable
-- Don't confuse AI Visibility with traditional SEO — they share techniques but are different channels
-- Don't hallucinate competitor data — if CompetLab doesn't have it and web research didn't find it, say so
+> "If the goal is entering the core, the work is off-property and slow. If it is defending a tail
+> position against a specific rival, it is narrower and faster. Which is it?"

@@ -1,0 +1,48 @@
+name: validate
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    name: validate skills
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Each skill must declare every tool its body tells the agent to call.
+      - name: allowed-tools declarations
+        run: node scripts/check-allowed-tools.mjs
+
+      # CONTRIBUTING.md: "Every referenced file must exist (no reference illusions)."
+      - name: referenced files exist
+        run: node scripts/check-references.mjs
+
+      # Numbers that were true in July 2026 and are false now.
+      - name: no stale claims
+        run: node scripts/check-facts.mjs
+
+      - name: Shared reference docs are in sync
+        run: node scripts/sync-shared.mjs --check
+
+      - name: Install Claude Code CLI
+        # Part of the smoke check below; never fail the build on a registry hiccup.
+        continue-on-error: true
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Plugin manifest smoke check
+        # `claude plugin validate` runs entirely locally against the manifest —
+        # no API key, no network calls to the model. It passes today (verified
+        # 2026-09-12), and it is kept advisory on purpose: a change in the CLI's
+        # own validation rules should not break this repo's CI. Read the step
+        # log when it goes red; the three checks above are the gate.
+        continue-on-error: true
+        run: claude plugin validate . --strict

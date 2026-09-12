@@ -1,0 +1,15 @@
+{
+  "name": "competlab-ci-skills",
+  "private": true,
+  "type": "module",
+  "description": "Validation scripts for the CompetLab competitive intelligence skills.",
+  "license": "MIT",
+  "scripts": {
+    "check:tools": "node scripts/check-allowed-tools.mjs",
+    "check:refs": "node scripts/check-references.mjs",
+    "check:facts": "node scripts/check-facts.mjs",
+    "check": "npm run check:tools && npm run check:refs && npm run check:facts && npm run check:shared",
+    "sync:shared": "node scripts/sync-shared.mjs",
+    "check:shared": "node scripts/sync-shared.mjs --check"
+  }
+}

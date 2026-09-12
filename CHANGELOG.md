@@ -6,6 +6,84 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ---
 
+## [3.0.0] — 2026-09-12
+
+**The platform grew into the work these skills were doing by hand, so the skills now read it instead.**
+
+When v2 shipped in May, CompetLab monitored five dimensions and the interesting signals about a <!-- facts-ok: describing the product as it was in May 2026 -->
+competitor — funding, hiring, launches, reliability, reviews, developer ecosystem — lived outside the
+platform. Eight skills went and fetched them. That was the right shape for the product as it stood.
+
+CompetLab now researches all of it natively. The Strategic Briefing covers **14 analysis areas** — the
+six monitored dimensions plus eight it researches for the briefing alone — in numbered editions that
+persist, with prior readings to difference against and its own limits stated. It probes more sources
+than a skill can in a session, and it remembers.
+
+So the suite changes job. It no longer does the research. It reads the platform correctly and shapes
+what the platform found into the thing someone actually needs. That is seven skills instead of
+thirteen, and a much smaller surface to keep true.
+
+### Breaking
+
+- **Seven skills removed.** `competlab-status-watch`, `competlab-funding-watch`,
+  `competlab-hiring-signals`, `competlab-agent-adoption`, `competlab-ai-ecosystem`,
+  `competlab-product-watch`, `competlab-customer-voice-snapshot`. Each is now a section of the
+  Strategic Briefing: `deep-reliability-status`, `deep-funding-capital`, `deep-hiring-gtm`,
+  `deep-agent-readiness`, `deep-ai-ecosystem`, `deep-product-launches`, `deep-customer-voice`. Ask
+  `competlab-briefing` for them.
+- **`competlab-cmo-report`, `competlab-weekly-briefing` and `competlab-landscape` replaced by
+  `competlab-briefing`**, which reads the platform's briefing at whatever depth the question needs —
+  a short pulse, a full landscape, or one dimension in depth. The orchestrator's six-phase fan-out
+  composed by hand what the platform now composes server-side.
+- **Shared companion docs restructured.** The six documents at `skills/` root are now two —
+  `READING-THE-DATA.md` and `PLATFORM.md` — carried inside each skill's `references/`, so every
+  install path gets them. The previous layout only worked for a manual `cp -r`.
+
+### Added
+
+- **`competlab-ai-sources`** — the sixth dimension, which had no skill. Which pages Perplexity and
+  Google AI Overviews retrieved while answering the category's buying questions, which companies those
+  answers named, and the work list of approachable hosts that name competitors and not you. Ships with
+  the two limits that travel with every claim: training data often outweighs what the models read, and
+  a source can be read by every engine and belong to a company none of them recommend.
+- **`competlab-site-audit`** — runs on any public domain with no project and no competitors configured;
+  a free-trial key is all it needs. Crawler
+  access, sitemap, agent adoption, tech stack, trust signals. In project mode it audits your own site
+  and separates "we could not read this" from "this is not there". Carries the JSON-RPC verification
+  that proves whether a claimed MCP server actually answers, which a browser GET cannot.
+- **`competlab-monitoring-setup`** — whether you are monitoring the right competitors, asking the right
+  questions, and running at the right cadence. Reads the briefing's own promotion suggestions rather
+  than re-deriving them.
+- **`READING-THE-DATA.md`** — the reporting discipline the platform enforces on itself, written down:
+  `null` means not measured and never zero; counts never rates; per engine never pooled; retrieved
+  never cited; ranges that overlap are not ordered. This is the part of the suite that matters most.
+- **CI.** The repo now checks that every skill's `allowed-tools` covers the tools its body invokes,
+  that every referenced file exists, and that a set of facts about the product has not gone stale.
+
+### Changed
+
+- **`competlab-ai-visibility` leads with membership, not a score.** The dimension answers one question:
+  which companies do the AI models recommend in this category, and are you one of them. Core, tail, or
+  neither. Presence, ranges and per-engine splits are the mechanism that decides membership, not the
+  answer — and the blended score is no longer what the skill opens with.
+- **AI Visibility covers five engines**: ChatGPT, Claude, Gemini, Perplexity and Google AI Overviews.
+  Google AI Overviews names companies in prose and ranks nothing — any order shown is CompetLab's order
+  of first mention, never a position Google assigned.
+- **Six dimensions** throughout: AI Visibility, AI Sources, Positioning, Pricing Intelligence, Content
+  Intelligence, Tech & Trust Profile.
+- **`get_ai_visibility_trend` is read as a digest, not a time series.** It returns a reading now, a
+  reading at the window's start, and whether the two are separable. Where the intervals overlap, that
+  is two readings rather than a movement, and the skills now say so.
+- **`competlab-competitor-dive` and `competlab-battlecard`** read all six dimensions and the briefing's
+  per-rival sections instead of re-researching them, and every figure carries the count it came from.
+- The MCP endpoint is stated correctly as `https://mcp.competlab.com/mcp` (Streamable HTTP, `CL-API-Key`
+  header). `competlab.com/developers/mcp` is the setup documentation page.
+
+### Removed
+
+- Statistics the suite could not source, and provenance tags that carried no instruction.
+- Hardcoded vendor names used as examples, which age badly in a public repo.
+
 ## [2.0.1] — 2026-07-08
 
 Maintenance release: aligns the repo with the shipped product, fixes a broken tool reference, and adopts the "Agent Skills" name. No new skills and no breaking changes — every slug is unchanged.
@@ -19,7 +97,7 @@ Maintenance release: aligns the repo with the shipped product, fixes a broken to
 
 - Renamed the suite to **CompetLab Agent Skills** (from "CompetLab AI Skills"). Display name only — the plugin, package, and install id `competlab-ci-skills` are unchanged.
 - Clarified **CMO report vs. Strategic Briefing**: the `competlab-cmo-report` orchestrator composes a live *CMO report* from the skills; the *Strategic Briefing* is the platform's persistent monthly product the skills fetch via `get_briefing` rather than produce.
-- Consistent terminology across the suite — "AI Visibility Score" (not "rank"), "Agent Adoption" (not "agent-readiness") — and corrected tool/method counts (33 MCP tools, 34 SDK methods).
+- Consistent terminology across the suite — "AI Visibility Score" (not "rank"), "Agent Adoption" (not "agent-readiness") — and corrected tool/method counts (33 MCP tools, 34 SDK methods). <!-- facts-ok: historical entry -->
 - Reframed `competlab-weekly-briefing` as an on-demand briefing you run whenever you want, rather than implying a fixed weekly cadence.
 
 ### Removed
@@ -37,7 +115,7 @@ The "leading + lagging indicators" release. Skills set expands from 5 to 13. The
 - **`competlab-funding-watch`** — 5-mode classifier (Public, PE-owned, Bootstrap, VC-stage, M&A-volatile). Recent rounds + ARR estimates + exec transitions + category-adjacent capital pressure. URL-Verified Perplexity citations only.
 - **`competlab-ai-ecosystem`** — external developer-ecosystem signals (GitHub orgs, npm/PyPI volumes, community-built MCP servers, marketplace presence). Distinct from agent-adoption (which measures first-party signals).
 - **`competlab-hiring-signals`** — multi-adapter ATS probes (Ashby/Greenhouse/Lever/Workable) + LinkedIn unauth fallback + Perplexity for exec transitions. Vendor-profile pre-scan (<10-employee bootstrap operators skip ATS) + generic-word-slug name-collision verification.
-- **`competlab-agent-adoption`** — **JSON-RPC POST verification** of MCP server claims (browser GET 200 ≠ MCP exists). Wraps CompetLab's 25-check Agent-Adoption Specification scan. Validated against real-world false-positive patterns (2 of 3 browser-GET-200 verifications were not real MCP servers; the JSON-RPC POST gate caught them).
+- **`competlab-agent-adoption`** — **JSON-RPC POST verification** of MCP server claims (browser GET 200 ≠ MCP exists). Wraps CompetLab's 25-check Agent-Adoption Specification scan. Validated against real-world false-positive patterns (2 of 3 browser-GET-200 verifications were not real MCP servers; the JSON-RPC POST gate caught them). <!-- facts-ok: historical entry -->
 - **`competlab-product-watch`** — snapshots competitor changelogs / GitHub Releases / named-asset directories / MCP marketplaces / API doc versions. 9-adapter cascade including sitemap-diff for `/features/*` additions when no structured `/changelog`.
 - **`competlab-customer-voice-snapshot`** — G2/Capterra/Trustpilot snapshots via Perplexity + Reddit/HN recovery for developer-tool categories. Categorical-absence early-halt for categories where reviews don't live on B2B SaaS platforms.
 
@@ -59,7 +137,7 @@ The "leading + lagging indicators" release. Skills set expands from 5 to 13. The
 - **Categorical-zero discovery-vs-capability carve-out:** when well-known-path discovery returns zero candidates across all vendors, check alternative channels (content dashboard URLs, npm registry, GitHub search, API endpoint patterns) BEFORE declaring categorical zero. Empirical basis: a real-world validation run found a vendor's real MCP server at an API endpoint without `/.well-known/mcp` mount, which the strict early-exit would have missed.
 - **Vendor-discontinuation 3-signal convergence rule:** positioning dashboard captures parent-brand content + AI Viz 0% across all 3 providers + agent-adoption scan `finalUrl` ≠ requested domain → likely discontinued/absorbed. Verify via parent-company page fetch for shutdown language. (Surfaced when a real-world cold-instance run discovered one monitored competitor had been discontinued 12 months prior.)
 - **Cross-tool reconciliation discipline (Phase 5.5):** when two CompetLab tools disagree on the same underlying surface, the orchestrator writes a canonical `Phase-5.5-reconciliation.md` audit-trail file with one section per disagreement. Dim docs and briefing reference this file by section anchor rather than restating analysis.
-- **Tier-2 auto-promotion 4-criterion checklist (Phase 5.6):** AI Viz mention rate ≥ median(surfaced brands) OR ≥ 50% (whichever lower) + cross-provider consistency (≥2 of 3 LLM providers) + Agent Adoption OR trust-signal threshold + strategic signal type (blind-spot OR category-redefining).
+- **Tier-2 auto-promotion 4-criterion checklist (Phase 5.6):** AI Viz mention rate ≥ median(surfaced brands) OR ≥ 50% (whichever lower) + cross-provider consistency (≥2 of 3 LLM providers) + Agent Adoption OR trust-signal threshold + strategic signal type (blind-spot OR category-redefining). <!-- facts-ok: historical entry -->
 
 ### Changed
 
@@ -74,17 +152,6 @@ Companion docs moved to `skills/` root (alongside the 13 skill folders), so sing
 ```bash
 cp -r competlab-ci-skills/skills/. .claude/skills/
 ```
-
-### Empirical validation
-
-Skills v2 was validated through 3 cold-instance runs (real Claude Code instance, separate terminal, orchestrator executing end-to-end) across 3 different B2B SaaS verticals:
-- **B2B Customer Success SaaS** (Customerscore.io with 5 monitored + 2 Tier-2 promoted)
-- **Hospitality / vacation rental** (Touch Stay with 6 monitored)
-- **Personalization / geo-targeting** (Geo Targetly with 5 monitored + 2 Tier-2 promoted)
-
-Each run produced a META-REFLECTION audit (5+ questions answered with depth) that drove 24 total skill iterations during the iteration cycle. Pre-publish, 3 parallel review subagents (Critic + Skills Architect + CMO Reader) audited the iterated skill set; their findings drove a final fixes round including the namespace unification (S1 ship-blocker) and the discovery-vs-capability carve-out propagation (C1 cross-doc consistency bug).
-
-The Customerscore.io cold-instance backwards-validation run with published skills produced a briefing that a CMO-reader subagent judged "forward-able to leadership team — not 'after revisions'" against a manual senior-analyst comparison baseline. Notable finding: the cold instance discovered that one monitored competitor (Churn360) had been discontinued by parent company 12 months prior — a fact the manual baseline missed. This validates the vendor-discontinuation detection pattern as the canonical "what this skill set produces that manual senior-analyst work would not necessarily catch."
 
 ---
 

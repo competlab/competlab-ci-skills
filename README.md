@@ -4,121 +4,22 @@
 
 # CompetLab Agent Skills
 
-[![Agent Skills](https://img.shields.io/badge/Agent_Skills-Standard-7C3AED?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0id2hpdGUiPjxwYXRoIGQ9Ik0xMiAyQzYuNDggMiAyIDYuNDggMiAxMnM0LjQ4IDEwIDEwIDEwIDEwLTQuNDggMTAtMTBTMTcuNTIgMiAxMiAyem0wIDE4Yy00LjQyIDAtOC0zLjU4LTgtOHMzLjU4LTggOC04IDggMy41OCA4IDgtMy41OCA0LTggOHoiLz48L3N2Zz4=)](https://agentskills.io)
-[![13 Skills](https://img.shields.io/badge/Skills-13-brightgreen)](#skills)
+[![Agent Skills](https://img.shields.io/badge/Agent_Skills-Standard-7C3AED)](https://agentskills.io)
+[![7 Skills](https://img.shields.io/badge/Skills-7-brightgreen)](#the-skills)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Cross-Agent](https://img.shields.io/badge/Works_with-Claude_Code_·_Cursor_·_Codex_·_Gemini_CLI-blue)](#cross-agent-compatibility)
 
-> Turn competitive monitoring data into executive-ready intelligence — automatically.
+> Competitive intelligence your agent can read — and read *correctly*.
 
-These skills give your AI agent a competitive intelligence analyst's toolkit: landscape analysis, competitor dossiers, AI visibility reports, on-demand briefings, sales battlecards — plus 7 forward-indicator skills (status/funding/hiring/agent adoption/product velocity/customer voice/ai-ecosystem) and an orchestrator that composes a complete CMO report from the whole suite. All powered by real monitoring data from [CompetLab](https://competlab.com)'s 5 dimensions.
+CompetLab monitors your competitors across six dimensions and writes a Strategic Briefing over
+fourteen analysis areas. These seven skills give an AI agent the vocabulary to read that data the way
+the platform intends, and to shape it into the thing you actually need — a pulse, a dossier, a
+battlecard, a work list.
 
-**v2.0 — Leading + Lagging Indicators.** The original 5 skills covered lagging indicators (what's already visible in monitoring data). The 8 new skills are 7 leading-indicator skills plus an orchestrator: the leading indicators surface what your competitors are about to do (funding rounds before press cycles, hiring patterns before product launches, MCP server presence before category-wide agent adoption), and the orchestrator combines all 13 into a single one-command CMO report.
+**The skills do not do the research.** The platform does, with more sources and a memory of prior
+readings. The skills make sure what comes out the other end is true.
 
 ## Install
-
-```bash
-npx skills add competlab/competlab-ci-skills --all
-```
-
-Or install individual skills:
-
-```bash
-npx skills add competlab/competlab-ci-skills --skill competlab-ai-visibility
-```
-
-## Skills
-
-### Orchestrator (1)
-
-| Skill | What It Does | Say This |
-|-------|-------------|----------|
-| **[competlab-cmo-report](skills/competlab-cmo-report/)** | Complete CMO report — sequences all sub-skills + dashboards into 1 main report + 12 dimension docs + 3-5 competitor deep-dives | _"CMO report for [project]"_ / _"Itrinity briefing"_ |
-
-### Lagging-indicator skills (5 — the original set, also runnable standalone)
-
-| Skill | What It Does | Say This |
-|-------|-------------|----------|
-| **[competlab-ai-visibility](skills/competlab-ai-visibility/)** | How AI models mention and recommend your brand vs competitors | _"AI visibility report"_ |
-| **[competlab-weekly-briefing](skills/competlab-weekly-briefing/)** | On-demand CI delta briefing — what changed, what it means, what to do (run it whenever you want a pulse; many teams run it weekly) | _"Weekly competitive update"_ |
-| **[competlab-competitor-dive](skills/competlab-competitor-dive/)** | Full competitor dossier with SWOT from 5 dimensions + web research | _"Deep dive on [competitor]"_ |
-| **[competlab-battlecard](skills/competlab-battlecard/)** | Sales-ready battlecards with objection handling | _"Battlecard vs [competitor]"_ |
-| **[competlab-landscape](skills/competlab-landscape/)** | Full landscape — market dynamics, matrices, strategic recommendations | _"Competitive landscape review"_ |
-
-### Leading-indicator skills (7 NEW — surfaces what competitors are about to do)
-
-| Skill | What It Does | Say This |
-|-------|-------------|----------|
-| **[competlab-status-watch](skills/competlab-status-watch/)** | Probes competitor status pages — outages, incidents, reliability posture, transparency gaps (sales-ready evidence) | _"Competitor reliability"_ |
-| **[competlab-funding-watch](skills/competlab-funding-watch/)** | Funding events, ownership changes, ARR estimates, M&A activity, exec transitions, category-adjacent capital pressure | _"Funding posture for [project]"_ |
-| **[competlab-ai-ecosystem](skills/competlab-ai-ecosystem/)** | External developer-ecosystem signals — GitHub orgs, npm/PyPI volumes, community MCP servers, marketplace presence | _"Developer adoption"_ |
-| **[competlab-hiring-signals](skills/competlab-hiring-signals/)** | Hiring + GTM-motion via ATS APIs (Ashby/Greenhouse/Lever/Workable) + LinkedIn + exec transitions | _"Competitor hiring"_ |
-| **[competlab-agent-adoption](skills/competlab-agent-adoption/)** | First-party MCP server + llms.txt + Schema.org agent adoption verification via JSON-RPC POST (no false positives) | _"Agent-adoption posture"_ |
-| **[competlab-product-watch](skills/competlab-product-watch/)** | Snapshots competitor changelogs, GitHub Releases, named-asset directories, MCP marketplaces, API doc versions | _"What did competitors ship recently"_ |
-| **[competlab-customer-voice-snapshot](skills/competlab-customer-voice-snapshot/)** | G2/Capterra/Trustpilot snapshots + Reddit/HN recovery for developer-tool categories | _"Customer voice for [competitor]"_ |
-
-### Companion docs (load-bearing for orchestrator + sub-skills)
-
-The orchestrator reads 6 companion docs at start. Sub-skills consuming Perplexity output also reference URL Verification pattern.
-
-- **`PATTERN-url-verification.md`** — URL Verification discipline + MCP JSON-RPC POST sub-pattern + categorical-zero discovery-vs-capability carve-out
-- **`KNOWLEDGE-platform-mechanics-and-failures.md`** — how each CompetLab dimension works, failure modes, cross-dim cascade map, vendor-discontinuation detection pattern, scan-failure-as-customer-facing-signal framing
-- **`TEMPLATE-briefing.md`** / **`TEMPLATE-dim-doc.md`** / **`TEMPLATE-comp-doc.md`** — L3 briefing + L2 dim doc + L2 competitor deep-dive structures (including lite-comp variant + cross-dim convergence-paragraph pattern)
-- **`SKILLS-INDEX.md`** — full skill index + install paths + cross-skill improvements
-
-All companion docs live in `skills/` root alongside the 13 skill folders, so a single `cp -r skills/. .claude/skills/` install grabs everything in one command.
-
-## How It Works
-
-Each skill combines three intelligence layers:
-
-1. **CompetLab data** — structured monitoring across 5 dimensions (AI Visibility, Tech & Trust, Content, Positioning, Pricing)
-2. **Live web research** — recent news, reviews, funding, social sentiment, market trends
-3. **CI expertise** — SWOT analysis, competitive matrices, positioning maps, cross-dimensional pattern recognition
-
-The skills are the analyst. CompetLab is their data infrastructure.
-
-## What is CompetLab?
-
-Competitive intelligence for the AI era. One platform, 5 dimensions, monitored automatically:
-
-| Dimension | What It Tracks |
-|-----------|---------------|
-| **AI Visibility** | How ChatGPT, Claude, and Gemini mention and recommend your brand vs competitors (AI Visibility Score 0-100) |
-| **Tech & Trust** | Tech stacks, security headers (grade A-F), trust signals, robots.txt AI bot blocking |
-| **Content** | Sitemap analysis, content categories, publishing cadence, content gaps |
-| **Positioning** | Homepage messaging, value props, CTAs, target audience, differentiators |
-| **Pricing** | Plans, billing models, free tiers, enterprise pricing, gap analysis |
-
-AI Visibility tracks how ChatGPT, Claude, and Gemini mention and recommend brands in real time.
-
-> [Start free trial](https://app.competlab.com/register) (14 days, no credit card) | [Learn more](https://competlab.com)
-
-## Installation Options
-
-### Via Skills CLI (recommended)
-
-```bash
-# All skills
-npx skills add competlab/competlab-ci-skills --all
-
-# Single skill
-npx skills add competlab/competlab-ci-skills --skill competlab-weekly-briefing
-
-# Global (available in all projects)
-npx skills add competlab/competlab-ci-skills --all -g
-```
-
-### Via Claude Code Plugin Marketplace
-
-If you use Claude Code (v1.0.33+), you can install via the native plugin system:
-
-```
-/plugin marketplace add competlab/competlab-ci-skills
-/plugin install competlab-ci-skills@competlab-ci-skills
-```
-
-### Manual (simplest — all 13 skills + 6 companion docs in one command)
 
 ```bash
 git clone https://github.com/competlab/competlab-ci-skills.git
@@ -126,68 +27,141 @@ mkdir -p .claude/skills
 cp -r competlab-ci-skills/skills/. .claude/skills/
 ```
 
-The `skills/.` (trailing slash + dot) copies the **contents** of `skills/` into `.claude/skills/` — the 13 skill folders AND the 6 companion docs at root. The orchestrator's `competlab-cmo-report` skill needs the companion docs at `.claude/skills/` root to find them via Phase 0 mandatory reading.
+Or, in Claude Code:
 
-For single-skill install:
-```bash
-cp -r competlab-ci-skills/skills/competlab-ai-visibility .claude/skills/
+```
+/plugin marketplace add competlab/competlab-ci-skills
+/plugin install competlab-ci-skills@competlab-ci-skills
 ```
 
-(Note: individual standalone skills like `competlab-ai-visibility` work without companion docs. Only the orchestrator `competlab-cmo-report` and sub-skills that consume Perplexity output need them.)
+Or with the [`skills` CLI](https://github.com/vercel-labs/skills):
 
-## Requirements
+```bash
+npx skills add competlab/competlab-ci-skills --all          # everything
+npx skills add competlab/competlab-ci-skills --skill competlab-ai-visibility   # one
+npx skills add competlab/competlab-ci-skills --all -g       # all projects
+```
 
-1. **CompetLab account** — [Start free trial](https://app.competlab.com/register) (14 days, no credit card)
-2. **CompetLab MCP server** — [Setup guide](https://competlab.com/developers/mcp)
-3. **At least one project** with competitors configured
-4. **Web access** — for live market research (optional but recommended)
+All three work. Every skill carries what it needs inside its own folder, so nothing depends on which
+path you chose.
 
-## Cross-Agent Compatibility
+Then connect the MCP server, below. Every skill needs it — `competlab-site-audit` is the one that
+needs nothing else.
 
-These skills follow the [Agent Skills](https://agentskills.io) open standard. They work with:
+## Connect CompetLab
 
-- [Claude Code](https://docs.anthropic.com/en/docs/claude-code)
-- [Cursor](https://cursor.com)
-- [GitHub Copilot / Codex](https://github.com/features/copilot)
-- [Gemini CLI](https://github.com/google-gemini/gemini-cli)
-- Any Agent Skills-compatible tool
+```bash
+claude mcp add --transport http competlab https://mcp.competlab.com/mcp \
+  --header "CL-API-Key: cl_live_your_key_here"
+```
 
-Full functionality requires the CompetLab MCP server configured in your agent. Without it, skills can still run using web research only, but output will be less precise without structured monitoring data.
+<details>
+<summary>Other clients</summary>
 
-**Note:** The `allowed-tools` field in each skill uses Claude Code's MCP tool naming convention (`mcp__competlab__*`). Other agents may name the same MCP tools differently. The skill instructions and workflows are agent-agnostic.
+```json
+{
+  "mcpServers": {
+    "competlab": {
+      "type": "http",
+      "url": "https://mcp.competlab.com/mcp",
+      "headers": { "CL-API-Key": "cl_live_your_key_here" }
+    }
+  }
+}
+```
+</details>
 
-## Also Available
+Keys come from **app.competlab.com → Organization Settings → API Keys**. One key covers your whole
+organization, and a read-only key is enough for everything here.
+Setup guide: [competlab.com/developers/mcp](https://competlab.com/developers/mcp).
 
-CompetLab offers multiple ways to access competitive intelligence:
+> [Start a free trial](https://app.competlab.com/register) — 14 days, no credit card. Your API key is
+> available immediately.
 
-| Tool | Best For |
-|------|----------|
-| **[MCP Server](https://github.com/competlab/competlab-mcp-server)** | Direct AI agent access to raw data (33 tools) |
-| **[TypeScript SDK](https://github.com/competlab/competlab-sdk)** | Programmatic access in Node.js apps (34 methods) |
-| **[REST API](https://competlab.com/developers/api)** | Any language, any platform |
-| **Agent Skills** (this repo) | Pre-built CI workflows for AI coding agents |
+## The skills
 
-## Links
+| Skill | What it answers | Say this |
+|---|---|---|
+| **[competlab-ai-visibility](skills/competlab-ai-visibility/)** | Which companies do AI models recommend in my category — and am I one of them? | *"Are we in the core?"* |
+| **[competlab-ai-sources](skills/competlab-ai-sources/)** | Which pages do the engines read before answering, and who is named on them? | *"Why them and not us?"* |
+| **[competlab-briefing](skills/competlab-briefing/)** | What changed, what it means, what to do — at pulse, landscape or dimension depth | *"Catch me up"* |
+| **[competlab-competitor-dive](skills/competlab-competitor-dive/)** | Everything we know about one rival, across six dimensions | *"Deep dive on [competitor]"* |
+| **[competlab-battlecard](skills/competlab-battlecard/)** | A 60-second sales reference for a live call | *"Battlecard vs [competitor]"* |
+| **[competlab-site-audit](skills/competlab-site-audit/)** | What can a machine actually read on this site? **No project needed** | *"Audit example.com"* |
+| **[competlab-monitoring-setup](skills/competlab-monitoring-setup/)** | Am I watching the right competitors and asking the right questions? | *"Is my monitoring set up right?"* |
 
-- [MCP Server Documentation](https://competlab.com/developers/mcp)
-- [REST API Reference](https://competlab.com/developers/api)
-- [TypeScript SDK](https://www.npmjs.com/package/@competlab/sdk) (`npm install @competlab/sdk`)
-- [Privacy Policy](https://competlab.com/privacy-policy)
-- [Start Free Trial](https://app.competlab.com/register)
+### Try it on any domain
 
-## Support
+`competlab-site-audit` runs on any public domain — no project, no monitored competitors, nothing set
+up. A free-trial key is enough. Crawler access, sitemap coverage, agent adoption, tech stack, trust
+signals.
 
-- Bug reports: [GitHub Issues](https://github.com/competlab/competlab-ci-skills/issues)
-- Email: [support@competlab.com](mailto:support@competlab.com)
-- Documentation: [competlab.com/developers](https://competlab.com/developers/mcp)
+> *"Audit example.com for agent readiness"*
+
+## What CompetLab monitors
+
+| Dimension | What it tracks |
+|---|---|
+| **AI Visibility** | Which companies AI models recommend in your category, and where you sit among them |
+| **AI Sources** | The pages Perplexity and Google AI Overviews read while answering your buyers' questions |
+| **Positioning** | Homepage messaging — headline, value proposition, CTAs, audience, differentiator |
+| **Pricing Intelligence** | Plans, billing models, free tiers, enterprise pricing |
+| **Content Intelligence** | Sitemap analysis, categories, publishing activity, gaps |
+| **Tech & Trust Profile** | Tech stack, security headers, trust signals, AI crawler access |
+
+**AI Visibility is queried across five engines** — ChatGPT, Claude, Gemini, Perplexity and Google AI
+Overviews. It answers one question: who is recommended in this category, and are you one of them.
+Google AI Overviews names companies in prose and ranks nothing.
+
+**AI Sources is its companion.** It opens up the next question — why them and not you — by showing
+what the engines actually read. It does not hand you a checklist, because the factors differ by
+category: uptime-monitoring leaders are weighed on distributed networks, pricing and reliability;
+database tools on certifications and an entirely different set.
+
+## The part that matters most
+
+Every skill carries `references/reading-the-data.md`, which is the reporting discipline the platform
+enforces on itself:
+
+- **`null` means we did not measure it.** Never zero, never empty, never "no". A real `0` is a finding;
+  a `null` is a gap in our reading, and the two must never share a sentence.
+- **Counts, never rates.** "Named in 8 of 69 answers", not "12%". The question set is small by design
+  and a share computed from it is false precision.
+- **Per engine, never pooled.** The engines read different pages; a combined figure describes a list
+  none of them produced.
+- **Retrieved, never cited.** The engines do not disclose which pages they leaned on, so a citation
+  count is a number that does not exist.
+- **Ranges that overlap are not ordered.** Two brands whose confidence intervals overlap are tied, and
+  a difference between two overlapping readings is two readings — not a movement.
+
+An agent given competitive data will happily round, pool and rank it into something confident and
+wrong. This is the file that stops it.
+
+## Cross-agent compatibility
+
+Built on the [Agent Skills](https://agentskills.io) standard — plain `SKILL.md` files that work with
+Claude Code, Cursor, Codex, Gemini CLI and any agent that reads the format. Tool names are written as
+Claude Code's `mcp__competlab__*`; other clients may need them adjusted to their own convention.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). CI checks that every skill's `allowed-tools` matches the tools
+its body invokes, that every referenced file exists, and that the facts about the product have not gone
+stale. Run it locally:
+
+```bash
+npm run check
+```
 
 ## License
 
-MIT — see [LICENSE](./LICENSE)
+MIT — see [LICENSE](LICENSE).
 
 ---
 
-Built by the [CompetLab](https://competlab.com) team. Competitive intelligence for the AI era.
-
-[![Share on X](https://img.shields.io/badge/Share_on_X-000000?logo=x&logoColor=white)](https://x.com/intent/tweet?text=Competitive%20intelligence%20skills%20for%20AI%20coding%20agents%20%E2%80%94%20landscape%20analysis%2C%20battlecards%2C%20AI%20visibility%20reports&url=https://github.com/competlab/competlab-ci-skills)
-[![Share on LinkedIn](https://img.shields.io/badge/Share_on_LinkedIn-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/sharing/share-offsite/?url=https://github.com/competlab/competlab-ci-skills)
+<p align="center">
+  <a href="https://competlab.com">CompetLab</a> ·
+  <a href="https://competlab.com/developers/mcp">MCP</a> ·
+  <a href="https://competlab.com/developers/api">API</a> ·
+  <a href="https://competlab.com/developers/sdk">SDK</a>
+</p>

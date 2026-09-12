@@ -1,157 +1,153 @@
 ---
 name: competlab-battlecard
 description: |
-  Generates sales-ready competitive battlecards using CompetLab monitoring data and live web research — quick-reference cards for sales calls, demos, and competitive objection handling. Use this skill when the user asks to "create a battlecard", "sales battlecard for [competitor]", "competitive comparison card", "why us vs [competitor]", "win against [competitor]", "how to beat [competitor]", "objection handling for [competitor]", "sales cheat sheet", or "competitive one-pager". NOT for deep strategic analysis (use competlab-competitor-dive), weekly updates (use competlab-weekly-briefing), or full market landscape analysis (use competlab-landscape). Requires CompetLab MCP server (competlab.com) with competitors being monitored.
+  Turns CompetLab monitoring data into a sales-ready battlecard against one competitor — at-a-glance comparison, why we win, where they are genuinely strong, objection handling, feature matrix, killer facts and landmines. Built for a rep scanning it in 60 seconds before a call, not for a reader who wants analysis. Use when the user asks to "create a battlecard", "sales battlecard for [competitor]", "competitive comparison card", "why us vs [competitor]", "win against [competitor]", "how to beat [competitor]", "objection handling for [competitor]", "sales cheat sheet", or "competitive one-pager". NOT for the full dossier behind it (use competlab-competitor-dive). Requires the CompetLab MCP server with an active project where this competitor is monitored.
 argument-hint: <competitor-name-or-domain>
 license: MIT
-compatibility: Requires CompetLab MCP server (competlab.com) with API key and an active project. Web access recommended for live market research.
-allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_competitor mcp__competlab__get_pricing_dashboard mcp__competlab__get_positioning_dashboard mcp__competlab__get_tech_trust_dashboard mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_content_dashboard WebSearch WebFetch
+allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_pricing_dashboard mcp__competlab__get_positioning_dashboard mcp__competlab__get_tech_trust_dashboard mcp__competlab__get_content_dashboard mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_ai_sources_dashboard mcp__competlab__get_briefing mcp__competlab__fetch_url WebSearch Read
 metadata:
   author: competlab
-  version: "2.0.0"
+  version: "3.0.0"
   website: https://competlab.com
   category: competitive-intelligence
 ---
 
-# Competitive Battlecard Generator
+# Battlecard — 60 seconds before the call
 
-You are a sales enablement specialist creating battlecards that help sales reps win deals. A battlecard is NOT a report — it's a quick-reference weapon for live conversations. A rep should be able to scan it in 60 seconds before a call and know exactly what to say.
+## Who this is for
 
-## What Makes a Great Battlecard
+A sales rep, on the way into a call. Not a CMO, not a report, not a dossier. The rep scans it in
+sixty seconds and comes out knowing what to say, what they will hear, and what to ask.
 
-- **Scannable in 60 seconds** — bullet points, tables, and short phrases. No paragraphs.
-- **Written for spoken conversation** — the content should be things a rep can actually SAY on a call, not marketing copy
-- **Evidence-backed** — every claim needs a proof point a rep can reference ("we have SOC2, they don't")
-- **Honest about weaknesses** — reps lose trust if they oversell. Include "where they're strong" so reps can prepare responses
-- **Updated regularly** — pricing and features change. Always note the data freshness date.
+That reader sets every rule below:
 
-## Inputs
+- **Scannable** — tables, bullets, short phrases. No paragraphs.
+- **Spoken** — every line is something a human can say out loud. Marketing copy dies on a call.
+- **Sourced** — each claim carries a proof point the rep can stand behind if the prospect pushes.
+- **Honest** — where the competitor is genuinely strong is on the card, in its own section. A card
+  that only flatters loses the deal the moment the prospect knows something the rep does not.
+- **Dated** — every figure names the run it came from. A stale battlecard is worse than none.
 
-Required:
-- A competitor name or domain
-- A CompetLab project with this competitor monitored
+## Before you start
 
-Optional:
-- The user's key differentiators or selling points (to tailor the "why us" section)
-- Specific objections they're hearing in sales calls
-- Target persona for this battlecard (technical buyer vs business buyer)
+Read `references/reading-the-data.md`. One rule matters more here than anywhere else in the suite:
+**every figure carries its count.** A rep who says "12% mention rate" is quoting a number we do not
+stand behind, and cannot answer *out of what?*. "Named in 8 of the 69 answers pooled across five
+checks" is a number that survives the follow-up question. On a call, an unsourced figure is a
+liability, not ammunition.
 
-## Workflow
+## Steps
 
-### Step 1: Gather Competitive Data from CompetLab
+**1. Resolve.** `mcp__competlab__list_projects` → `mcp__competlab__list_competitors` to match the name
+or domain (the customer's own row is marked `isOwn: true`) → `mcp__competlab__get_project` for when
+each dimension last ran. Those dates go on the card beside the figures they produced.
 
-1. **`list_projects`** + **`list_competitors`** — find the competitor
-2. **`get_pricing_dashboard`** — their pricing vs the user's pricing (side-by-side is gold for sales)
-3. **`get_positioning_dashboard`** — what they claim on their homepage. This is what prospects see first.
-4. **`get_tech_trust_dashboard`** — tech stack, security posture, trust signals. Technical differentiators live here.
-5. **`get_ai_visibility_dashboard`** — if the user's AI Visibility is higher, that's a talking point
-6. **`get_content_dashboard`** — content volume and categories (shows investment level and maturity)
+**2. Pull the four monitored surfaces.**
+- `mcp__competlab__get_pricing_dashboard` — both sides' plans, billing and free tiers. A side-by-side
+  price line is the most-used row on the card. A `null` plan is a page we could not read — never
+  "they have no free plan".
+- `mcp__competlab__get_positioning_dashboard` — what they claim on their homepage. This is what the
+  prospect already saw.
+- `mcp__competlab__get_tech_trust_dashboard` — stack, security headers, trust signals. A measured `0`
+  is a finding a rep can use. A `null` is an unread scan and belongs nowhere near a call.
+- `mcp__competlab__get_content_dashboard` — volume and categories, as a maturity signal, not a claim.
 
-### Step 2: Web Research for Sales Ammunition
+**3. AI Visibility — membership, not the score.**
+`mcp__competlab__get_ai_visibility_dashboard`. Check `summary.promptMarket` first; unless its state is
+`rivals_named_in_most_answers`, leave this section off the card entirely rather than putting a shaky
+market read in a rep's mouth.
 
-Focus on what helps reps in conversations:
+What belongs on a card is membership, in counts: which companies the AI models name in this category,
+and whether the customer and this rival are among them. **Never the AI Visibility Score** — it is a
+blended figure, it answers a question no prospect asked, and a rep cannot defend it. Order is by
+presence, never by position, and **two brands whose ranges overlap are tied** — say tied, do not pick.
 
-- **Search "[competitor] G2 reviews"** — find specific praise and complaints. Real customer quotes are powerful.
-- **Search "[competitor] vs"** — find comparison articles, see how others frame the matchup
-- **Search "[competitor] pricing"** — verify current pricing matches CompetLab data
-- **WebFetch their homepage** — current messaging, social proof claims, customer logos
-- **Search "[competitor] complaints" or "[competitor] problems"** — find pain points real users report
-- **Search "[competitor] missing features" or "[competitor] limitations"** — product gaps
+**4. AI Sources — where they are on the page and we are not.**
+`mcp__competlab__get_ai_sources_dashboard`. If this rival is named on hosts that more than one engine
+reads for this market and the customer is not, that is concrete, checkable, and lands on a call. Per
+engine, never pooled — Perplexity and Google AI Overviews read different pages. **Retrieved, never
+cited**: the engines do not say which pages they leaned on, so there is no citation count to quote.
 
-### Step 3: Build the Battlecard
+**5. What real users say.** `mcp__competlab__get_briefing` with
+`sections: ["competitors", "deep-customer-voice"]` — praise, complaints and switching stories the
+platform already researched, with history behind them. Check `meta.status`: on `running` or `failed`
+the `item` is null, which is not "no briefing" — build the card from the dimensions and move on.
 
-Use the output structure below. Read `references/battlecard-templates.md` for format options.
+**6. Verify the price before a rep quotes it.** `mcp__competlab__fetch_url` on their pricing page with
+`cleanHtml: true`. If it disagrees with the last run, put both on the card with their dates and say
+which is which. A rep quoting a price that changed last week loses the room.
 
-## Output Structure
+**7. Gaps only.** `WebSearch` for an objection nothing above answers. Verify anything it returns with
+the fetch above, and drop what does not verify — a rep will repeat this to a prospect.
 
-```
-# Battlecard: [Your Brand] vs [Competitor]
-> Last updated: [date] | Data: CompetLab + web research
+**8. Build the card.** Read `references/battlecard-templates.md` for the format options.
 
-## At a Glance
+## Output
 
-| | [Your Brand] | [Competitor] |
+```markdown
+# Battlecard: {Our brand} vs {Competitor}
+> Pricing run {date} · Positioning run {date} · Tech & trust run {date} · AI checks {date range}
+
+## At a glance
+| | {Our brand} | {Competitor} |
 |---|---|---|
-| **Pricing** | [plan/price] | [plan/price] |
-| **Free Trial** | [yes/no, duration] | [yes/no, duration] |
-| **Target Audience** | [who] | [who] |
-| **Key Differentiator** | [what] | [what] |
-| **AI Visibility Score** | [score] | [score] |
-| **Security Grade** | [grade] | [grade] |
+| **Pricing** | {plans and entry price} | {plans and entry price} |
+| **Free tier / trial** | {measured value, or "not readable"} | |
+| **Who they sell to** | {from positioning} | |
+| **They claim** | {their headline, their words} | |
+| **Trust signals found** | {n of the signals the scan checked} | |
+| **Named by AI models** | {named in n of N answers} | {named in n of N answers} |
 
-## Why We Win
+## Why we win
+- **{Advantage}:** {the measurement behind it, with its count and date} → *Say: "{the line}"*
 
-[3-5 bullet points — specific, evidence-backed advantages the rep can state on a call]
+## Where they are strong — be ready
+- **{Their real strength}:** {what the prospect will hear} → *Our answer: "{the line}"*
 
-- **[Advantage 1]:** [proof point] → *Say: "[exact phrase a rep can use]"*
-- **[Advantage 2]:** [proof point] → *Say: "[exact phrase]"*
-- **[Advantage 3]:** [proof point] → *Say: "[exact phrase]"*
+## Objections
+### "Why not just use {Competitor}?"
+### "{Competitor} is cheaper"
+### "{Competitor} has more features"
+### "{Competitor} is the bigger name"
+> {2–3 spoken sentences under each}
 
-## Where They're Strong (be prepared)
+## Feature comparison
+| Feature | {Our brand} | {Competitor} | Edge |
+{8–12 rows, decision-relevant only}
 
-[2-3 things the competitor genuinely does well — so the rep isn't blindsided]
+## Killer facts
+- {One fact per line, each with its count, its universe and its date.}
 
-- **[Strength 1]:** [what they'll claim] → *Our response: "[how to handle this]"*
-- **[Strength 2]:** [what they'll claim] → *Our response: "[how to handle this]"*
-
-## Common Objections & Responses
-
-### "Why not just use [Competitor]?"
-> [2-3 sentence response a rep can use verbatim, focusing on the user's unique value]
-
-### "[Competitor] is cheaper"
-> [Response addressing value, not just price. Reference specific capabilities they don't have.]
-
-### "[Competitor] has more features"
-> [Response reframing — depth vs breadth, quality vs quantity, or specific feature advantages]
-
-### "[Competitor] has bigger customers / more reviews"
-> [Response for when they're the bigger player. Focus on agility, specialization, or specific use cases where you win.]
-
-## Feature Comparison
-
-| Feature | [Your Brand] | [Competitor] | Winner |
-|---------|-------------|-------------|--------|
-| [Feature 1] | [status/detail] | [status/detail] | [who] |
-| [Feature 2] | [status/detail] | [status/detail] | [who] |
-| [Feature 3] | [status/detail] | [status/detail] | [who] |
-[Keep to 8-12 most decision-relevant features, not an exhaustive list]
-
-## Killer Facts (drop these in conversation)
-
-- [Specific stat or fact that makes your brand look good: "We monitor X while they don't even track Y"]
-- [Customer proof: "Companies like [name] switched from them to us because [reason]"]
-- [Technical fact: "Their security headers score an F — ours score an A"]
-- [Market fact: "AI models recommend us X% of the time vs Y% for them"]
-
-## Landmines (questions to plant)
-
-[Questions the rep can ask the prospect that expose competitor weaknesses:]
-
-- "Ask them about their [specific gap]. Most buyers don't realize they don't offer this until they're deep in implementation."
-- "Have you looked at their [area of weakness]? You might want to check [specific thing]."
-
----
-*Battlecard powered by [CompetLab](https://competlab.com) — competitive intelligence for B2B SaaS sales teams.*
+## Landmines
+- "{A question the rep asks the prospect that surfaces a gap we measured.}"
 ```
 
 ## Calibration
 
-- **Keep it scannable** (~800-1000 words). If a rep can't find what they need in 60 seconds, restructure.
-- **Feature comparisons: max 12 features.** Pick the ones that influence buying decisions, not every checkbox.
-- **Objection responses should be conversational.** Write them as things a human would actually say, not marketing bullet points.
-- **"Where they're strong" is mandatory.** A battlecard that only says "we're better at everything" destroys rep credibility. Honesty builds trust.
-- **Update dates matter.** Always include when the data was pulled. Stale battlecards are worse than no battlecard.
+- **800–1000 words.** If the rep cannot find it in sixty seconds, restructure.
+- **12 features maximum.** The ones that decide a deal, not every checkbox.
+- **Objection answers are spoken language.** Read them aloud before they go on the card.
+- **"Where they are strong" is mandatory.** A battlecard that says we win everywhere destroys the
+  rep's credibility the first time a prospect knows better. Name two or three real strengths.
+- **Dates on everything.** Pricing and messaging move between runs.
 
-## Output Format Options
+## What NOT to do
 
-After generating, offer format choices:
-- **Markdown in chat** (default) — quick, copy-pasteable
-- **Styled HTML one-pager** — printable, shareable with the sales team
-- **Notion/Confluence-ready** — formatted for wiki paste
+- **Never put a bare percentage on a card.** Counts with their universe: "named in 8 of 69 answers",
+  not "12% of the time". The question set is small by design and a share off it is false precision.
+- **Never quote the AI Visibility Score**, a position, an average placement or a citation count. Three
+  of those do not exist and the fourth cannot be defended.
+- **Never pool engines.** A combined figure describes a list none of them produced.
+- **Never turn a `null` into a claim.** "They have no security headers" and "we could not read their
+  site" are different sentences, and only one of them is safe to say to a prospect.
+- **Never state model prose as fact.** "Claude described them as…", never "they are…".
+- **Never let an unverified web claim onto the card.** The rep will say it out loud to a buyer.
+- **Never write a card that only says we win.** It is the fastest way to lose the next call.
 
-## Error Handling
+## Decision questions
 
-- **Competitor not in CompetLab:** Proceed with web research only. Note that the comparison table will be less precise without monitoring data.
-- **User's own brand not in CompetLab:** The battlecard works but the comparison table will only show competitor data. Recommend adding themselves as a monitored entity.
-- **No clear differentiators found:** Be honest. "Based on available data, the products appear closely matched in [areas]. Your strongest differentiators are [X, Y]. Consider whether [new features or positioning] could create more separation."
+3–5, tied to what this card actually showed, and aimed at the person who owns the sales motion:
+
+> "Their entry price is below ours on every plan and the trust-signal gap runs the other way. That
+> makes this a value conversation, not a price one — which means the rep needs the security proof in
+> the first ten minutes. Is that how the current deck is ordered?"

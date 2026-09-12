@@ -1,182 +1,180 @@
 ---
 name: competlab-competitor-dive
 description: |
-  Generates a comprehensive competitor dossier combining CompetLab monitoring data with live web research — tech stack, pricing, positioning, content strategy, AI visibility, public sentiment, SWOT analysis, and recommended responses. Use this skill when the user asks to "analyze [competitor]", "deep dive on [competitor]", "competitor dossier", "competitor profile", "research [competitor]", "what is [competitor] doing", "SWOT analysis for [competitor]", "competitor SWOT", or "tell me everything about [competitor]". NOT for multi-competitor landscape analysis (use competlab-landscape) or weekly updates (use competlab-weekly-briefing). Requires CompetLab MCP server (competlab.com) with the target competitor being monitored.
+  Builds a decision-ready dossier on ONE monitored competitor from every dimension CompetLab holds on them — AI Visibility, AI Sources, Positioning, Pricing Intelligence, Content Intelligence, Tech & Trust Profile — plus the Strategic Briefing's own researched read on that rival. Use when the user asks to "analyze [competitor]", "deep dive on [competitor]", "competitor dossier", "competitor profile", "research [competitor]", "what is [competitor] doing", "SWOT analysis for [competitor]", "competitor SWOT", or "tell me everything about [competitor]". NOT a card to read on a sales call (use competlab-battlecard), and NOT the whole market at once. Requires the CompetLab MCP server with an active project where this competitor is monitored.
 argument-hint: <competitor-name-or-domain>
 license: MIT
-compatibility: Requires CompetLab MCP server (competlab.com) with API key and an active project. Web access recommended for live market research.
-allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_competitor mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_ai_visibility_trend mcp__competlab__get_tech_trust_dashboard mcp__competlab__get_content_dashboard mcp__competlab__get_positioning_dashboard mcp__competlab__get_positioning_history mcp__competlab__get_pricing_dashboard mcp__competlab__get_pricing_history mcp__competlab__list_alerts mcp__competlab__get_content_changelog WebSearch WebFetch
+allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_competitor mcp__competlab__get_briefing mcp__competlab__get_briefing_history mcp__competlab__get_briefing_edition mcp__competlab__get_positioning_dashboard mcp__competlab__get_positioning_history mcp__competlab__get_pricing_dashboard mcp__competlab__get_pricing_history mcp__competlab__get_content_dashboard mcp__competlab__get_content_changelog mcp__competlab__get_tech_trust_dashboard mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_ai_visibility_trend mcp__competlab__get_ai_sources_dashboard mcp__competlab__fetch_url WebSearch Read
 metadata:
   author: competlab
-  version: "2.0.0"
+  version: "3.0.0"
   website: https://competlab.com
   category: competitive-intelligence
 ---
 
-# Competitor Deep Dive — Intelligence Dossier
+# Competitor deep dive — one rival, every dimension
 
-You are a competitive intelligence analyst building a complete profile of a single competitor. Your output is a decision-ready dossier that a founder, PMM, or sales leader can use to understand this competitor's strategy, strengths, weaknesses, and trajectory.
+## The question this skill answers
 
-This skill combines two layers:
-1. **CompetLab monitoring data** — structured intelligence from 5 dimensions (pricing, positioning, tech stack, content, AI visibility)
-2. **Live web research** — current news, funding, reviews, social sentiment, product launches, team changes
+**What has this competitor actually done, what did the platform measure, and what does it change for
+us?**
 
-Neither layer alone is sufficient. CompetLab data is structured but backward-looking. Web research is current but unstructured. Together they produce a complete picture.
+One rival, all six dimensions filtered to them, plus the Strategic Briefing's researched read on that
+same rival. The output is a dossier a founder, PMM or sales leader acts on — not a landscape, and not
+something anyone reads mid-call.
 
-## Inputs
+## The platform already did the research
 
-Required:
-- A competitor name or domain (provided as argument or in the user's message)
-- A CompetLab project where this competitor is monitored
+The briefing's `competitors` section carries a per-rival read, and its `deep-` sections cover funding,
+hiring, product launches, reliability, customer voice and the developer ecosystem for every monitored
+competitor — probed across more sources than a search returns, kept with history to difference
+against, and shipped with their own stated limits.
 
-If the competitor isn't monitored in CompetLab, explain this and offer to proceed with web research only (the dossier will be less complete but still valuable).
+**Read those sections. Do not re-derive them.** Searching the same ground gives a thinner answer from
+fewer sources with nothing to compare it against. Web research here fills a gap the platform does not
+cover, and it is the exception, not a step.
 
-## Workflow
+## Before you start
 
-### Step 1: Identify the Competitor in CompetLab
+Read `references/reading-the-data.md`. Four of its rules carry most of a dossier: `null` is not zero,
+counts never rates, per engine never pooled, and model prose is the model's. The fifth is dates —
+every figure here came out of a run, and a dossier that does not say when it was measured is a
+snapshot posing as a trend.
 
-1. **`list_projects`** — find the relevant project
-2. **`list_competitors`** — match the user's input to a monitored competitor by name or domain
-3. **`get_competitor`** — get competitor details and monitored URLs
+## Steps
 
-If the competitor exists in CompetLab, proceed to Step 2. If not, skip to Step 3 (web research only).
+**1. Resolve the competitor.**
+`mcp__competlab__list_projects` → `mcp__competlab__list_competitors` to match the name or domain (the
+customer's own row is marked `isOwn: true`) → `mcp__competlab__get_competitor` for the pages actually
+monitored for this rival → `mcp__competlab__get_project` for when each dimension last ran.
 
-### Step 2: Pull All 5 Dimensions (CompetLab Data Layer)
+A page nobody monitors is not a page that does not exist, and a dimension that has never run is not a
+finding about the competitor. If the rival is not monitored at all, say so and offer to add them:
+anything assembled without monitoring data is unverified web research and has to be labelled as that.
 
-Pull all dimension dashboards. For each, extract data specifically about the target competitor:
+**2. Read the briefing's read on them.**
+`mcp__competlab__get_briefing` with `sections: ["competitors"]` plus whichever `deep-` sections this
+dossier needs — `deep-funding-capital`, `deep-hiring-gtm`, `deep-product-launches`,
+`deep-reliability-status`, `deep-customer-voice`, `deep-ai-ecosystem`, `deep-agent-readiness`,
+`deep-landscape`. The response's `contains` array says what the edition actually holds.
 
-1. **`get_pricing_dashboard`** — their pricing plans, price points, billing models, how they compare to the market
-2. **`get_positioning_dashboard`** — their homepage messaging: headline, tagline, value prop, CTAs, target audience, differentiators
-3. **`get_tech_trust_dashboard`** — their tech stack, security headers, trust signals, AI bot policies
-4. **`get_content_dashboard`** — their content volume, categories, strategic URLs, content gaps
-5. **`get_ai_visibility_dashboard`** — how AI models perceive them, their mention rate, provider-specific AI Visibility Scores
-6. **`list_alerts`** filtered by this competitor — recent changes detected
-7. **`get_content_changelog`** filtered by this competitor — what they've published or removed recently
+Check `meta.status` first. On `running` or `failed` the `item` is null **but an earlier edition is
+usually still readable** — `mcp__competlab__get_briefing_history`, then
+`mcp__competlab__get_briefing_edition`. A null `item` never means the project has no briefing.
 
-### Step 3: Web Research Layer (this is where the dossier gets rich)
+**3. The four monitored surfaces, filtered to this rival.**
 
-Conduct focused web research. Spend real effort here — this is the intelligence the MCP can't provide.
+- **Positioning** — `mcp__competlab__get_positioning_dashboard` for the headline, value proposition,
+  audience and differentiator as they wrote them; `mcp__competlab__get_positioning_history` for
+  whether the message has moved, and when.
+- **Pricing** — `mcp__competlab__get_pricing_dashboard`, then `mcp__competlab__get_pricing_history`
+  for what changed. A measured `false` on a free plan is a finding. A `null` plan is a page we could
+  not read, and says nothing about their pricing.
+- **Content** — `mcp__competlab__get_content_dashboard` for volume, categories and gaps;
+  `mcp__competlab__get_content_changelog` for the URLs added and removed since the previous run. What
+  a competitor started publishing is often the earliest visible signal of what they are building.
+- **Tech & trust** — `mcp__competlab__get_tech_trust_dashboard`. A measured `0` trust signals is a
+  finding. A `null` is a scan that could not read the site. Two different sentences — never one that
+  could be either.
 
-**Company Context:**
-- Search "[competitor] funding" — find funding rounds, investors, valuation signals
-- Search "[competitor] team" or "[competitor] leadership" — CEO, key hires, team size signals
-- Search "[competitor] news [current year]" — recent announcements, launches, partnerships
-- Check their LinkedIn company page (via WebSearch) — employee count, growth rate, recent posts
+**4. AI Visibility — membership first, never the score.**
+`mcp__competlab__get_ai_visibility_dashboard`. Read `summary.promptMarket` before anything else:
+unless its state is `rivals_named_in_most_answers`, say the prompts may not describe this project's
+market, and do not lead with the map.
 
-**Product Intelligence:**
-- WebFetch their homepage — current messaging, design approach, social proof
-- WebFetch their pricing page — current plans, compare to CompetLab data for changes
-- Search "[competitor] product launch" or "[competitor] changelog/release notes" — recent feature activity
-- Search "[competitor] API" or "[competitor] integrations" — ecosystem strategy
+Then `summary.marketMap` — is this rival among the companies the models name in this category, and
+where does the customer sit relative to them? Presence with its range and its count, ordered by
+presence and by nothing else. **Two brands whose ranges overlap are tied.** Do not order them, and do
+not turn the overlap into a story.
 
-**Public Sentiment & Reviews:**
-- Search "[competitor] G2 reviews" or "[competitor] Capterra" — aggregate sentiment
-- Search "site:reddit.com [competitor]" — what real users say, complaints, praise
-- Search "[competitor] review [current year]" — recent review articles
-- Search "[competitor] vs" — who they're compared to, how they position against alternatives
-- Search "site:twitter.com [competitor]" or "site:x.com [competitor]" — social mentions
+The cheap call worth knowing: `includeAnswers: true` with `brand=<their domain>` returns every answer
+filtered to that one brand for roughly 2k tokens, against 25k–46k unfiltered. It is the cheapest way
+to answer *where do they beat us, and where are they invisible*. An answer that comes back with an
+empty brands list is an answer the model gave without naming them — a real finding, and a different
+one from a question that produced no answer at all.
 
-**Market Context:**
-- Search "[competitor] customers" or "[competitor] case study" — who's buying
-- Search "[competitor] competitors" — how others see their competitive landscape
+`mcp__competlab__get_ai_visibility_trend` returns **one row per company**: a reading now, a reading at
+the start of the window, and whether the two are separable. **It is not a time series.** There is no
+trajectory in it and no ninety days of movement to read off it. Where the intervals overlap, that is
+two readings, not a movement.
 
-### Step 4: SWOT Analysis
+**5. AI Sources — the pages behind those answers.**
+`mcp__competlab__get_ai_sources_dashboard`. Perplexity and Google AI Overviews only: they are the two
+engines that hand back the pages they retrieved. Per engine, never pooled. **Retrieved, never cited**
+— the engines do not disclose which pages they leaned on.
 
-Read `references/dossier-framework.md` for the SWOT methodology and evidence quality standards. Build the SWOT from evidence gathered in Steps 2-3:
+In a rival's dossier the rows that matter in `summary.coreHosts` are the ones this competitor owns
+(`ownership: "competitor_owned"`) — hosts more than one engine reads for this market that belong to
+them and cannot be pitched. Count them, name them, and say plainly that they are not approachable. The
+customer's own work list belongs to `competlab-ai-sources`, not to this dossier.
 
-- **Strengths** — backed by specific data (e.g., "Strong AI visibility: score 72 vs industry average 34" or "236 G2 reviews with 4.5 avg rating")
-- **Weaknesses** — gaps you found (e.g., "No API or integrations — locked-in ecosystem" or "Security grade D: missing CSP and HSTS headers")
-- **Opportunities** — what the USER can exploit (e.g., "Competitor has no free trial — offer yours as a low-friction alternative" or "They're not mentioned by Claude at all — own that AI provider")
-- **Threats** — what this competitor could do to hurt the user (e.g., "Just raised Series B — likely to increase marketing spend" or "Already 3x content volume — content gap widening")
+**6. Fill a gap, if one is left.**
+`WebSearch` only for what no dimension and no briefing section covers. What it returns is a claim, not
+a fact: verify it with `mcp__competlab__fetch_url` (`cleanHtml: true`) before it reaches the dossier,
+and drop what does not verify rather than softening it into a hedge.
 
-Every SWOT item must cite specific evidence. No vague "strong brand" claims without data.
+**7. SWOT, on evidence.**
+Every item names the measurement behind it and the run or edition it came from. An item that cannot be
+sourced that way does not go in — "strong brand" is not a finding, and neither is a number nobody can
+trace. The evidence has one order of strength: what the platform measured — timestamped, and comparable
+against the run before it — carries more than what a search returned, and a search result stays a claim
+until the fetch in step 6 confirms it. Opportunities are what the customer can act on. Threats are tied
+to something already observed, not to what a rival might conceivably do.
 
-### Step 5: Synthesize the Dossier
+## Output
 
-Write the output using the structure below. The dossier should tell a story, not just list facts.
+```markdown
+# {Competitor} — dossier
+*{Project}. Dimension runs: {dimension} {date}, … · Briefing edition {n}, {date}.*
 
-## Output Structure
+## Where they sit
+{3–5 sentences: who they are, what they are betting on, where they are exposed. The paragraph
+someone reads before deciding anything.}
 
-```
-# Competitor Dossier — [Competitor Name]
-> Generated [date] | CompetLab data + web research | [project name]
+## Positioning · Pricing · Content · Tech & trust
+{a short block each — what the run says, what changed since the one before it, what is unmeasured}
 
-## Quick Profile
-| | |
-|---|---|
-| **Domain** | [domain] |
-| **Founded** | [year, if found] |
-| **Funding** | [total raised / stage, if found] |
-| **Team size** | [estimate from LinkedIn, if found] |
-| **Pricing** | [headline: e.g., "$49-199/mo, 3 plans"] |
-| **Target audience** | [from positioning data] |
-| **Tagline** | [from homepage] |
+## AI Visibility
+{Membership: is this rival among the companies the models name, and where is the customer relative to
+them. Counts with their universe and their range. Ties marked as ties. Per engine.}
 
-## Competitive Position Summary
-[3-5 sentences: Who is this competitor, what's their strategy, where are they strong, where are they vulnerable? This is the paragraph a sales rep reads before a call.]
+## AI Sources
+{Per engine: which companies the answers named, and which core hosts this rival owns.}
 
-## Detailed Analysis
+## What the briefing already researched
+{Funding, hiring, launches, reliability, customer voice, ecosystem — from the sections, naming the
+edition. Not re-derived.}
 
-### Pricing & Packaging
-[CompetLab pricing data + web research. Plan names, prices, what's included, free trial, billing options. How does their pricing compare to the user and the market?]
+## SWOT
+{Strengths · Weaknesses · Opportunities for us · Threats from them — each item carrying its evidence.}
 
-### Positioning & Messaging
-[Homepage messaging from CompetLab + web research. What claims do they make? What audience do they target? What differentiators do they emphasize? How has their messaging changed?]
+## What we did not measure
+{Dimensions that have never run, scans that could not read the site, engines not asked, briefing
+sections this edition does not contain.}
 
-### Product & Technology
-[Tech stack from CompetLab + web research. What tech do they use? Security posture? API/integrations? Recent feature launches?]
-
-### Content Strategy
-[Content data from CompetLab + web research. Content volume, categories, publishing frequency, strategic content plays. What are they writing about?]
-
-### AI Visibility
-[AI Visibility data from CompetLab. How do AI models perceive them? Per-provider breakdown. Trend direction.]
-
-### Public Sentiment
-[Web research: G2/Capterra reviews, Reddit discussions, social mentions. What do real users love? What do they complain about? Net sentiment.]
-
-### Recent Moves
-[Alerts from CompetLab + web research. What changed recently? New content, pricing changes, positioning shifts, product launches, hires, funding.]
-
-## SWOT Analysis
-
-### Strengths
-- [Evidence-backed strength 1]
-- [Evidence-backed strength 2]
-- [...]
-
-### Weaknesses
-- [Evidence-backed weakness 1]
-- [Evidence-backed weakness 2]
-- [...]
-
-### Opportunities (for you)
-- [Specific opportunity 1 — how to exploit their weakness]
-- [Specific opportunity 2]
-- [...]
-
-### Threats (from them)
-- [Specific threat 1 — what they could do to hurt you]
-- [Specific threat 2]
-- [...]
-
-## Recommended Response
-[3-5 prioritized actions the user should take in response to this competitor's strategy. Each must be specific and actionable.]
-
----
-*Dossier powered by [CompetLab](https://competlab.com) competitive intelligence monitoring + live web research.*
+## Recommended response
+{3–5 prioritised actions, each tied to something above.}
 ```
 
-## Error Handling
+## What NOT to do
 
-- **Competitor not in CompetLab:** "I can't find [name] in your CompetLab project. I'll proceed with web research only — the dossier will cover publicly available information but won't include structured monitoring data. To add this competitor to monitoring, visit your CompetLab dashboard."
-- **Limited web results:** Some competitors are small or stealth. Note gaps honestly: "Limited public information available for [competitor]. Consider monitoring them more closely."
-- **Conflicting data:** If CompetLab data and web research disagree (e.g., pricing page changed since last CompetLab scan), note both: "CompetLab data (from [date]) shows $49/mo. Their current pricing page shows $59/mo — appears to be a recent increase."
+- Do not re-research funding, hiring, launches, reliability, customer voice or the developer ecosystem
+  with a search. The briefing did it, across more sources, with history.
+- Do not lead with the AI Visibility Score, a mention rate, a position or a citation count.
+- Do not read a trajectory, a direction or a rate of change off the trend tool. It holds two readings.
+- Do not order two brands whose ranges overlap, or call an overlapping difference a rise or a fall.
+- Do not pool engines, and do not report a figure without the universe it came out of.
+- Do not treat a `null` as a zero, or a page that could not be read as a page the brand is absent from.
+- Do not present model prose as fact — "Claude described them as…", never "they are…".
+- Do not put an unverified web claim into a dossier someone will quote.
+- Do not speculate about private metrics — revenue, burn, churn — unless they were publicly reported.
+- Do not write three thousand words where fifteen hundred covers it.
 
-## What NOT To Do
+## Decision questions
 
-- Don't speculate about private company metrics (revenue, burn rate) unless publicly reported
-- Don't present opinion as fact — label interpretations clearly
-- Don't skip the web research layer — CompetLab data alone isn't a dossier
-- Don't write a 3,000-word essay when 1,500 words covers it — depth where it matters, brevity where it doesn't
-- Don't forget: every SWOT item needs evidence, not vibes
+End with 3–5 questions whose answers would change the recommendation, tied to what this dossier
+actually found. State both branches where you can:
+
+> "Their homepage moved toward enterprise buyers two runs ago and their pricing has not followed yet.
+> If it does not, the opening is in the segment they are leaving. If it follows next quarter, that
+> opening closes. Is this worth watching monthly, or acting on now?"

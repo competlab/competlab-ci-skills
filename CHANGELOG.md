@@ -6,6 +6,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ---
 
+## [3.0.2] — 2026-09-12
+
+### Changed
+
+- Third-party vendor names removed from the historical v2 entries. The entries still record what each
+  retired skill did; they no longer name the specific status-page backends, applicant-tracking systems
+  or review platforms it probed.
+
 ## [3.0.1] — 2026-09-12
 
 ### Fixed
@@ -121,13 +129,13 @@ The "leading + lagging indicators" release. Skills set expands from 5 to 13. The
 ### Added — 8 new skills
 
 - **`competlab-cmo-report`** (orchestrator) — produces complete CMO-grade strategic briefing in one command: 1 main briefing (L3, 200-250 lines / 8-10k words) + 12 per-dimension docs (L2) + 3-5 per-Tier-1-competitor deep dives + Monitoring Suggestions informed by Tier-2 light-recon. Six-phase workflow: pre-flight → parallel skill fan-out → per-dim synthesis → per-competitor synthesis → briefing synthesis → cross-tool reconciliation + Tier-2 auto-promotion → final QC.
-- **`competlab-status-watch`** — probes public status pages (Statuspage.io API + Better Stack + Instatus + incident.io + SPA/RSS adapters) for outages, recent incidents, post-mortem quality, and status-page-broken-or-missing as customer-facing signal. HTML content verification gate prevents SPA-catchall + locale-redirect false positives.
+- **`competlab-status-watch`** — probes public status pages through adapters for the common hosted status-page backends, plus SPA and RSS, for outages, recent incidents, post-mortem quality, and status-page-broken-or-missing as customer-facing signal. HTML content verification gate prevents SPA-catchall + locale-redirect false positives.
 - **`competlab-funding-watch`** — 5-mode classifier (Public, PE-owned, Bootstrap, VC-stage, M&A-volatile). Recent rounds + ARR estimates + exec transitions + category-adjacent capital pressure. URL-Verified Perplexity citations only.
 - **`competlab-ai-ecosystem`** — external developer-ecosystem signals (GitHub orgs, npm/PyPI volumes, community-built MCP servers, marketplace presence). Distinct from agent-adoption (which measures first-party signals).
-- **`competlab-hiring-signals`** — multi-adapter ATS probes (Ashby/Greenhouse/Lever/Workable) + LinkedIn unauth fallback + Perplexity for exec transitions. Vendor-profile pre-scan (<10-employee bootstrap operators skip ATS) + generic-word-slug name-collision verification.
+- **`competlab-hiring-signals`** — multi-adapter probes across the common public applicant-tracking systems, an unauthenticated professional-network fallback, and Perplexity for exec transitions. Vendor-profile pre-scan (<10-employee bootstrap operators skip ATS) + generic-word-slug name-collision verification.
 - **`competlab-agent-adoption`** — **JSON-RPC POST verification** of MCP server claims (browser GET 200 ≠ MCP exists). Wraps CompetLab's 25-check Agent-Adoption Specification scan. Validated against real-world false-positive patterns (2 of 3 browser-GET-200 verifications were not real MCP servers; the JSON-RPC POST gate caught them). <!-- facts-ok: historical entry -->
 - **`competlab-product-watch`** — snapshots competitor changelogs / GitHub Releases / named-asset directories / MCP marketplaces / API doc versions. 9-adapter cascade including sitemap-diff for `/features/*` additions when no structured `/changelog`.
-- **`competlab-customer-voice-snapshot`** — G2/Capterra/Trustpilot snapshots via Perplexity + Reddit/HN recovery for developer-tool categories. Categorical-absence early-halt for categories where reviews don't live on B2B SaaS platforms.
+- **`competlab-customer-voice-snapshot`** — review-platform snapshots via Perplexity, with community-forum recovery for developer-tool categories. Categorical-absence early-halt for categories where reviews don't live on B2B SaaS platforms.
 
 ### Added — 6 companion docs (under `skills/` root)
 

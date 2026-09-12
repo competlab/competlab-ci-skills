@@ -6,6 +6,16 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ---
 
+## [3.0.1] — 2026-09-12
+
+### Fixed
+
+- The two shared reference docs cross-referenced each other by their `shared/` names while shipping
+  into each skill's `references/` under lowercase names. Those links resolved only on a
+  case-insensitive filesystem, so every installed copy pointed at a missing file on Linux and on a
+  case-sensitive macOS volume. `sync-shared` now rewrites the cross-references, and the reference
+  check resolves case-sensitively on every platform so this cannot pass locally again.
+
 ## [3.0.0] — 2026-09-12
 
 **The platform grew into the work these skills were doing by hand, so the skills now read it instead.**

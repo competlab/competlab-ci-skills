@@ -49,7 +49,14 @@ for (const [sourceName, targetName] of Object.entries(DOCS)) {
     console.error(`Missing canonical doc: shared/${sourceName}`);
     process.exit(1);
   }
-  const expected = BANNER(`shared/${sourceName}`) + readFileSync(sourcePath, 'utf8');
+  // The copies sit beside each other under their lowercase names, so rewrite the
+  // cross-references too. Without this the links resolve only on a case-insensitive
+  // filesystem and break for everyone on Linux and macOS.
+  let text = readFileSync(sourcePath, 'utf8');
+  for (const [from, to] of Object.entries(DOCS)) {
+    text = text.split(from).join(to);
+  }
+  const expected = BANNER(`shared/${sourceName}`) + text;
 
   for (const skill of skills) {
     const refsDir = join(SKILLS_DIR, skill, 'references');

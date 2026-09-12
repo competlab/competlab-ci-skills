@@ -32,7 +32,7 @@
  */
 
 import { readdirSync, readFileSync, existsSync, statSync } from 'node:fs';
-import { join, dirname, resolve, relative, normalize } from 'node:path';
+import { join, dirname, resolve, relative, normalize, basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -128,6 +128,18 @@ const SKIP_FILES = new Set(['CHANGELOG.md']);
 /** Generic mentions of a filename, not references to a particular file. */
 const GENERIC = new Set(['SKILL.md', 'README.md', 'LICENSE', 'package.json']);
 
+
+/** existsSync, but case-sensitive on every platform. */
+function existsExact(candidate) {
+  const parent = dirname(candidate);
+  const name = basename(candidate);
+  try {
+    return readdirSync(parent).includes(name);
+  } catch {
+    return false;
+  }
+}
+
 function resolves(ref, fileDir) {
   if (GENERIC.has(ref)) return true;
   const cleaned = ref.replace(/^\.\//, '').replace(/^\//, '');
@@ -144,6 +156,10 @@ function resolves(ref, fileDir) {
     // Never let a `../..` reference escape the repo and match something outside.
     if (!normalize(candidate).startsWith(normalize(REPO_ROOT))) continue;
     if (!existsSync(candidate)) continue;
+    // existsSync is case-insensitive on Windows and macOS. GitHub Actions and most
+    // users' machines are not, so compare the real directory entry: a reference that
+    // only differs in case is broken for them and must fail here too.
+    if (!existsExact(candidate)) continue;
     if (wantsDir && !statSync(candidate).isDirectory()) continue;
     return true;
   }

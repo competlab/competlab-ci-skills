@@ -4,7 +4,7 @@
 
 What the platform is, what it exposes, and which tool answers which question.
 
-Read `READING-THE-DATA.md` before reporting any of it.
+Read `reading-the-data.md` before reporting any of it.
 
 ---
 
@@ -73,7 +73,7 @@ A check asks the project's **3 prompts** across all five engines.
 
 Google AI Overviews behaves differently from the other four: it names companies in prose and ranks
 nothing, and it supplies none of the per-brand description the chat models do. See
-`READING-THE-DATA.md` §10.
+`reading-the-data.md` §10.
 
 The dimension's answer is **core or tail** — read `summary.marketMap`, and `summary.promptMarket`
 before it.

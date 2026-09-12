@@ -11,7 +11,7 @@ Everything below is a rule the platform already enforces on itself. Your job is 
 on top of it — it is to not undo it.
 
 **The facts these rules apply to** — the six dimensions, the five engines, the tool map, the endpoint
-and the answer-size costs — are in `platform.md`, beside this file. Open it when you need to know
+and the answer-size costs — are in `PLATFORM.md`, beside this file. Open it when you need to know
 which tool answers a question; open this one before you write a sentence about what came back.
 
 ---

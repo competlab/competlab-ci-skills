@@ -7,7 +7,7 @@ license: MIT
 allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_competitor mcp__competlab__get_briefing mcp__competlab__get_briefing_history mcp__competlab__get_briefing_edition mcp__competlab__get_positioning_dashboard mcp__competlab__get_positioning_history mcp__competlab__get_pricing_dashboard mcp__competlab__get_pricing_history mcp__competlab__get_content_dashboard mcp__competlab__get_content_changelog mcp__competlab__get_tech_trust_dashboard mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_ai_visibility_trend mcp__competlab__get_ai_sources_dashboard mcp__competlab__fetch_url WebSearch Read
 metadata:
   author: competlab
-  version: "3.0.2"
+  version: "3.1.0"
   website: https://competlab.com
   category: competitive-intelligence
 ---
@@ -88,7 +88,8 @@ presence and by nothing else. **Two brands whose ranges overlap are tied.** Do n
 not turn the overlap into a story.
 
 The cheap call worth knowing: `includeAnswers: true` with `brand=<their domain>` returns every answer
-filtered to that one brand for roughly 2k tokens, against 25k–46k unfiltered. It is the cheapest way
+filtered to that one brand for roughly 2k tokens on a three-engine check, and about 9k once Google AI
+Overviews is in the ask, against 25k–46k unfiltered. It is the cheapest way
 to answer *where do they beat us, and where are they invisible*. An answer that comes back with an
 empty brands list is an answer the model gave without naming them — a real finding, and a different
 one from a question that produced no answer at all.

@@ -34,6 +34,12 @@ trustSignals: null     → not measured. "We could not read this." Not a finding
 Where a reason exists, it arrives in a sibling `…Available` object — `pricingDataAvailable`,
 `engineDataAvailable`, `latestCheckDataAvailable`. Read it and pass the reason on.
 
+**One documented exception.** On a trust-signals scan, `headerInspection: { available: false }` is a
+note about the *fetch*, not a caveat on the numbers: the page body was read in full, every rule reads
+the body and none reads headers, so the tier, score, category scores and signal count are exact.
+Report them as you would any other scan — **never as partial, provisional, or a minimum.** All it
+rules out is a header-kind evidence entry.
+
 **But some nulls carry no marker, because nothing failed** — there was simply nothing to compare, or
 the field does not apply. **A null with no marker beside it is still not a zero.** Never infer "this
 must be a real measurement" from the absence of a marker.

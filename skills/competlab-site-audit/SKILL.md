@@ -6,7 +6,7 @@ license: MIT
 allowed-tools: mcp__competlab__check_ai_crawlers mcp__competlab__check_sitemap mcp__competlab__fetch_url mcp__competlab__start_agent_adoption_scan mcp__competlab__get_agent_adoption_scan mcp__competlab__start_tech_stack_scan mcp__competlab__get_tech_stack_scan mcp__competlab__start_trust_signals_scan mcp__competlab__get_trust_signals_scan mcp__competlab__list_projects mcp__competlab__list_competitors mcp__competlab__get_tech_trust_dashboard mcp__competlab__get_positioning_dashboard mcp__competlab__get_pricing_dashboard mcp__competlab__get_content_dashboard Bash Read
 metadata:
   author: competlab
-  version: "3.0.2"
+  version: "3.1.0"
   website: https://competlab.com
   category: competitive-intelligence
 ---
@@ -47,7 +47,13 @@ first one, and it costs a real run. One pass over a domain, never a sweep.
 
 **3. The cheap reads, while the scans run.**
 - `check_ai_crawlers` — see the rules below; this one is misreported more than anything else here.
-- `check_sitemap` — what the sitemap exposes, and which content categories it does not.
+- `check_sitemap` — what the sitemap exposes, and which content categories it does not. **Check
+  `status` first.** `partial` means the scan did not cover the whole corpus — it does *not* mean the
+  site is broken, and **a count from a partial scan is never the site's total.** It has two causes that
+  are not interchangeable: the scan hit its own limits, or a sitemap the site declares could not be
+  read. Only the second populates `unreadSitemaps`, and those entries are the site's own defect — a
+  relative URL in robots.txt, a redirect off-domain, a server that refused. That is a finding worth
+  reporting on its own.
 - `fetch_url` with `cleanHtml: true` — any page a scan flagged, and any page the customer believes
   carries a signal the scans say is absent.
 

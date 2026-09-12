@@ -49,6 +49,21 @@ export const RULES = [
     message: 'There are 5 engines, not 3.',
   },
   {
+    id: 'buying-questions-count',
+    pattern: /\b(?!8\b)\d{1,2}\s+(?:fixed\s+)?buying\s+questions\b/gi,
+    message: 'AI Sources asks 8 buying questions.',
+  },
+  {
+    id: 'briefing-area-count',
+    pattern: /\b(?!14\b)\d{1,2}\s+analysis\s+areas\b/gi,
+    message: 'The Strategic Briefing covers 14 analysis areas.',
+  },
+  {
+    id: 'engine-count-loose',
+    pattern: /\b(?:3|three)\s+(?:AI\s+)?engines\b|\ball\s+(?:3|three)\s+providers\b|\b(?:3|three)\s+providers\b/gi,
+    message: 'AI Visibility queries 5 engines, not 3.',
+  },
+  {
     id: 'mcp-tool-count',
     pattern: /\b33\s+(?:MCP\s+)?tools\b/gi,
     message: 'The MCP server exposes 38 tools.',

@@ -32,7 +32,7 @@
  */
 
 import { readdirSync, readFileSync, existsSync, statSync } from 'node:fs';
-import { join, dirname, resolve, relative, normalize, basename } from 'node:path';
+import { join, dirname, resolve, relative, normalize, basename, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -131,25 +131,37 @@ const GENERIC = new Set(['SKILL.md', 'README.md', 'LICENSE', 'package.json']);
 
 /** existsSync, but case-sensitive on every platform. */
 function existsExact(candidate) {
-  const parent = dirname(candidate);
-  const name = basename(candidate);
-  try {
-    return readdirSync(parent).includes(name);
-  } catch {
-    return false;
+  // Walk every segment from the repo root. Checking only the basename leaves the
+  // directory names case-insensitive, so `References/x.md` passed on Windows.
+  const rel = relative(REPO_ROOT, candidate);
+  if (rel.startsWith('..')) return false;
+  const parts = rel.split(sep).filter(Boolean);
+  let dir = REPO_ROOT;
+  for (const part of parts) {
+    try {
+      if (!readdirSync(dir).includes(part)) return false;
+    } catch {
+      return false;
+    }
+    dir = resolve(dir, part);
   }
+  return true;
 }
 
 function resolves(ref, fileDir) {
   if (GENERIC.has(ref)) return true;
   const cleaned = ref.replace(/^\.\//, '').replace(/^\//, '');
+  // A file inside a skill folder resolves against its OWN folder only. Letting it
+  // resolve against any skill's folder hides the case that matters: a skill shipped
+  // without the reference doc its body tells the agent to read, which is exactly what
+  // `npx skills add --skill <one>` installs.
+  const insideSkill = normalize(fileDir).startsWith(normalize(resolve(REPO_ROOT, 'skills')));
   const candidates = [
     resolve(REPO_ROOT, cleaned),
     resolve(fileDir, ref),
     resolve(REPO_ROOT, 'skills', cleaned),
-    // Each skill carries its own copy of the shared docs, so a path written as
-    // `references/reading-the-data.md` is real inside any skill folder.
-    ...skillDirs().map((d) => resolve(REPO_ROOT, 'skills', d, cleaned)),
+    // Prose at the repo root may name a path every skill carries a copy of.
+    ...(insideSkill ? [] : skillDirs().map((d) => resolve(REPO_ROOT, 'skills', d, cleaned))),
   ];
   const wantsDir = ref.endsWith('/');
   for (const candidate of candidates) {

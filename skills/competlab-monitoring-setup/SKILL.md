@@ -6,7 +6,7 @@ license: MIT
 allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__list_schedules mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_briefing Read
 metadata:
   author: competlab
-  version: "3.0.2"
+  version: "3.1.0"
   website: https://competlab.com
   category: competitive-intelligence
 ---
@@ -62,7 +62,7 @@ unmonitored brands worth adding and states its reasoning; the hub names them and
 section carries the case. Check `meta.status` first — on `running` or `failed`, `item` is null but an
 earlier edition is usually still readable.
 
-Then the AI Visibility market map for brands whose `origin` shows they are **not** tracked competitors
+Then `item.untrackedCoreBrands` on the AI Visibility dashboard — the platform already computes which brands are core to this market and not on the roster, each with its presence and range
 yet appear in the answers. A brand the models name repeatedly and the project does not watch is the
 strongest promotion candidate there is.
 

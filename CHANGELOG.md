@@ -6,6 +6,38 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ---
 
+## [3.1.0] — 2026-09-12
+
+### Fixed
+
+- **The AI Sources work list came back empty.** The skill filtered core hosts on `ownership: "publisher"`
+  and `"community"`. `ownership` has exactly two values — `third_party` and `competitor_owned` — so the
+  filter matched nothing and produced a clean empty result rather than an error. `publisher` and
+  `community` are values of a different field, `kind`, which describes the sort of site and is not a
+  filter. The work list is now `third_party`, and the skill quotes `funnel.missingPublishers` /
+  `missingCompetitorOwned`, which the platform precomputes.
+- **Monitoring setup read a field that does not exist.** It looked for `origin` on market-map brand rows
+  to find untracked brands. There is no such field. It now reads `untrackedCoreBrands`, which the
+  platform computes directly, with each brand presence and range.
+- The `brand=` token estimate was for a three-engine check. It is roughly 2k there and about 9k once
+  Google AI Overviews is in the ask.
+- A reference inside a skill pointed at `references/reading-the-data.md` from within `references/`.
+
+### Added
+
+- Reading rules the skills were missing: `headerInspection: { available: false }` is a note about the
+  fetch and never a caveat on the numbers; `check_sitemap` `status: partial` is never the site total,
+  and `unreadSitemaps` is the site own defect.
+
+### Changed
+
+- **Three CI holes closed, each proved with a negative test.** A reference inside a skill now resolves
+  against that skill only, so a skill shipped without the doc its body reads fails the check. Case
+  checking walks every path segment, not just the filename. Three fact rules added — buying-question
+  count, briefing analysis-area count, and a looser engine-count rule, which immediately caught a live
+  stale claim.
+- Remaining detail about live validation runs removed from the historical entries.
+
 ## [3.0.2] — 2026-09-12
 
 ### Changed
@@ -133,7 +165,7 @@ The "leading + lagging indicators" release. Skills set expands from 5 to 13. The
 - **`competlab-funding-watch`** — 5-mode classifier (Public, PE-owned, Bootstrap, VC-stage, M&A-volatile). Recent rounds + ARR estimates + exec transitions + category-adjacent capital pressure. URL-Verified Perplexity citations only.
 - **`competlab-ai-ecosystem`** — external developer-ecosystem signals (GitHub orgs, npm/PyPI volumes, community-built MCP servers, marketplace presence). Distinct from agent-adoption (which measures first-party signals).
 - **`competlab-hiring-signals`** — multi-adapter probes across the common public applicant-tracking systems, an unauthenticated professional-network fallback, and Perplexity for exec transitions. Vendor-profile pre-scan (<10-employee bootstrap operators skip ATS) + generic-word-slug name-collision verification.
-- **`competlab-agent-adoption`** — **JSON-RPC POST verification** of MCP server claims (browser GET 200 ≠ MCP exists). Wraps CompetLab's 25-check Agent-Adoption Specification scan. Validated against real-world false-positive patterns (2 of 3 browser-GET-200 verifications were not real MCP servers; the JSON-RPC POST gate caught them). <!-- facts-ok: historical entry -->
+- **`competlab-agent-adoption`** — **JSON-RPC POST verification** of MCP server claims (browser GET 200 ≠ MCP exists). Wraps CompetLab's 25-check Agent-Adoption Specification scan. Added because a browser GET returning 200 does not establish that an MCP server exists, and verification that relied on it produced false positives.
 - **`competlab-product-watch`** — snapshots competitor changelogs / GitHub Releases / named-asset directories / MCP marketplaces / API doc versions. 9-adapter cascade including sitemap-diff for `/features/*` additions when no structured `/changelog`.
 - **`competlab-customer-voice-snapshot`** — review-platform snapshots via Perplexity, with community-forum recovery for developer-tool categories. Categorical-absence early-halt for categories where reviews don't live on B2B SaaS platforms.
 
@@ -152,8 +184,8 @@ The "leading + lagging indicators" release. Skills set expands from 5 to 13. The
 - **Two-axis L2 backing docs:** Axis A = per-dimension reports (12 horizontal slices); Axis B = per-competitor deep-dives (3-5 vertical slices, including Tier-2 auto-promotions).
 - **L3 briefing as synthesis layer:** 200-250 lines target. Cross-references L2 evidence. Includes convergence paragraph for any competitor with ≥5-dim convergence within ≤60-day window, 3-strategic-paths-with-combo-recommendation, cheapest-high-leverage-move callout, Monitoring Suggestions, 3-5 Operator Questions with conditional-prescription framing.
 - **Failed scan = strategic signal:** the orchestrator and KNOWLEDGE doc treat scan failures as customer-discoverability evidence rather than methodology noise. ("Your pricing is in an iframe → invisible to AI training crawlers → AI Viz consequence — 1-day fix: static HTML pricing table.")
-- **Categorical-zero discovery-vs-capability carve-out:** when well-known-path discovery returns zero candidates across all vendors, check alternative channels (content dashboard URLs, npm registry, GitHub search, API endpoint patterns) BEFORE declaring categorical zero. Empirical basis: a real-world validation run found a vendor's real MCP server at an API endpoint without `/.well-known/mcp` mount, which the strict early-exit would have missed.
-- **Vendor-discontinuation 3-signal convergence rule:** positioning dashboard captures parent-brand content + AI Viz 0% across all 3 providers + agent-adoption scan `finalUrl` ≠ requested domain → likely discontinued/absorbed. Verify via parent-company page fetch for shutdown language. (Surfaced when a real-world cold-instance run discovered one monitored competitor had been discontinued 12 months prior.)
+- **Categorical-zero discovery-vs-capability carve-out:** when well-known-path discovery returns zero candidates across all vendors, check alternative channels (content dashboard URLs, npm registry, GitHub search, API endpoint patterns) BEFORE declaring categorical zero. A real MCP server can sit at an API endpoint with no `/.well-known/mcp` mount, which a strict early exit would miss.
+- **Vendor-discontinuation 3-signal convergence rule:** positioning dashboard captures parent-brand content + AI Viz 0% across all 3 providers + agent-adoption scan `finalUrl` ≠ requested domain → likely discontinued/absorbed. Verify via parent-company page fetch for shutdown language. <!-- facts-ok: historical entry, describing the three-engine era -->
 - **Cross-tool reconciliation discipline (Phase 5.5):** when two CompetLab tools disagree on the same underlying surface, the orchestrator writes a canonical `Phase-5.5-reconciliation.md` audit-trail file with one section per disagreement. Dim docs and briefing reference this file by section anchor rather than restating analysis.
 - **Tier-2 auto-promotion 4-criterion checklist (Phase 5.6):** AI Viz mention rate ≥ median(surfaced brands) OR ≥ 50% (whichever lower) + cross-provider consistency (≥2 of 3 LLM providers) + Agent Adoption OR trust-signal threshold + strategic signal type (blind-spot OR category-redefining). <!-- facts-ok: historical entry -->
 

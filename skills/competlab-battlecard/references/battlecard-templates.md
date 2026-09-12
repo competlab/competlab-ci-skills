@@ -10,7 +10,7 @@ shows the shape of a sentence and never reaches a card as written.
 That is the whole discipline this file teaches. **An unsourced number on a call is a liability, not
 ammunition.** The prospect's next question is *out of what?*, and a rep who cannot answer it has spent
 their credibility on one line. So every figure on the card is a count with its universe and the date
-of the run that produced it — `references/reading-the-data.md` §2 is the rule, and a call is where it
+of the run that produced it — `reading-the-data.md` §2 is the rule, and a call is where it
 costs the most to break.
 
 ---
@@ -144,7 +144,7 @@ to the rival.
 |---|---|
 | Content run — a category they do not publish | "Ask them for {content category the run shows is absent}. It is what you will need in month two." |
 | Pricing run — a plan or add-on the page does not state | "Ask what {plan or add-on} costs. It is not on their pricing page." |
-| Tech & trust run — a signal the scan did not find | "Ask which of {the signals} they publish, and where. Ours are on {page}." |
+| Tech & trust run — a signal the scan looked for and did not find (not one it could not read) | "Ask which of {the signals} they publish, and where. Ours are on {page}." |
 | Tech & trust run — crawler access | "Ask whether their docs are readable by {crawler}. It decides whether your own AI tooling can see them." |
 | Any surface — data ownership | "Ask what happens to your data if you leave, and whether the export is self-serve." |
 

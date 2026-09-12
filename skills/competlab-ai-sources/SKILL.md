@@ -6,7 +6,7 @@ license: MIT
 allowed-tools: mcp__competlab__list_projects mcp__competlab__list_competitors mcp__competlab__get_ai_sources_dashboard mcp__competlab__get_ai_sources_history mcp__competlab__get_ai_sources_check_detail Read
 metadata:
   author: competlab
-  version: "3.0.2"
+  version: "3.1.0"
   website: https://competlab.com
   category: competitive-intelligence
 ---
@@ -79,11 +79,22 @@ nothing usable. Neither is a zero, and neither is a fact about the customer.
 **5. Build the work list.** This is the deliverable.
 
 From `summary.coreHosts`, take every row with `status: "missing"` — hosts two or more engines read for
-this market that do not name the customer.
+this market that do not name the customer. Then split on **`ownership`**, which has exactly two values:
 
+- `ownership: "third_party"` → **approachable. This is the work list.**
 - `ownership: "competitor_owned"` → **not a target.** You cannot pitch your way onto a rival's own
   site. Count them, name them, and set them aside.
-- publisher and community rows → approachable. These are the work list.
+
+`summary.funnel` has already done this split — `missingPublishers` is the approachable count and
+`missingCompetitorOwned` the rest. Quote those rather than recounting, so your number and the
+platform's cannot disagree.
+
+**`kind` is a different field and is not a filter.** It says what sort of site a host is —
+`publisher`, `community`, `review_site`, `video` — and it shapes *how* you approach a row, not
+*whether* you can. A review site is approachable; its `actionHint` will say to claim the profile.
+
+The other two statuses:
+
 - `status: "unreadable"` → we could not read it. **Never a page the customer is absent from.** List it
   separately.
 - `status: "already_named"` → won.

@@ -12,7 +12,7 @@ monitoring, the skills do the reading and the writing.
 CompetLab monitors **6 dimensions** across a project's competitors:
 
 1. **AI Visibility** — which companies the AI engines name in answer to the project's **3 prompts**, and whether the customer is one of them
-2. **AI Sources** — which pages the engines retrieved while answering the **8 fixed buying questions**, per engine
+2. **AI Sources** — which pages the engines retrieved while answering the project **8 buying questions**, per engine
 3. **Positioning** — how competitors describe themselves and to whom
 4. **Pricing Intelligence** — plans, prices, packaging and how they change
 5. **Content Intelligence** — what competitors publish and when
@@ -24,7 +24,7 @@ and none of them publish a placement, so brand order is by **presence** — how 
 — and by nothing else. Google AI Overviews is a results page rather than a chat model: it names
 companies in prose and ranks nothing.
 
-The **8 fixed buying questions** belong to AI Sources alone. They are not user-editable, they are a
+The **8 buying questions** belong to AI Sources alone — one per fixed buying intent, generated for the project rather than written by the user. They are not user-editable, they are a
 different prompt set from AI Visibility's 3, and the two dimensions share no data.
 
 ## Available Skills

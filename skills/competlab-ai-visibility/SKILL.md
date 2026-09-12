@@ -6,7 +6,7 @@ license: MIT
 allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_ai_visibility_trend mcp__competlab__get_ai_visibility_history mcp__competlab__get_ai_visibility_check_detail Read
 metadata:
   author: competlab
-  version: "3.0.2"
+  version: "3.1.0"
   website: https://competlab.com
   category: competitive-intelligence
 ---
@@ -74,7 +74,8 @@ A brand core to one model and a brand core to all five look identical on the poo
   movement.
 - `get_ai_visibility_history` → `get_ai_visibility_check_detail` for a specific past check.
 - `includeAnswers: true` with `brand=`, `provider=` or `promptIndex=` when you need what was actually
-  said. Unfiltered is 25k–46k tokens; `brand=` is about 2k.
+  said. Unfiltered is 25k–46k tokens. `brand=` is roughly 2k on a three-engine check and about 9k
+  once Google AI Overviews is in the ask — still the cheapest read by a wide margin.
 
 ## Reporting rules specific to this dimension
 

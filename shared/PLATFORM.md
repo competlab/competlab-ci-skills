@@ -89,8 +89,12 @@ It asks **8 buying questions**, one per fixed buying intent, in a buyer's words 
 It reads a different prompt set from AI Visibility and shares no data with it.
 
 The work list is `summary.coreHosts` filtered to `status: "missing"` — hosts two or more engines read
-for this market that do not name the customer. `ownership: "competitor_owned"` rows are not
-approachable; publisher and community rows are.
+for this market that do not name the customer — then split on `ownership`, which has exactly two
+values: `third_party` is approachable, `competitor_owned` is not. `summary.funnel.missingPublishers`
+and `missingCompetitorOwned` carry that split already.
+
+`kind` (`publisher`, `community`, `review_site`, `video`) is a separate field describing the sort of
+site, not a filter for the work list.
 
 **What it is, and is not.** It shows what the models read before answering. It does not tell a
 customer what to do to be recommended. Two limits travel with every claim:
@@ -191,7 +195,9 @@ the AI Sources page lists run to dozens of pages per answer.
 
 Filter instead of fetching everything:
 
-- `brand=` — one domain across every answer (~2k tokens). The cheapest way to answer "where does this
+- `brand=` — one domain across every answer: roughly 2k tokens on a three-engine check, and about 9k
+  against 46k once Google AI Overviews is in the ask, whose overview text and cited pages this filter
+  keeps. The cheapest way to answer "where does this
   competitor beat me, and where are they invisible".
 - `provider=` / `engine=` — one engine.
 - `promptIndex=` — one question across every engine.

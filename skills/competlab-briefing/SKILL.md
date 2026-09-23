@@ -6,7 +6,7 @@ license: MIT
 allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_briefing mcp__competlab__get_briefing_history mcp__competlab__get_briefing_edition mcp__competlab__list_alerts Read
 metadata:
   author: competlab
-  version: "3.1.0"
+  version: "3.1.1"
   website: https://competlab.com
   category: competitive-intelligence
 ---
@@ -18,7 +18,7 @@ metadata:
 CompetLab generates the analysis itself. The Strategic Briefing is a numbered, persistent edition
 covering **14 analysis areas** — the 6 monitored dimensions, plus 8 it researches for the briefing
 alone: landscape, funding and capital, hiring and GTM, product launches, reliability and status,
-agent readiness, AI ecosystem, and customer voice.
+agent adoption, AI ecosystem, and customer voice.
 
 **Your job is to read it at the right depth and say what matters. Not to rebuild it.**
 

@@ -66,7 +66,7 @@ export const RULES = [
   {
     id: 'mcp-tool-count',
     pattern: /\b33\s+(?:MCP\s+)?tools\b/gi,
-    message: 'The MCP server exposes 38 tools.',
+    message: 'Stale tool count. Read the current count off the served server card before stating one.',
   },
   {
     id: 'sdk-method-count',
@@ -86,6 +86,15 @@ export const RULES = [
     context: [/--transport/, /"url"/, /mcpServers/, /server URL/i],
     message:
       'The endpoint is https://mcp.competlab.com/mcp ; competlab.com/developers/mcp is the docs page.',
+  },
+  {
+    // Cloudflare owns "Agent Readiness Score"; the dimension is Agent Adoption.
+    // The frozen keys (agent-readiness, deep-agent-readiness) and the trust-signal
+    // category "enterprise readiness" are identifiers and pass. Case-sensitive on
+    // purpose: the keys are always lowercase, so "Agent-Readiness" in prose is caught.
+    id: 'readiness',
+    pattern: /(?<!agent-|[Ee]nterprise[ -]?)\b[Rr]eadiness\b/g,
+    message: 'Say Agent Adoption, or describe it: how well a site is set up for AI agents to discover, access and read it.',
   },
   {
     id: 'internal-names',

@@ -6,6 +6,25 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ---
 
+## [3.1.1] — 2026-09-24
+
+### Fixed
+
+- **The old word in prose, where the dimension is Agent Adoption.** The briefing skill's list of the
+  eight researched areas, the README's suggested site-audit prompt and one of the site audit's trigger
+  phrases used it. All three now say agent adoption; the site audit triggers on "is our site set up for
+  AI agents" instead. The keys `agent-readiness` and `deep-agent-readiness` are frozen identifiers and
+  are unchanged.
+
+### Changed
+
+- **A stale-fact rule for the word.** `check-facts` now refuses it in prose. The two frozen keys and the
+  trust-signal category `enterprise readiness` pass. Proved with a negative test: the spaced and the
+  capitalised hyphenated forms fail, and every identifier form passes.
+- The stale tool-count rule no longer states a count of its own; it points at the served server card.
+
+---
+
 ## [3.1.0] — 2026-09-12
 
 ### Fixed

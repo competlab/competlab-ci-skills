@@ -1,12 +1,12 @@
 ---
 name: competlab-site-audit
 description: |
-  Audits a site the way an automated reader meets it — which AI crawlers robots.txt admits, what the sitemap exposes, which tech and trust signals a scanner can actually extract, and whether a claimed MCP server answers the protocol or only answers a browser. Runs on any public domain with no CompetLab project configured (a CompetLab API key is still required); with a project it audits the customer's own site and cross-checks it against what the monitored dimensions could and could not read from it. Use when the user asks "audit my site", "can AI crawlers read us", "are we blocking ChatGPT", "agent readiness", "trust signals check", "tech stack scan", "sitemap coverage", or "is that MCP server real". NOT for what the models say about the brand (use competlab-ai-visibility) or which pages they read while answering (use competlab-ai-sources). Mode A requires the CompetLab MCP server and any API key; Mode B additionally requires an active project.
+  Audits a site the way an automated reader meets it — which AI crawlers robots.txt admits, what the sitemap exposes, which tech and trust signals a scanner can actually extract, and whether a claimed MCP server answers the protocol or only answers a browser. Runs on any public domain with no CompetLab project configured (a CompetLab API key is still required); with a project it audits the customer's own site and cross-checks it against what the monitored dimensions could and could not read from it. Use when the user asks "audit my site", "can AI crawlers read us", "are we blocking ChatGPT", "is our site set up for AI agents", "trust signals check", "tech stack scan", "sitemap coverage", or "is that MCP server real". NOT for what the models say about the brand (use competlab-ai-visibility) or which pages they read while answering (use competlab-ai-sources). Mode A requires the CompetLab MCP server and any API key; Mode B additionally requires an active project.
 license: MIT
 allowed-tools: mcp__competlab__check_ai_crawlers mcp__competlab__check_sitemap mcp__competlab__fetch_url mcp__competlab__start_agent_adoption_scan mcp__competlab__get_agent_adoption_scan mcp__competlab__start_tech_stack_scan mcp__competlab__get_tech_stack_scan mcp__competlab__start_trust_signals_scan mcp__competlab__get_trust_signals_scan mcp__competlab__list_projects mcp__competlab__list_competitors mcp__competlab__get_tech_trust_dashboard mcp__competlab__get_positioning_dashboard mcp__competlab__get_pricing_dashboard mcp__competlab__get_content_dashboard Bash Read
 metadata:
   author: competlab
-  version: "3.1.0"
+  version: "3.1.1"
   website: https://competlab.com
   category: competitive-intelligence
 ---

@@ -96,7 +96,7 @@ Setup guide: [competlab.com/developers/mcp](https://competlab.com/developers/mcp
 up. A free-trial key is enough. Crawler access, sitemap coverage, agent adoption, tech stack, trust
 signals.
 
-> *"Audit example.com for agent readiness"*
+> *"Audit example.com for agent adoption"*
 
 ## What CompetLab monitors
 

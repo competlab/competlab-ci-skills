@@ -6,7 +6,7 @@ license: MIT
 allowed-tools: mcp__competlab__list_projects mcp__competlab__list_competitors mcp__competlab__get_ai_sources_dashboard mcp__competlab__get_ai_sources_history mcp__competlab__get_ai_sources_check_detail Read
 metadata:
   author: competlab
-  version: "3.1.0"
+  version: "3.1.1"
   website: https://competlab.com
   category: competitive-intelligence
 ---

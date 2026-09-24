@@ -6,6 +6,17 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ---
 
+## [3.2.1] — 2026-09-24
+
+### Fixed
+
+- The AI Visibility skill now says where the verdict word comes from: the customer row's `zone` —
+  `named_in_a_quarter_or_more_of_answers` is Core, `share_not_yet_separable` is Too early to tell,
+  `named_in_under_a_tenth_of_answers` is Rarely recommended.
+- The briefing skill's status table said a run "takes about two hours"; it finishes within two hours.
+
+---
+
 ## [3.2.0] — 2026-09-24
 
 ### Fixed

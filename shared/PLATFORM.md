@@ -73,7 +73,8 @@ Google AI Overviews behaves differently from the other four: it names companies 
 nothing, and it supplies none of the per-brand description the chat models do. See
 `READING-THE-DATA.md` §10.
 
-The dimension's answer is **core or tail** — read `summary.marketMap`, and `summary.promptMarket`
+The dimension's answer is the customer's verdict — **Core**, **Too early to tell** or **Rarely
+recommended** — read `summary.marketMap`, and `summary.promptMarket`
 before it.
 
 ---
@@ -117,10 +118,12 @@ it researches for the briefing alone:
 `landscape` · `funding-capital` · `hiring-gtm` · `product-launches` · `reliability-status` ·
 `agent-readiness` · `ai-ecosystem` · `customer-voice`
 
-Editions are numbered and persist. A run takes about two hours.
+Editions are numbered and persist. A run finishes within two hours.
 
-Sections: `hub` (default — the executive digest), `actions`, `competitors`, and `deep-<area>` for each
-of the 14. Read `contains` to see what an edition actually holds.
+Sections: `hub` (default — the executive digest), `competitors`, and `deep-<area>` for each of the 14.
+Read `contains` to see what an edition actually holds. There is no `actions` section: every
+recommendation opens as a ticket on the project's Strategic Tickets board, most important first.
+Read one edition's with `list_tickets` (`origin: "briefing"`, `briefingRunId`).
 
 **Do not re-research the eight areas the briefing already covers.** It probes more sources, keeps
 history to difference against, and states its own limits. Read the section.

@@ -68,6 +68,8 @@ const COMPETLAB_TOOLS = [
   'start_agent_adoption_scan', 'get_agent_adoption_scan',
   'start_tech_stack_scan', 'get_tech_stack_scan',
   'start_trust_signals_scan', 'get_trust_signals_scan',
+  'list_tickets', 'get_ticket', 'create_ticket', 'update_ticket', 'move_ticket', 'delete_ticket',
+  'list_ticket_comments', 'add_ticket_comment', 'list_ticket_labels', 'list_ticket_assignees',
 ];
 
 const MCP_TOOL_RE = /mcp__[a-z0-9_]+__[a-z0-9_]+/g;

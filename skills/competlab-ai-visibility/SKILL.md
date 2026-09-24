@@ -6,22 +6,29 @@ license: MIT
 allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_ai_visibility_trend mcp__competlab__get_ai_visibility_history mcp__competlab__get_ai_visibility_check_detail Read
 metadata:
   author: competlab
-  version: "3.1.1"
+  version: "3.2.0"
   website: https://competlab.com
   category: competitive-intelligence
 ---
 
-# AI Visibility — core or tail
+# AI Visibility — is the customer in the core
 
 ## The question this dimension answers
 
 **Who is recommended by AI in this category, and is the customer one of them?**
 
-There is a **core** of companies that AI answers name, and a **tail**. The core is stable — it changes
-seldom, and a limited number of questions is enough to detect it. Asking more only confirms it.
+There is a **core** of companies that AI answers name again and again, and the rest are named seldom.
+The core is stable — it changes seldom, and a limited number of questions is enough to detect it.
+Asking more only confirms it.
 
-The customer cares about one thing: **are they in the core.** In the tail, they can fight. In neither,
-that is different work.
+The customer cares about one thing: **are they in the core.** The verdict is one of three, in the
+product's own words. Use them verbatim:
+
+- **Core** — recommended in at least a quarter of AI answers, even allowing for how few answers there are.
+- **Too early to tell** — recommended sometimes, but too few answers so far to say whether that is often or rarely. Here they can fight.
+- **Rarely recommended** — recommended in fewer than a tenth of AI answers, even allowing for how few answers there are. That is different work.
+
+Never a fourth word, and never "tail" or "edge" to a reader.
 
 Everything else this dimension produces — presence, ranges, per-engine splits, endorsement, the
 blended score — is **the mechanism that decides membership, not the answer.**
@@ -109,8 +116,8 @@ Short. The answer is a membership statement, not a dashboard.
 # AI Visibility — {Project}
 *{n} answers on the {date} check; {N} pooled across {k} checks in the current window.*
 
-## Core or tail
-{One sentence: how many companies make up this market, and where the customer sits.}
+## The verdict
+{One sentence: how many companies make up this market, and whether the customer is Core, Too early to tell, or Rarely recommended.}
 
 ## The market as the models draw it
 | Company | Named in | Presence | Monitored |
@@ -143,5 +150,5 @@ Short. The answer is a membership statement, not a dashboard.
 End with 3–5 questions whose answers would change the recommendation. Tie them to what the data
 actually showed — not generic clarifications. State both branches where you can:
 
-> "If the goal is entering the core, the work is off-property and slow. If it is defending a tail
-> position against a specific rival, it is narrower and faster. Which is it?"
+> "If the goal is entering the core, the work is off-property and slow. If it is holding ground
+> against one specific rival, it is narrower and faster. Which is it?"

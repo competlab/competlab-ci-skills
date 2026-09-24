@@ -7,7 +7,7 @@ license: MIT
 allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_competitor mcp__competlab__get_briefing mcp__competlab__get_briefing_history mcp__competlab__get_briefing_edition mcp__competlab__get_positioning_dashboard mcp__competlab__get_positioning_history mcp__competlab__get_pricing_dashboard mcp__competlab__get_pricing_history mcp__competlab__get_content_dashboard mcp__competlab__get_content_changelog mcp__competlab__get_tech_trust_dashboard mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_ai_visibility_trend mcp__competlab__get_ai_sources_dashboard mcp__competlab__fetch_url WebSearch Read
 metadata:
   author: competlab
-  version: "3.1.1"
+  version: "3.2.0"
   website: https://competlab.com
   category: competitive-intelligence
 ---

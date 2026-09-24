@@ -6,6 +6,29 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ---
 
+## [3.2.0] — 2026-09-24
+
+### Fixed
+
+- **The briefing skill asked for a section that no longer exists.** "What to do about it" and the
+  full landscape requested `sections: ["hub","actions"]`. The platform removed `actions` on
+  2026-09-19, and asking for it is now refused with a 400. Every recommendation in a briefing now
+  opens as a ticket on the project's Strategic Tickets board, most important first. The skill reads
+  the hub's top moves and then the edition's tickets with `list_tickets` (`origin: "briefing"`,
+  `briefingRunId`). It reports where each ticket stands and never re-proposes work the team has
+  already closed or dismissed. `list_tickets` is added to its `allowed-tools`.
+- The platform reference no longer lists an `actions` section, and a briefing run is described as
+  finishing within two hours rather than taking "about two hours".
+
+### Changed
+
+- **The AI Visibility verdict uses the product's own three words:** Core, Too early to tell, and
+  Rarely recommended, each with the meaning the app shows. "Core or tail" is gone from the skill's
+  title, its output heading and its decision question, and from the shared reading rules.
+- `check-allowed-tools` knows the ten Strategic Tickets tools.
+
+---
+
 ## [3.1.1] — 2026-09-24
 
 ### Fixed

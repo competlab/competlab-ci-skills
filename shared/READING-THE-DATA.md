@@ -251,7 +251,7 @@ defect. Zero alerts is not evidence that nothing happened.
 ## 13. Don't lead with a score
 
 AI Visibility answers one question: **who is recommended by AI in this category, and is the customer
-one of them?** Core, tail, or neither.
+one of them?** Core, Too early to tell, or Rarely recommended.
 
 Lead with membership.
 

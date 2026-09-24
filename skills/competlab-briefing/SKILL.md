@@ -3,10 +3,10 @@ name: competlab-briefing
 description: |
   Reads a CompetLab project's Strategic Briefing — the platform's own synthesis across 14 analysis areas — at whatever depth the question needs: a short pulse, a full competitive landscape, or a specific dimension's deep dive. Also compares editions to answer what changed since last time. Use when the user asks for a "briefing", "CMO report", "strategic briefing", "competitive update", "what changed with competitors", "catch me up", "competitive landscape", "quarterly review", "full competitive analysis", or "board-level CI". NOT for a single competitor (use competlab-competitor-dive) or a sales card (use competlab-battlecard). Requires the CompetLab MCP server with an active project.
 license: MIT
-allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_briefing mcp__competlab__get_briefing_history mcp__competlab__get_briefing_edition mcp__competlab__list_alerts Read
+allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_briefing mcp__competlab__get_briefing_history mcp__competlab__get_briefing_edition mcp__competlab__list_tickets mcp__competlab__list_alerts Read
 metadata:
   author: competlab
-  version: "3.1.1"
+  version: "3.2.0"
   website: https://competlab.com
   category: competitive-intelligence
 ---
@@ -68,8 +68,8 @@ it route you rather than guessing.
 | The user wants | Sections |
 |---|---|
 | a pulse, "what changed", "catch me up" | `["hub"]` |
-| what to do about it | `["hub","actions"]` |
-| the full landscape / a board review | `["hub","actions","competitors"]` + the 2–3 `deep-*` the hub flags |
+| what to do about it | `["hub"]`, then the edition's tickets (below) |
+| the full landscape / a board review | `["hub","competitors"]` + the 2–3 `deep-*` the hub flags + the edition's tickets |
 | one dimension in depth | `["deep-<area>"]` |
 | everything, for export | `["all"]` — large; only when they asked for the whole thing |
 
@@ -77,6 +77,15 @@ The 14 deep sections: `deep-ai-visibility`, `deep-ai-sources`, `deep-positioning
 `deep-content`, `deep-tech-trust`, `deep-agent-readiness`, `deep-ai-ecosystem`, `deep-customer-voice`,
 `deep-funding-capital`, `deep-hiring-gtm`, `deep-landscape`, `deep-product-launches`,
 `deep-reliability-status`.
+
+**There is no `actions` section.** Asking for one is refused with a 400. Every recommendation in the
+briefing opens as a ticket on the project's Strategic Tickets board, most important first, and the
+board is the only place it lives. The hub keeps its "if you do only three things" moves. For the
+rest, call `list_tickets` with `origin: "briefing"` and the edition's `runId` as `briefingRunId` (the
+`runId` that `get_briefing` and `get_briefing_history` return). The briefing's `tickets` field says how
+many it opened and how they stand by column now. The team has had them since, so report where a
+ticket stands (`todo`, `in_progress`, `done`, or `dismissed` — the team decided not to) rather than
+re-proposing work they already closed.
 
 **Read the response's `contains` array** to see what that edition actually holds, rather than assuming
 a section exists.
@@ -119,7 +128,7 @@ For a pulse — short, under 400 words:
 {3–5 dated items, each with what it means. Not a list of numbers.}
 
 ## Worth doing
-{1–3 actions, sized. Cheapest first where they are equivalent.}
+{1–3 of the edition's moves or open tickets, sized. Cheapest first where they are equivalent. Name a ticket by its number, #14.}
 
 ## Not measured this run
 {From coverage — only what bears on the above.}

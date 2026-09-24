@@ -88,7 +88,8 @@ export const RULES = [
       'The endpoint is https://mcp.competlab.com/mcp ; competlab.com/developers/mcp is the docs page.',
   },
   {
-    // Cloudflare owns "Agent Readiness Score"; the dimension is Agent Adoption.
+    // "Agent readiness" is a common term in the market; we chose Agent Adoption to be
+    // distinguishable, and we use our own word consistently. A choice, not someone else's right.
     // The frozen keys (agent-readiness, deep-agent-readiness) and the trust-signal
     // category "enterprise readiness" are identifiers and pass. Case-sensitive on
     // purpose: the keys are always lowercase, so "Agent-Readiness" in prose is caught.

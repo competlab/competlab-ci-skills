@@ -49,7 +49,7 @@ anything else:
 | `meta.status` | what to do |
 |---|---|
 | `done` | the briefing is in `item`. Proceed. |
-| `running` | being generated now; `meta.progress` gives the step. A run takes about two hours — do not call it late or failed for taking that long. Read the previous edition instead (below). |
+| `running` | being generated now; `meta.progress` gives the step. A run finishes within two hours — do not call it late or failed before then. Read the previous edition instead (below). |
 | `failed` | the last attempt produced no edition. Surface it — it does not resume on its own. Read the previous edition. |
 | `null` | this project has never had a briefing. Only this means genuinely nothing. |
 

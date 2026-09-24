@@ -68,6 +68,10 @@ or
 Find the customer's row by `isOwn: true`. Use `marketMap.coreSize`, `rankByPresence`, and the presence
 figure **with its range and its count**.
 
+The verdict word comes from that row's `zone`, and from nothing else:
+`named_in_a_quarter_or_more_of_answers` → **Core** · `share_not_yet_separable` → **Too early to tell** ·
+`named_in_under_a_tenth_of_answers` → **Rarely recommended**.
+
 While `marketMap.tailIsProvable` is false, say **no brand can be ruled out of this market yet.**
 
 **5. Read the per-engine split before calling anything core.**

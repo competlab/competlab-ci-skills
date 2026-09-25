@@ -181,8 +181,8 @@ check, at most 12 points. Either way, a difference whose intervals overlap is tw
 movement, so do not narrate a trajectory the separability flag does not support.
 
 Because it carries every tracked competitor — one named in no answer included, at 0 of N with a `null`
-rank — the trend is also the cheap way to read one tracked competitor's standing when the map's first
-page does not reach it.
+rank — the trend is also the one call that
+gives the count for a tracked competitor named in no answer, which has no row on the map.
 
 **AI Sources** — `get_ai_sources_dashboard`, `get_ai_sources_history`, `get_ai_sources_check_detail`.
 
@@ -214,7 +214,9 @@ Sources dashboard and check detail, and the Tech & Trust dashboard. Compact page
 states a repeated fact once. `view: "full"` returns every row in one response, and it is large.
 
 - **AI Visibility:** `summary.marketMap.brands` is one page — ten rows or the whole core, whichever is
-  larger, plus the customer's own row — with `marketMap.brandsPage { offset, limit, total, hasMore }`.
+  larger, plus the customer's own row and every tracked competitor's — with
+  `marketMap.brandsPage { offset, limit, total, hasMore }`. The rows kept on every page repeat on
+  every page: de-duplicate by domain when you read more than one.
   Page with `mapOffset` / `mapLimit` (up to 200). `untrackedCoreBrands` and `customerStanding` are
   computed from the whole map.
 - **AI Sources:** `summary.brands` and `summary.pages` are pages (`brandsOffset` / `brandsLimit`,

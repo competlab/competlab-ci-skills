@@ -86,7 +86,8 @@ independentPagesNamingCustomer over pagesRead
 
 Where the platform *does* publish a share, it ships a confidence range with it (`presence`,
 `presenceLow`, `presenceHigh`). Then you may quote the share — but only beside its range and its
-count. See §4.
+count. See §4. The AI Sources brand list is the exception: there `presence` and its range only order
+the brands, and you report `answersNaming` of `answersReceived`.
 
 ---
 
@@ -306,15 +307,24 @@ fact. Before it reaches a person:
 
 The long lists come one page at a time, and the rows you hold are not the count.
 
-- **Compact view is the default.** On AI Visibility, `summary.marketMap.brands` is one page — the top
-  rows plus the customer's own — with `marketMap.brandsPage { offset, limit, total, hasMore }`. On AI
-  Sources, `summary.brands` and `summary.pages` are pages, with `summary.brandsPage` and
-  `summary.pagesPage`. How many companies the models named is `brandsPage.total`, never the length
-  of the page.
-- **A company missing from the page is not missing from the market.** While `hasMore` is true it may
-  be on a later page. Only when the whole list has been read and it is still absent was it named in
-  no answer — on the market map a company no answer named has no row at all, except the customer. For
-  one tracked competitor, `get_ai_visibility_trend` answers in one call (`platform.md`).
+- **Compact view is the default.** On AI Visibility, `summary.marketMap.brands` is one page — the
+  top rows plus the customer's own row and every tracked competitor's — with
+  `marketMap.brandsPage { offset, limit, total, hasMore }`. On AI Sources, `summary.brands` and
+  `summary.pages` are pages, with `summary.brandsPage` and `summary.pagesPage`. `brandsPage.total`
+  is every row on the list, never the length of the page — and not quite how many companies were
+  named: the list also keeps rows at `answersNaming: 0` (on the market map the customer's own, on
+  the AI Sources brand list the customer's and any tracked competitor's). Leave those out when you
+  say how many companies the models named.
+- **A company missing from the page is not missing from the market.** On the market map the
+  customer's row and every tracked competitor's are on every page, so a tracked competitor missing
+  from it was named in no answer. Any other company missing from a page — on the map or on the AI
+  Sources brand list — is on another page (`mapOffset`, `brandsOffset`) or was named in no answer,
+  and only a read of the whole list tells which. On the market map a company no answer named has no
+  row at all, except the customer; for a tracked competitor, `get_ai_visibility_trend` still gives
+  its count, 0 of N (`platform.md`).
+- **The rows kept on every page repeat on every page.** Read more than one page and the customer's
+  row and the tracked competitors' come back each time: de-duplicate by domain before you list or
+  count what you collected. The count is `brandsPage.total`, never the rows you gathered.
 - **`summary.pagesPage.total` counts rows of the page list, both engines together.** It is a paging
   figure, never how many pages the engines retrieved; that count is per engine, on
   `summary.perEngine` (§3).
@@ -336,5 +346,5 @@ The long lists come one page at a time, and the rows you hold are not the count.
 8. Did I pass `actionHint.text` and `limits.sentences` through verbatim?
 9. Did I present model prose as fact?
 10. Did I lead with a score instead of membership?
-11. Did I count the rows of one page as the whole list, or call a company absent that is on a later
-    page?
+11. Did I count the rows of one page as the whole list, call a company absent that is on another
+    page, or count a row kept on every page more than once?

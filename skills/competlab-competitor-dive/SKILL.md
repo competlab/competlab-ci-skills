@@ -7,7 +7,7 @@ license: MIT
 allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_competitor mcp__competlab__get_briefing mcp__competlab__get_briefing_history mcp__competlab__get_briefing_edition mcp__competlab__get_positioning_dashboard mcp__competlab__get_positioning_history mcp__competlab__get_pricing_dashboard mcp__competlab__get_pricing_history mcp__competlab__get_content_dashboard mcp__competlab__get_content_changelog mcp__competlab__get_tech_trust_dashboard mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_ai_visibility_trend mcp__competlab__get_ai_visibility_history mcp__competlab__get_ai_visibility_check_detail mcp__competlab__get_ai_sources_dashboard mcp__competlab__fetch_url WebSearch Read
 metadata:
   author: competlab
-  version: "3.3.1"
+  version: "3.3.2"
   website: https://competlab.com
   category: competitive-intelligence
 ---
@@ -87,10 +87,10 @@ where does the customer sit relative to them? Presence with its range and its co
 presence and by nothing else. **Two brands whose ranges overlap are tied.** Do not order them, and do
 not turn the overlap into a story.
 
-The map arrives one page at a time — the top rows plus the customer's own — so this rival may not be
-on it. `mcp__competlab__get_ai_visibility_trend` carries every tracked competitor, and its `now` is the
-latest map: read the rival's standing there. A rival at 0 of N with a `null` rank was named in no
-answer — say *not named in any answer*, never a place and never *not measured*.
+The map arrives one page at a time, and every page carries the customer's row and every tracked
+competitor's. A monitored rival missing from it was named in no answer — say *not named in any
+answer*, never a place and never *not measured*. `mcp__competlab__get_ai_visibility_trend` gives its
+count either way, 0 of N included, and its `now` is the latest map.
 
 The call worth knowing: `mcp__competlab__get_ai_visibility_check_detail` with `includeAnswers: true`
 and `brand=<their domain>` returns every answer of one check filtered to that one brand, and leaves

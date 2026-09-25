@@ -6,7 +6,7 @@ license: MIT
 allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__list_schedules mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_ai_visibility_trend mcp__competlab__get_briefing Read
 metadata:
   author: competlab
-  version: "3.3.1"
+  version: "3.3.2"
   website: https://competlab.com
   category: competitive-intelligence
 ---
@@ -69,8 +69,8 @@ withheld, not none. A brand the models name repeatedly and the project does not 
 strongest promotion candidate there is.
 
 For how often each monitored competitor is named, read `get_ai_visibility_trend`: it carries every
-tracked competitor, one named in no answer included (0 of N), while the dashboard's market map is one
-page and may not reach them all.
+tracked competitor, one named in no answer included (0 of N), while the dashboard's market map has
+no row for a competitor no answer named.
 
 **4. Frame every roster change as a swap.**
 A project monitors a limited number of competitors, so **adding one means dropping one.** Never write

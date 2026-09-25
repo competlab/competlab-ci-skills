@@ -6,6 +6,30 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ---
 
+## [3.3.2] — 2026-09-26
+
+### Changed
+
+- **Every page of the AI Visibility market map now carries the customer's row and every tracked
+  competitor's**, as the server has served since 2026-09-25 night. So a tracked competitor missing
+  from the page was named in no answer, and any other company missing from it is on another page
+  or was named in no answer. The competitor dive, the battlecard and the monitoring setup say so;
+  the trend still gives the count, 0 of N, for a tracked competitor no answer named.
+- **The kept rows repeat on every page.** Reading more than one page, de-duplicate by domain before
+  you list or count, and take the count from `brandsPage.total`.
+
+### Fixed
+
+- **`brandsPage.total` is not how many companies were named.** It counts every row on the list,
+  and the list keeps rows at `answersNaming: 0` — on the market map the customer's own, on the AI
+  Sources brand list the customer's and any tracked competitor's. Leave those out when you say how
+  many companies the models named.
+- A company missing from a page is on *another* page, not a later one: page 2 onward, it can be on
+  an earlier one.
+- The rule that allows quoting a published share beside its range now names its exception: on the
+  AI Sources brand list, `presence` and its range only order the brands, and you report
+  `answersNaming` of `answersReceived`.
+
 ## [3.3.1] — 2026-09-25
 
 ### Fixed

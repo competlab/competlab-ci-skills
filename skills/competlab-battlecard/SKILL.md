@@ -7,7 +7,7 @@ license: MIT
 allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_pricing_dashboard mcp__competlab__get_positioning_dashboard mcp__competlab__get_tech_trust_dashboard mcp__competlab__get_content_dashboard mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_ai_visibility_trend mcp__competlab__get_ai_sources_dashboard mcp__competlab__get_briefing mcp__competlab__fetch_url WebSearch Read
 metadata:
   author: competlab
-  version: "3.3.1"
+  version: "3.3.2"
   website: https://competlab.com
   category: competitive-intelligence
 ---
@@ -62,10 +62,9 @@ and whether the customer and this rival are among them. **Never the AI Visibilit
 blended figure, it answers a question no prospect asked, and a rep cannot defend it. Order is by
 presence, never by position, and **two brands whose ranges overlap are tied** — say tied, do not pick.
 
-The dashboard's map is one page — the top rows plus the customer's own — so this rival may not be on
-it. `mcp__competlab__get_ai_visibility_trend` carries every tracked competitor, and its `now` is the
-latest map: take the rival's count from there. A rival at 0 of N was named in no answer; that is a
-count the card can carry, never "not measured".
+Every page of the dashboard's map carries every tracked competitor an answer named. A rival missing
+from it was named in no answer: `mcp__competlab__get_ai_visibility_trend` gives its count, 0 of N —
+a count the card can carry, never "not measured".
 
 **4. AI Sources — where they are on the page and we are not.**
 `mcp__competlab__get_ai_sources_dashboard`. If this rival is named on hosts that more than one engine

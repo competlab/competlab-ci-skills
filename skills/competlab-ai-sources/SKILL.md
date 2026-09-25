@@ -6,7 +6,7 @@ license: MIT
 allowed-tools: mcp__competlab__list_projects mcp__competlab__list_competitors mcp__competlab__get_ai_sources_dashboard mcp__competlab__get_ai_sources_history mcp__competlab__get_ai_sources_check_detail Read
 metadata:
   author: competlab
-  version: "3.3.1"
+  version: "3.3.2"
   website: https://competlab.com
   category: competitive-intelligence
 ---
@@ -52,8 +52,9 @@ pooled), §7 (retrieved never cited) and §8 (condition codes are payload) all a
 **1. Resolve the project.** `list_projects` → `list_competitors`.
 
 **2. `get_ai_sources_dashboard`.** Everything is under `summary`, and it arrives compact:
-`summary.brands` and `summary.pages` are one page each — `summary.brandsPage.total` is how many
-companies the engines named, never the rows on the page — while `summary.coreHosts` is whole, each host
+`summary.brands` and `summary.pages` are one page each — `summary.brandsPage.total` is every row on
+the list, never the rows on the page: the companies the engines named, plus the customer's row and any
+tracked competitor's at `answersNaming: 0` — while `summary.coreHosts` is whole, each host
 with its `pageUrls`; `pagesHost: "<host>"` returns that host's page rows. The response opens with
 `readingGuide`, the rule for each field in it. Do not pass `includeAnswers` on the first call — the
 page lists are very large. When you need what was actually said, read one check with

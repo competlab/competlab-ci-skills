@@ -6,7 +6,7 @@ license: MIT
 allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_ai_visibility_trend mcp__competlab__get_ai_visibility_history mcp__competlab__get_ai_visibility_check_detail Read
 metadata:
   author: competlab
-  version: "3.3.1"
+  version: "3.3.2"
   website: https://competlab.com
   category: competitive-intelligence
 ---
@@ -47,10 +47,12 @@ the roster (the customer's own domain is in it, marked `isOwn: true`).
 
 **2. Read the market map.**
 `get_ai_visibility_dashboard`. Go to `summary.marketMap`. It arrives compact: `marketMap.brands` is
-one page — the top rows, at least the whole core, plus the customer's own — and
-`marketMap.brandsPage.total` is how many companies the models named. A company missing from the page
-may be on a later one (`mapOffset`, while `brandsPage.hasMore`). The response opens with
-`readingGuide`, the platform's rule for each field in it; read it first.
+one page — the top rows, at least the whole core, plus the customer's own row and every tracked
+competitor's — and `marketMap.brandsPage.total` is every row on the map: the companies the models
+named, plus the customer's own row when no answer named it. A tracked competitor missing from the
+page was named in no answer; any other company missing from it is on another page (`mapOffset`) or
+was named in no answer. Reading several pages, de-duplicate by domain — the kept rows repeat. The
+response opens with `readingGuide`, the platform's rule for each field in it; read it first.
 
 **3. Check `summary.promptMarket` before you use the map.**
 
@@ -134,7 +136,7 @@ Short. The answer is a membership statement, not a dashboard.
 {One sentence: how many companies make up this market, and whether the customer is Core, Too early to tell, or Rarely recommended.}
 
 ## The market as the models draw it
-{coreSize companies make up the market; the models named brandsPage.total in all.}
+{coreSize companies make up the market; the models named n in all — brandsPage.total, less the customer's row if no answer named it.}
 | Company | Named in | Presence | Monitored |
 |---|---|---|---|
 {rows from the page you read — presence with its range; ties marked as ties}

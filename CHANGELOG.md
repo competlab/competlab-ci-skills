@@ -6,6 +6,18 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ---
 
+## [3.3.1] — 2026-09-25
+
+### Fixed
+
+- **What a briefing produces, in the words locked for Strategic Tickets 3.2.** "Every recommendation
+  opens as a ticket, most important first" stopped being true when the briefing began reading the
+  board: a move the board already holds opens no second ticket, and an edition may open none. The
+  briefing skill and the platform notes now say: *every move in the briefing lands on your Strategic
+  Tickets board — as a new ticket, most important first, or on the ticket already there for that
+  work.* A *move* is what the edition recommends, a *ticket* is its card on the board, and what an
+  edition writes on a ticket is a *comment*.
+
 ## [3.3.0] — 2026-09-25
 
 ### Changed

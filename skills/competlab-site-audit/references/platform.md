@@ -126,7 +126,10 @@ Editions are numbered and persist. A run finishes within two hours.
 
 Sections: `hub` (default — the executive digest), `competitors`, and `deep-<area>` for each of the 14.
 Read `contains` to see what an edition actually holds. There is no `actions` section: every
-recommendation opens as a ticket on the project's Strategic Tickets board, most important first.
+move in the briefing lands on the project's Strategic Tickets board — as a new ticket, most important
+first, or on the ticket already there for that work. A *move* is what the edition recommends, on its
+own pages; a *ticket* is that move's card on the board; what an edition writes on a ticket is a
+*comment*.
 Read one edition's with `list_tickets` (`origin: "briefing"`, `briefingRunId`). The list is paged:
 quote `pagination.total`, and ask for `page + 1` while `pagination.hasMore`.
 
@@ -135,8 +138,8 @@ here), `todo` (decided, not started), `in_progress`, `done` (the team moved it t
 the work was good or that a measurement moved because of it) and `dismissed` (the team decided not to
 do it).
 
-From the second edition on, the briefing reads the board before it writes: a recommendation the
-board already holds opens no second ticket, and the edition comments on tickets already there when
+From the second edition on, the briefing reads the board before it writes: a move the board
+already holds opens no second ticket, and the edition comments on tickets already there when
 something was measured. The briefing's `tickets` field says what the edition did to the board in one
 call — `opened`, `commented` (`ticketId`, `commentId`, `kind`, `body`), `alreadyOnBoard` and
 `recheckedUnchanged`; a ticket in neither `commented` nor `recheckedUnchanged` was not measured by

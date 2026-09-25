@@ -6,7 +6,7 @@ license: MIT
 allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_briefing mcp__competlab__get_briefing_history mcp__competlab__get_briefing_edition mcp__competlab__list_tickets mcp__competlab__list_alerts Read
 metadata:
   author: competlab
-  version: "3.3.0"
+  version: "3.3.1"
   website: https://competlab.com
   category: competitive-intelligence
 ---
@@ -78,22 +78,22 @@ The 14 deep sections: `deep-ai-visibility`, `deep-ai-sources`, `deep-positioning
 `deep-funding-capital`, `deep-hiring-gtm`, `deep-landscape`, `deep-product-launches`,
 `deep-reliability-status`.
 
-**There is no `actions` section.** Asking for one is refused with a 400. Every recommendation in the
-briefing opens as a ticket on the project's Strategic Tickets board, most important first, and the
-board is the only place it lives. The hub keeps its "if you do only three things" moves. For the
+**There is no `actions` section.** Asking for one is refused with a 400. Every move in the briefing
+lands on the project's Strategic Tickets board — as a new ticket, most important first, or on the
+ticket already there for that work — and the board is the only place it lives. The hub keeps its "if you do only three things" moves. For the
 rest, call `list_tickets` with `origin: "briefing"` and the edition's `runId` as `briefingRunId` (the
 `runId` that `get_briefing` and `get_briefing_history` return). The list is paged: quote
 `pagination.total`, never the rows on one page, and ask for `page + 1` while `pagination.hasMore`.
 The briefing's `tickets` field says what
 the edition did to the board, in one call: `opened` (and `total` / `byStatus`, how those stand by
 column now), `commented` (the comments it wrote on tickets already there — `ticketId`, `commentId`,
-`kind`, `body`), `alreadyOnBoard` (the tickets its recommendations matched instead of opening a second
-one, each with the recommendation) and `recheckedUnchanged` (open tickets it measured again and found
+`kind`, `body`), `alreadyOnBoard` (the tickets its moves matched instead of opening a second one,
+each with its `move`) and `recheckedUnchanged` (open tickets it measured again and found
 where they stood). A ticket in neither `commented` nor `recheckedUnchanged` was not measured by this
 edition — say *not checked*, never *unchanged*. The team has had the tickets since, so report where a
 ticket stands (`triage` — nobody has decided yet; `todo`; `in_progress`; `done`; or `dismissed` — the
-team decided not to) rather than re-proposing work they already closed, and name a recommendation that
-is `alreadyOnBoard` by its ticket number rather than as new work. `done` means the team moved it there,
+team decided not to) rather than re-proposing work they already closed, and name a move that is
+`alreadyOnBoard` by its ticket number rather than as new work. `done` means the team moved it there,
 never that the work succeeded.
 
 **An edition's comment is a measurement, not a verdict.** A thread entry whose `briefing` is set was

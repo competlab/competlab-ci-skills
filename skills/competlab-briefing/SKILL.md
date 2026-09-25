@@ -6,7 +6,7 @@ license: MIT
 allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_briefing mcp__competlab__get_briefing_history mcp__competlab__get_briefing_edition mcp__competlab__list_tickets mcp__competlab__list_alerts Read
 metadata:
   author: competlab
-  version: "3.2.2"
+  version: "3.3.0"
   website: https://competlab.com
   category: competitive-intelligence
 ---
@@ -49,8 +49,8 @@ anything else:
 | `meta.status` | what to do |
 |---|---|
 | `done` | the briefing is in `item`. Proceed. |
-| `running` | being generated now; `meta.progress` gives the step. A run finishes within two hours — do not call it late or failed before then. Read the previous edition instead (below). |
-| `failed` | the last attempt produced no edition. Surface it — it does not resume on its own. Read the previous edition. |
+| `running` | being generated now; `meta.progress` gives the step. A run finishes within two hours — treat it as running until `meta.status` changes, never as late or failed for how long it has taken. Read the previous edition meanwhile (below). |
+| `failed` | the last attempt ended without producing an edition. Read the previous edition (below). |
 | `null` | this project has never had a briefing. Only this means genuinely nothing. |
 
 **On `running` or `failed`, `item` is null but an earlier edition is almost always readable.** Call
@@ -82,16 +82,19 @@ The 14 deep sections: `deep-ai-visibility`, `deep-ai-sources`, `deep-positioning
 briefing opens as a ticket on the project's Strategic Tickets board, most important first, and the
 board is the only place it lives. The hub keeps its "if you do only three things" moves. For the
 rest, call `list_tickets` with `origin: "briefing"` and the edition's `runId` as `briefingRunId` (the
-`runId` that `get_briefing` and `get_briefing_history` return). The briefing's `tickets` field says what
+`runId` that `get_briefing` and `get_briefing_history` return). The list is paged: quote
+`pagination.total`, never the rows on one page, and ask for `page + 1` while `pagination.hasMore`.
+The briefing's `tickets` field says what
 the edition did to the board, in one call: `opened` (and `total` / `byStatus`, how those stand by
 column now), `commented` (the comments it wrote on tickets already there — `ticketId`, `commentId`,
 `kind`, `body`), `alreadyOnBoard` (the tickets its recommendations matched instead of opening a second
 one, each with the recommendation) and `recheckedUnchanged` (open tickets it measured again and found
 where they stood). A ticket in neither `commented` nor `recheckedUnchanged` was not measured by this
 edition — say *not checked*, never *unchanged*. The team has had the tickets since, so report where a
-ticket stands (`todo`, `in_progress`, `done`, or `dismissed` — the team decided not to) rather than
-re-proposing work they already closed, and name a recommendation that is `alreadyOnBoard` by its
-ticket number rather than as new work.
+ticket stands (`triage` — nobody has decided yet; `todo`; `in_progress`; `done`; or `dismissed` — the
+team decided not to) rather than re-proposing work they already closed, and name a recommendation that
+is `alreadyOnBoard` by its ticket number rather than as new work. `done` means the team moved it there,
+never that the work succeeded.
 
 **An edition's comment is a measurement, not a verdict.** A thread entry whose `briefing` is set was
 written by an edition; `kind` says why — `result` (Measured after close: the check before the ticket

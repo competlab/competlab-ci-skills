@@ -77,7 +77,7 @@ nothing, and it supplies none of the per-brand description the chat models do. S
 
 The dimension's answer is the customer's verdict — **Core**, **Too early to tell** or **Rarely
 recommended** — read `summary.marketMap`, and `summary.promptMarket`
-before it.
+before it. The map arrives one page at a time (*Compact and full*, below).
 
 ---
 
@@ -93,8 +93,10 @@ It reads a different prompt set from AI Visibility and shares no data with it.
 
 The work list is `summary.coreHosts` filtered to `status: "missing"` — hosts two or more engines read
 for this market that do not name the customer — then split on `ownership`, which has exactly two
-values: `third_party` is approachable, `competitor_owned` is not. `summary.funnel.missingPublishers`
-and `missingCompetitorOwned` carry that split already.
+values. `competitor_owned` is the site of a competitor the project tracks, and is not a target.
+`third_party` is approachable — including a site that belongs to a company the engines named but the
+project does not track; its pages carry `ownedBy`. `summary.funnel.missingPublishers` and
+`missingCompetitorOwned` carry that split already.
 
 `kind` (`publisher`, `community`, `review_site`, `video`) is a separate field describing the sort of
 site, not a filter for the work list.
@@ -125,7 +127,13 @@ Editions are numbered and persist. A run finishes within two hours.
 Sections: `hub` (default — the executive digest), `competitors`, and `deep-<area>` for each of the 14.
 Read `contains` to see what an edition actually holds. There is no `actions` section: every
 recommendation opens as a ticket on the project's Strategic Tickets board, most important first.
-Read one edition's with `list_tickets` (`origin: "briefing"`, `briefingRunId`).
+Read one edition's with `list_tickets` (`origin: "briefing"`, `briefingRunId`). The list is paged:
+quote `pagination.total`, and ask for `page + 1` while `pagination.hasMore`.
+
+A ticket stands in one of five columns: `triage` (nobody has decided yet — an edition's tickets land
+here), `todo` (decided, not started), `in_progress`, `done` (the team moved it there — never proof
+the work was good or that a measurement moved because of it) and `dismissed` (the team decided not to
+do it).
 
 From the second edition on, the briefing reads the board before it writes: a recommendation the
 board already holds opens no second ticket, and the edition comments on tickets already there when
@@ -144,7 +152,7 @@ history to difference against, and states its own limits. Read the section.
 
 ## Tool map
 
-38 tools. The ones these skills use, by question.
+48 tools on the hosted server. The ones these skills use, by question.
 
 **Orientation**
 | Question | Tool |
@@ -163,10 +171,17 @@ history to difference against, and states its own limits. Read the section.
 **AI Visibility** — `get_ai_visibility_dashboard`, `get_ai_visibility_history`,
 `get_ai_visibility_check_detail`, `get_ai_visibility_trend`.
 
-`get_ai_visibility_trend` returns **one row per company** with a reading now, a reading at the start of
-the window, and whether the two are separable — a digest, not a plot. `detail: "series"` adds each
-company's share check by check, at most 12 points. Either way, a difference whose intervals overlap is
-two readings and not a movement, so do not narrate a trajectory the separability flag does not support.
+`get_ai_visibility_trend` returns **one row per company** — the customer, every tracked competitor and
+up to 3 untracked companies; a company with no reading has no row — with a reading now, a reading at
+the start of the window, and whether the two are separable: a digest, not a plot. `now` is the latest
+map and pools its `checksAnalysed` checks; it is never the latest check alone, which is
+`get_ai_visibility_history` with `limit: 1`. `detail: "series"` adds each company's share check by
+check, at most 12 points. Either way, a difference whose intervals overlap is two readings and not a
+movement, so do not narrate a trajectory the separability flag does not support.
+
+Because it carries every tracked competitor — one named in no answer included, at 0 of N with a `null`
+rank — the trend is also the cheap way to read one tracked competitor's standing when the map's first
+page does not reach it.
 
 **AI Sources** — `get_ai_sources_dashboard`, `get_ai_sources_history`, `get_ai_sources_check_detail`.
 
@@ -191,6 +206,31 @@ The three `start_*` tools are async — poll the matching `get_*` with the retur
 
 ---
 
+## Compact and full
+
+Six reads default to a **compact** view: the AI Visibility dashboard, check detail and history, the AI
+Sources dashboard and check detail, and the Tech & Trust dashboard. Compact pages the long lists and
+states a repeated fact once. `view: "full"` returns every row in one response, and it is large.
+
+- **AI Visibility:** `summary.marketMap.brands` is one page — ten rows or the whole core, whichever is
+  larger, plus the customer's own row — with `marketMap.brandsPage { offset, limit, total, hasMore }`.
+  Page with `mapOffset` / `mapLimit` (up to 200). `untrackedCoreBrands` and `customerStanding` are
+  computed from the whole map.
+- **AI Sources:** `summary.brands` and `summary.pages` are pages (`brandsOffset` / `brandsLimit`,
+  `pagesOffset` / `pagesLimit`), each with its `…Page` object; the customer's brand row is always on
+  the page. `summary.coreHosts` is whole, and each host lists its `pageUrls`; `pagesHost: "<host>"`
+  returns that host's page rows.
+- **AI Visibility history:** each check carries the first ten competitor rankings plus the tracked
+  competitors and the customer.
+- **Tech & Trust:** what each AI crawler is, is stated once in `crawlerCatalog`; an explanation that
+  carries only a `code` is rendered from `explanationCatalog[code]`, verbatim.
+- **Every response opens with `readingGuide`,** the rule for each field in it.
+
+Paging beside `view: "full"` is refused (`paging_requires_compact_view`). Reading the rows of one page
+as the whole list is the error to avoid — `reading-the-data.md` §15.
+
+---
+
 ## Reads are cheap, runs are not
 
 Every dimension check and every briefing edition costs real money to produce — they query commercial
@@ -204,17 +244,25 @@ Never trigger a scan in a loop or an unattended sweep.
 
 ## Answer sizes
 
-`includeAnswers: true` on the AI Visibility and AI Sources dashboards returns what the engines
-actually said. It is large — roughly 25k tokens on a three-engine check, 46k on a five-engine one, and
-the AI Sources page lists run to dozens of pages per answer.
+`includeAnswers: true` returns what the engines actually said, and it is the largest read on the
+server. It grows with the market: read `summary.totalEntries` (AI Visibility's brand entries) before
+you ask for it. On a market of about a hundred companies, one check's unfiltered answers ran to about
+450,000 characters on AI Visibility and 240,000 on AI Sources.
+
+**Read answers on the check detail, not the dashboard.** With `includeAnswers: true` a check detail
+leaves its summary out unless you pass `includeSummary: true`; the dashboard carries its whole compact
+summary as well. The latest check's id is `get_ai_visibility_history` or `get_ai_sources_history`
+with `limit: 1`.
 
 Filter instead of fetching everything:
 
-- `brand=` — one domain across every answer: roughly 2k tokens on a three-engine check, and about 9k
-  against 46k once Google AI Overviews is in the ask, whose overview text and cited pages this filter
-  keeps. The cheapest way to answer "where does this
-  competitor beat me, and where are they invisible".
-- `provider=` / `engine=` — one engine.
-- `promptIndex=` — one question across every engine.
+- `provider=` (AI Visibility) or `engine=` (AI Sources) **with** `promptIndex=` — one engine's answer
+  to one question, the smallest read: about 13,000 characters on AI Visibility and 27,000 on AI
+  Sources, on that market.
+- `brand=` (AI Visibility) — one domain across every answer. The cheapest way to answer "where does
+  this competitor beat me, and where are they invisible", and still about 66,000 characters there.
+- On AI Sources, `promptIndex=` is the filter that cuts. `engine=perplexity` alone barely shrinks
+  the read, because Perplexity's page lists are the long ones.
 
-Read `summary.totalEntries` first to size the call.
+Measured 2026-09-25, in characters. One Claude tokenizer read these payloads at two to three
+characters a token.

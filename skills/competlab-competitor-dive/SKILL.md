@@ -4,10 +4,10 @@ description: |
   Builds a decision-ready dossier on ONE monitored competitor from every dimension CompetLab holds on them — AI Visibility, AI Sources, Positioning, Pricing Intelligence, Content Intelligence, Tech & Trust Profile — plus the Strategic Briefing's own researched read on that rival. Use when the user asks to "analyze [competitor]", "deep dive on [competitor]", "competitor dossier", "competitor profile", "research [competitor]", "what is [competitor] doing", "SWOT analysis for [competitor]", "competitor SWOT", or "tell me everything about [competitor]". NOT a card to read on a sales call (use competlab-battlecard), and NOT the whole market at once. Requires the CompetLab MCP server with an active project where this competitor is monitored.
 argument-hint: <competitor-name-or-domain>
 license: MIT
-allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_competitor mcp__competlab__get_briefing mcp__competlab__get_briefing_history mcp__competlab__get_briefing_edition mcp__competlab__get_positioning_dashboard mcp__competlab__get_positioning_history mcp__competlab__get_pricing_dashboard mcp__competlab__get_pricing_history mcp__competlab__get_content_dashboard mcp__competlab__get_content_changelog mcp__competlab__get_tech_trust_dashboard mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_ai_visibility_trend mcp__competlab__get_ai_sources_dashboard mcp__competlab__fetch_url WebSearch Read
+allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_competitor mcp__competlab__get_briefing mcp__competlab__get_briefing_history mcp__competlab__get_briefing_edition mcp__competlab__get_positioning_dashboard mcp__competlab__get_positioning_history mcp__competlab__get_pricing_dashboard mcp__competlab__get_pricing_history mcp__competlab__get_content_dashboard mcp__competlab__get_content_changelog mcp__competlab__get_tech_trust_dashboard mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_ai_visibility_trend mcp__competlab__get_ai_visibility_history mcp__competlab__get_ai_visibility_check_detail mcp__competlab__get_ai_sources_dashboard mcp__competlab__fetch_url WebSearch Read
 metadata:
   author: competlab
-  version: "3.2.2"
+  version: "3.3.0"
   website: https://competlab.com
   category: competitive-intelligence
 ---
@@ -87,17 +87,24 @@ where does the customer sit relative to them? Presence with its range and its co
 presence and by nothing else. **Two brands whose ranges overlap are tied.** Do not order them, and do
 not turn the overlap into a story.
 
-The cheap call worth knowing: `includeAnswers: true` with `brand=<their domain>` returns every answer
-filtered to that one brand for roughly 2k tokens on a three-engine check, and about 9k once Google AI
-Overviews is in the ask, against 25k–46k unfiltered. It is the cheapest way
-to answer *where do they beat us, and where are they invisible*. An answer that comes back with an
-empty brands list is an answer the model gave without naming them — a real finding, and a different
-one from a question that produced no answer at all.
+The map arrives one page at a time — the top rows plus the customer's own — so this rival may not be
+on it. `mcp__competlab__get_ai_visibility_trend` carries every tracked competitor, and its `now` is the
+latest map: read the rival's standing there. A rival at 0 of N with a `null` rank was named in no
+answer — say *not named in any answer*, never a place and never *not measured*.
 
-`mcp__competlab__get_ai_visibility_trend` returns **one row per company**: a reading now, a reading at
-the start of the window, and whether the two are separable. **It is not a time series.** There is no
-trajectory in it and no ninety days of movement to read off it. Where the intervals overlap, that is
-two readings, not a movement.
+The call worth knowing: `mcp__competlab__get_ai_visibility_check_detail` with `includeAnswers: true`
+and `brand=<their domain>` returns every answer of one check filtered to that one brand, and leaves
+the summary out. Take the latest check's id from `mcp__competlab__get_ai_visibility_history` with
+`limit: 1`. It is the cheapest way to answer *where do they beat us, and where are they invisible* —
+on a large market it still runs to tens of thousands of characters (`references/platform.md` § Answer
+sizes). An answer that comes back with an empty brands list is an answer the model gave without
+naming them — a real finding, and a different one from a question that produced no answer at all.
+
+The trend's rows are the customer, every tracked competitor and up to 3 untracked companies: a reading
+now (pooling its `checksAnalysed` checks, never the latest check alone), a reading at the start of the
+window, and whether the two are separable. **Without `detail: "series"` it is two readings, not a
+time series.** Call the difference a rise or a fall only when `presenceChangeSeparable` is true; where
+the intervals overlap, it is two readings, not a movement.
 
 **5. AI Sources — the pages behind those answers.**
 `mcp__competlab__get_ai_sources_dashboard`. Perplexity and Google AI Overviews only: they are the two
@@ -162,7 +169,8 @@ sections this edition does not contain.}
 - Do not re-research funding, hiring, launches, reliability, customer voice or the developer ecosystem
   with a search. The briefing did it, across more sources, with history.
 - Do not lead with the AI Visibility Score, a mention rate, a position or a citation count.
-- Do not read a trajectory, a direction or a rate of change off the trend tool. It holds two readings.
+- Do not read a trajectory or a rate of change off the trend tool. It holds two readings, and their
+  difference is a rise or a fall only when `presenceChangeSeparable` is true.
 - Do not order two brands whose ranges overlap, or call an overlapping difference a rise or a fall.
 - Do not pool engines, and do not report a figure without the universe it came out of.
 - Do not treat a `null` as a zero, or a page that could not be read as a page the brand is absent from.

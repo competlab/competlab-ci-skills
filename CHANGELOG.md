@@ -6,6 +6,55 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ---
 
+## [3.3.0] — 2026-09-25
+
+### Changed
+
+- **The long lists come one page at a time, and every skill that reads one says so.** Six reads
+  default to a compact view on the server: the AI Visibility dashboard, check detail and history, the
+  AI Sources dashboard and check detail, and the Tech & Trust dashboard. The market map, the AI
+  Sources brand list and its page list are one page each, with a `…Page` object. The rule: quote its
+  `total`, never the rows on the page, and never call a company absent that may sit on a later page.
+  The shared reading rules gain §15, *A page is not the whole list*; `PLATFORM.md` gains *Compact and
+  full* — `readingGuide`, `crawlerCatalog`, `explanationCatalog`, `coreHosts[].pageUrls`, `pagesHost`,
+  `view: "full"`.
+- **One tracked competitor's standing is read from the trend.** The competitor dive, the battlecard
+  and the monitoring setup read `get_ai_visibility_trend`, which carries every tracked competitor —
+  one named in no answer included — where the map's first page may not reach it. The trend's rows (the
+  customer, every tracked competitor, up to 3 untracked companies) and its `now` (the latest map,
+  pooling its `checksAnalysed` checks, never the latest check alone) are described as served.
+- **Answers are read on the check detail.** With `includeAnswers: true` it leaves the summary out
+  unless `includeSummary: true`, where the dashboard carries its summary as well. The answer sizes are
+  measured again (2026-09-25, in characters) and live in one place, `PLATFORM.md` § Answer sizes;
+  `promptIndex=` is named as the filter that cuts an AI Sources read.
+- **A rank is `null` on a brand named in no answer** — a measured absence: *not named in any answer*,
+  never a place, never a fall, never *not measured*. It is the one carve-out from *null means not
+  measured*. A score of `0` on the trend is measured too.
+- **`competitor_owned` is a tracked competitor's own site.** A site belonging to a company the engines
+  named but the project does not track is `third_party`, and on the work list.
+- **The ticket board is paged:** quote `pagination.total`, and ask for the next page while
+  `pagination.hasMore`. The five columns are named, `triage` included, and `done` is never proof that
+  the work succeeded.
+
+### Fixed
+
+- The briefing skill and the shared rules told an agent to surface a failed briefing and said it would
+  not run again on its own. That was false — a failed run is due again roughly 30 days after it ran —
+  and a skill gives no advice about a failed run of ours. `failed` now reads as the last attempt ending
+  without an edition, and the agent reads the latest completed edition.
+- The shared briefing table still said a run "takes about two hours"; it finishes within two hours.
+- The tool map and `AGENTS.md` gave a tool count of 38; the hosted server lists 48.
+- The monitoring setup's sentence on `untrackedCoreBrands` broke off mid-clause. It now says what the
+  list is: a recommendation to track, computed from the whole map; an absent list means withheld, not
+  none.
+- The competitor dive said never to read a direction off the trend. A difference is a rise or a fall
+  when `presenceChangeSeparable` is true, and only then.
+
+### Added
+
+- `check:facts` gains three rules: a tool count other than the served card's, "does not resume" on a <!-- facts-ok -->
+  briefing, and the old answer-size figures.
+
 ## [3.2.2] — 2026-09-25
 
 ### Changed
@@ -89,7 +138,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 - **Monitoring setup read a field that does not exist.** It looked for `origin` on market-map brand rows
   to find untracked brands. There is no such field. It now reads `untrackedCoreBrands`, which the
   platform computes directly, with each brand presence and range.
-- The `brand=` token estimate was for a three-engine check. It is roughly 2k there and about 9k once
+- The `brand=` token estimate was for a three-engine check. It is roughly 2k there and about 9k once <!-- facts-ok: historical entry -->
   Google AI Overviews is in the ask.
 - A reference inside a skill pointed at `references/reading-the-data.md` from within `references/`.
 

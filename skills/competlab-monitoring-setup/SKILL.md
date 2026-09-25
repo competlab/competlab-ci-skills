@@ -3,10 +3,10 @@ name: competlab-monitoring-setup
 description: |
   Reviews how a CompetLab project is configured and recommends what to change — whether the right competitors are on the roster, whether the AI Visibility prompts describe the market the customer actually competes in, and what the schedules are running per dimension. Proposes roster changes as swaps with the evidence on both sides, because a project monitors a limited number of competitors. Use when the user asks "am I tracking the right competitors", "should I add X to monitoring", "are my prompts right", "review my monitoring setup", "how often does this run", "what is my schedule", or "who should I drop". NOT for reading what the monitoring found (use the per-dimension skills). Recommends only — it changes nothing. Requires the CompetLab MCP server with an active project.
 license: MIT
-allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__list_schedules mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_briefing Read
+allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__list_schedules mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_ai_visibility_trend mcp__competlab__get_briefing Read
 metadata:
   author: competlab
-  version: "3.2.2"
+  version: "3.3.0"
   website: https://competlab.com
   category: competitive-intelligence
 ---
@@ -62,9 +62,15 @@ unmonitored brands worth adding and states its reasoning; the hub names them and
 section carries the case. Check `meta.status` first — on `running` or `failed`, `item` is null but an
 earlier edition is usually still readable.
 
-Then `item.untrackedCoreBrands` on the AI Visibility dashboard — the platform already computes which brands are core to this market and not on the roster, each with its presence and range
-yet appear in the answers. A brand the models name repeatedly and the project does not watch is the
+Then `item.untrackedCoreBrands` on the AI Visibility dashboard: the platform already computes, from the
+whole market map, which brands are core to this market and not on the roster, each with its presence
+and range. It is a recommendation to track them, never a fact about them, and an absent list means
+withheld, not none. A brand the models name repeatedly and the project does not watch is the
 strongest promotion candidate there is.
+
+For how often each monitored competitor is named, read `get_ai_visibility_trend`: it carries every
+tracked competitor, one named in no answer included (0 of N), while the dashboard's market map is one
+page and may not reach them all.
 
 **4. Frame every roster change as a swap.**
 A project monitors a limited number of competitors, so **adding one means dropping one.** Never write

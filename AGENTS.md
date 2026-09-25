@@ -57,7 +57,7 @@ customer's own site against what the monitored dimensions managed to read from i
 | Transport | Streamable HTTP |
 | Auth header | `CL-API-Key` |
 | Key format | begins `cl_live_` |
-| Tools exposed | 38 |
+| Tools exposed | 48 |
 
 `https://competlab.com/developers/mcp` is the **setup documentation page**, not the endpoint. Point
 a client at `https://mcp.competlab.com/mcp`.

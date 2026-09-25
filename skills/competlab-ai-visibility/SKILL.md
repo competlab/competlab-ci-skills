@@ -6,7 +6,7 @@ license: MIT
 allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_ai_visibility_trend mcp__competlab__get_ai_visibility_history mcp__competlab__get_ai_visibility_check_detail Read
 metadata:
   author: competlab
-  version: "3.2.2"
+  version: "3.3.0"
   website: https://competlab.com
   category: competitive-intelligence
 ---
@@ -46,7 +46,11 @@ brands whose ranges overlap.
 the roster (the customer's own domain is in it, marked `isOwn: true`).
 
 **2. Read the market map.**
-`get_ai_visibility_dashboard`. Go to `summary.marketMap`.
+`get_ai_visibility_dashboard`. Go to `summary.marketMap`. It arrives compact: `marketMap.brands` is
+one page — the top rows, at least the whole core, plus the customer's own — and
+`marketMap.brandsPage.total` is how many companies the models named. A company missing from the page
+may be on a later one (`mapOffset`, while `brandsPage.hasMore`). The response opens with
+`readingGuide`, the platform's rule for each field in it; read it first.
 
 **3. Check `summary.promptMarket` before you use the map.**
 
@@ -65,8 +69,10 @@ or
 > "Eight companies make up this market. The customer is not one of them — named in 1 of the 15 answers
 > this check, against the leader's 14."
 
-Find the customer's row by `isOwn: true`. Use `marketMap.coreSize`, `rankByPresence`, and the presence
-figure **with its range and its count**.
+Find the customer's row by `isOwn: true` — it is always on the page. Use `marketMap.coreSize`,
+`rankByPresence`, and the presence figure **with its range and its count**. A `null` `rankByPresence`
+means no answer named the customer: say *not named in any answer* — never a place, never *not
+measured*.
 
 The verdict word comes from that row's `zone`, and from nothing else:
 `named_in_a_quarter_or_more_of_answers` → **Core** · `share_not_yet_separable` → **Too early to tell** ·
@@ -79,14 +85,18 @@ A brand core to one model and a brand core to all five look identical on the poo
 `perEngine`. A brand named everywhere is a different finding from a brand one model likes.
 
 **6. Only now, the supporting reading.**
-- `get_ai_visibility_trend` — one row per company, a reading now and at the window's start, and
-  whether they are separable. A digest, not a plot; `detail: "series"` adds up to 12 points per
-  company if you genuinely need them. Either way, if the ranges overlap that is two readings, not a
-  movement.
-- `get_ai_visibility_history` → `get_ai_visibility_check_detail` for a specific past check.
-- `includeAnswers: true` with `brand=`, `provider=` or `promptIndex=` when you need what was actually
-  said. Unfiltered is 25k–46k tokens. `brand=` is roughly 2k on a three-engine check and about 9k
-  once Google AI Overviews is in the ask — still the cheapest read by a wide margin.
+- `get_ai_visibility_trend` — one row each for the customer, every tracked competitor and up to 3
+  untracked companies: a reading now, a reading at the window's start, and whether they are
+  separable. `now` is the latest map, pooling its `checksAnalysed` checks — never the latest check
+  alone. A digest, not a plot; `detail: "series"` adds up to 12 points per company if you genuinely
+  need them. Either way, if the ranges overlap that is two readings, not a movement.
+- `get_ai_visibility_history` → `get_ai_visibility_check_detail` for a specific past check;
+  `get_ai_visibility_history` with `limit: 1` for the latest check alone.
+- What the models actually said: `get_ai_visibility_check_detail` with `includeAnswers: true` and a
+  filter — `provider=` with `promptIndex=` for one model's answer to one question, `brand=` for one
+  domain across every answer. An answers read there leaves the summary out unless
+  `includeSummary: true`. Unfiltered it runs to hundreds of thousands of characters on a large
+  market; the figures are in `references/platform.md` § Answer sizes.
 
 ## Reporting rules specific to this dimension
 
@@ -124,9 +134,10 @@ Short. The answer is a membership statement, not a dashboard.
 {One sentence: how many companies make up this market, and whether the customer is Core, Too early to tell, or Rarely recommended.}
 
 ## The market as the models draw it
+{coreSize companies make up the market; the models named brandsPage.total in all.}
 | Company | Named in | Presence | Monitored |
 |---|---|---|---|
-{rows — presence with its range; ties marked as ties}
+{rows from the page you read — presence with its range; ties marked as ties}
 
 ## Per engine
 {Which engines name the customer and which never have. Name the ones that produced nothing.}

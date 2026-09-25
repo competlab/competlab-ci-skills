@@ -64,9 +64,13 @@ export const RULES = [
     message: 'AI Visibility queries 5 engines, not 3.',
   },
   {
+    // Written like buying-questions-count: any two-digit count but the served one. When the
+    // served card's count changes, this rule changes with it.
     id: 'mcp-tool-count',
-    pattern: /\b33\s+(?:MCP\s+)?tools\b/gi,
-    message: 'Stale tool count. Read the current count off the served server card before stating one.',
+    pattern: /\b(?!48\b)\d{2}\s+(?:MCP\s+)?tools\b/gi,
+    message:
+      'The hosted server lists 48 tools (mcp.competlab.com/.well-known/mcp/server-card.json). ' +
+      'If the card changed, change this rule with it.',
   },
   {
     id: 'sdk-method-count',
@@ -113,6 +117,18 @@ export const RULES = [
     pattern: /\b\d+(?:\s+of\s+\d+)?\s*(?:→|->|=>)\s*\d+|\b\d{1,2}\s+[A-Z][a-z]{2,3}\s*(?:→|->|=>)\s*\d{1,2}\s+[A-Z][a-z]{2,3}\b/g,
     message:
       'A result is two dated facts with no verb or arrow between them: "1 of 8 at the check of 14 Sep, then 3 of 8 at the check of 5 Oct".',
+  },
+  {
+    id: 'briefing-failed-resume',
+    pattern: /does not resume/gi,
+    message:
+      'False since 2026-09-25: a failed briefing run is due again roughly 30 days after it ran. A skill ' +
+      'states the status and reads the latest completed edition; it gives no advice about a failed run.',
+  },
+  {
+    id: 'answer-size-stale',
+    pattern: /25k\s*[–-]\s*46k|\babout 9k\b|roughly 2k tokens/gi,
+    message: 'Stale answer sizes. The measured figures are in shared/PLATFORM.md § Answer sizes.',
   },
   {
     id: 'google-aio-recommended',

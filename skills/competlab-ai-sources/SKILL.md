@@ -6,7 +6,7 @@ license: MIT
 allowed-tools: mcp__competlab__list_projects mcp__competlab__list_competitors mcp__competlab__get_ai_sources_dashboard mcp__competlab__get_ai_sources_history mcp__competlab__get_ai_sources_check_detail Read
 metadata:
   author: competlab
-  version: "3.2.2"
+  version: "3.3.0"
   website: https://competlab.com
   category: competitive-intelligence
 ---
@@ -51,9 +51,15 @@ pooled), §7 (retrieved never cited) and §8 (condition codes are payload) all a
 
 **1. Resolve the project.** `list_projects` → `list_competitors`.
 
-**2. `get_ai_sources_dashboard`.** Everything is under `summary`. Do not pass `includeAnswers` on the
-first call — the page lists are very large. Add it filtered by `engine=` or `promptIndex=` only when
-you need what was actually said.
+**2. `get_ai_sources_dashboard`.** Everything is under `summary`, and it arrives compact:
+`summary.brands` and `summary.pages` are one page each — `summary.brandsPage.total` is how many
+companies the engines named, never the rows on the page — while `summary.coreHosts` is whole, each host
+with its `pageUrls`; `pagesHost: "<host>"` returns that host's page rows. The response opens with
+`readingGuide`, the rule for each field in it. Do not pass `includeAnswers` on the first call — the
+page lists are very large. When you need what was actually said, read one check with
+`get_ai_sources_check_detail` (`get_ai_sources_history` with `limit: 1` gives the latest check's id),
+`includeAnswers: true` and `promptIndex=`: `engine=` alone barely narrows it
+(`references/platform.md` § Answer sizes).
 
 **3. State the condition, beside the counts it rests on.**
 
@@ -81,9 +87,10 @@ nothing usable. Neither is a zero, and neither is a fact about the customer.
 From `summary.coreHosts`, take every row with `status: "missing"` — hosts two or more engines read for
 this market that do not name the customer. Then split on **`ownership`**, which has exactly two values:
 
-- `ownership: "third_party"` → **approachable. This is the work list.**
-- `ownership: "competitor_owned"` → **not a target.** You cannot pitch your way onto a rival's own
-  site. Count them, name them, and set them aside.
+- `ownership: "third_party"` → **approachable. This is the work list.** It includes a site that
+  belongs to a company the engines named but the project does not track — its pages carry `ownedBy`.
+- `ownership: "competitor_owned"` → **not a target:** the site of a competitor the project tracks.
+  You cannot pitch your way onto a rival's own site. Count them, name them, and set them aside.
 
 `summary.funnel` has already done this split — `missingPublishers` is the approachable count and
 `missingCompetitorOwned` the rest. Quote those rather than recounting, so your number and the
@@ -136,7 +143,7 @@ that the customer fell off anything. Say which.
 |---|---|---|
 {publisher/community rows with actionHint.text verbatim}
 
-{n} further core hosts belong to other named companies and are not targets: {list}.
+{n} further core hosts are tracked competitors' own sites and are not targets: {list}.
 {n} could not be read and are not counted against the customer: {list}.
 
 ## What the engines read of the customer's own site
@@ -152,7 +159,7 @@ that the customer fell off anything. Say which.
 - **Never say "cited".** The engines do not disclose which retrieved pages they leaned on. A citation
   count is a number that does not exist.
 - **Never pool pages across engines.** `summary.limits.pagesRetrieved` is a fetch-stage inventory, not
-  "the pages the engines read".
+  "the pages the engines read", and `summary.pagesPage.total` is a paging figure, never a page count.
 - **Never report a percentage or a share.** Eight questions per engine is too small a set for a rate
   to mean anything. Counts, with their universe.
 - **Never say an answer came "from memory."** An answered slot with `pagesRetrieved: 0` reported no

@@ -6,7 +6,7 @@ license: MIT
 allowed-tools: mcp__competlab__check_ai_crawlers mcp__competlab__check_sitemap mcp__competlab__fetch_url mcp__competlab__start_agent_adoption_scan mcp__competlab__get_agent_adoption_scan mcp__competlab__start_tech_stack_scan mcp__competlab__get_tech_stack_scan mcp__competlab__start_trust_signals_scan mcp__competlab__get_trust_signals_scan mcp__competlab__list_projects mcp__competlab__list_competitors mcp__competlab__get_tech_trust_dashboard mcp__competlab__get_positioning_dashboard mcp__competlab__get_pricing_dashboard mcp__competlab__get_content_dashboard Bash Read
 metadata:
   author: competlab
-  version: "3.2.2"
+  version: "3.3.0"
   website: https://competlab.com
   category: competitive-intelligence
 ---
@@ -94,7 +94,10 @@ actionable of the two.
 
 **All four rules apply identically to `aiAccess` on `get_tech_trust_dashboard` in Mode B** — same two
 questions, same opposite valence, same `Google-Extended` exception. And every verdict there ships its
-own `explanations` sentences: render them, do not rewrite them.
+own `explanations` sentences: render them, do not rewrite them. The dashboard arrives compact: an
+explanation that carries only a `code` is rendered from `explanationCatalog[code]`, verbatim, and what
+each crawler is — its purpose, whether it honours robots.txt — is stated once in `crawlerCatalog`,
+keyed by the token each `decidedByCrawlers` item keeps.
 
 > **Do not mix the two trust-signal taxonomies.** The free scan and the Tech & Trust dimension count
 > different things under similar names — `socialProof` exists on both, spelled identically, with

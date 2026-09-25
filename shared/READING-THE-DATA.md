@@ -10,6 +10,11 @@ it is confidently wrong in a direction the reader cannot check.
 Everything below is a rule the platform already enforces on itself. Your job is not to add analysis
 on top of it — it is to not undo it.
 
+**The payload carries its own rules.** The AI Visibility dashboard, check detail and history, the AI
+Sources dashboard and check detail, and the Tech & Trust dashboard open every response with
+`readingGuide` — `{ "<field path>": "<rule>" }`, the platform's rule for each field in that response.
+Read it before you quote a field. Where it is more specific than this file, it wins.
+
 **The facts these rules apply to** — the six dimensions, the five engines, the tool map, the endpoint
 and the answer-size costs — are in `PLATFORM.md`, beside this file. Open it when you need to know
 which tool answers a question; open this one before you write a sentence about what came back.
@@ -44,6 +49,12 @@ must be a real measurement" from the absence of a marker.
 
 An **empty list** means we looked and found none. A **null list** means we did not look. Two
 different sentences.
+
+**One carve-out: a rank.** `rankByPresence` on the AI Visibility market map and the AI Sources brand
+list, and `rank` / `rankChange` on the AI Visibility trend, are `null` on a brand named in no answer.
+Brands are ordered by how often they are named, so a brand no answer named has no place in the order.
+That null is a measured absence: say *not named in any answer*. Never a place, never a fall, and never
+*not measured*.
 
 > Never write one sentence that could describe either. "No security headers found" is ambiguous and
 > therefore wrong. Write "the scan found no security headers" or "the scan could not read this site",
@@ -103,8 +114,9 @@ provider on an old check is not a brand's absence from that provider.
 
 Presence figures ship as `presence` with `presenceLow` and `presenceHigh` — a 95% interval.
 
-**Two brands whose ranges overlap are not ordered.** `rankByPresence` is shared across ties. Never
-break a tie, never call one of them ahead, and never turn an overlap into a narrative.
+**Two brands whose ranges overlap are not ordered.** `rankByPresence` is shared across ties, and it is
+`null` on a brand named in no answer (§1). Never break a tie, never call one of them ahead, and never
+turn an overlap into a narrative.
 
 ✅ "The second and third brands are tied — their ranges overlap, so nothing here orders the two."
 ❌ "{Brand A} edges out {Brand B}."
@@ -180,11 +192,14 @@ the numbers is an error.
   quote the figure, you carry the sentence.
 - **`explanations`** — every AI-access verdict ships its own sentences, generated from the crawler
   catalog. **Render them; do not paraphrase them into your own claim.** They already encode what
-  blocking each crawler costs and how firmly a compliance claim may be worded.
+  blocking each crawler costs and how firmly a compliance claim may be worded. In the compact view an
+  explanation that carries only a `code` is rendered from `explanationCatalog[code]`, verbatim, and
+  what each crawler is — its purpose, whether it honours robots.txt — is stated once, in
+  `crawlerCatalog`.
 
-And one shape rule that goes with them: **there is no aggregate boolean and no stored count** on these
-surfaces. Derive any total from the length of the array you are quoting, so the number and the names
-cannot disagree.
+And one shape rule that goes with them: **there is no aggregate boolean and no stored count** on the
+AI-access verdicts. Derive any total from the length of the array you are quoting, so the number and
+the names cannot disagree. A paged list is the opposite case — its total is on the page object (§15).
 
 ---
 
@@ -224,8 +239,8 @@ It is a results page, not a chat model. It cannot be asked to rank, rate, or des
 | `meta.status` | what it means | what to do |
 |---|---|---|
 | `done` | the briefing is in `item` | read it |
-| `running` | being generated now | `meta.progress` gives the step. A run takes about two hours — never report it as late or failed for taking that long |
-| `failed` | the last attempt produced no edition | surface it; it does not resume on its own |
+| `running` | being generated now | `meta.progress` gives the step. A run finishes within two hours: treat it as running until `meta.status` changes, never as late or failed for how long it has taken |
+| `failed` | the last attempt ended without producing an edition | read the latest completed edition (below) |
 | `null` | the project has never had a briefing | only this means genuinely nothing |
 
 On `running` or `failed`, `item` is null **but an earlier edition is usually still readable.** Call
@@ -262,6 +277,10 @@ as a known defect rather than a number to build on.
 Presence, ranges, per-engine splits and endorsement are **the mechanism that decides membership**.
 They are not the answer.
 
+If a score appears at all, a `0` is measured. Beside a non-zero presence it means the brand was named
+below the top five, never *never named*; on the trend, a company named in none of the window's answers
+scores `0`. A `null` score is not measured.
+
 Before leading with the market map at all, read `summary.promptMarket`. Unless its state is
 `rivals_named_in_most_answers`, say the prompts may not describe this project's market, and do not
 lead with the map.
@@ -281,15 +300,39 @@ fact. Before it reaches a person:
 
 ---
 
+## 15. A page is not the whole list
+
+The long lists come one page at a time, and the rows you hold are not the count.
+
+- **Compact view is the default.** On AI Visibility, `summary.marketMap.brands` is one page — the top
+  rows plus the customer's own — with `marketMap.brandsPage { offset, limit, total, hasMore }`. On AI
+  Sources, `summary.brands` and `summary.pages` are pages, with `summary.brandsPage` and
+  `summary.pagesPage`. How many companies the models named is `brandsPage.total`, never the length
+  of the page.
+- **A company missing from the page is not missing from the market.** While `hasMore` is true it may
+  be on a later page. Only when the whole list has been read and it is still absent was it named in
+  no answer — on the market map a company no answer named has no row at all, except the customer. For
+  one tracked competitor, `get_ai_visibility_trend` answers in one call (`PLATFORM.md`).
+- **`summary.pagesPage.total` counts rows of the page list, both engines together.** It is a paging
+  figure, never how many pages the engines retrieved; that count is per engine, on
+  `summary.perEngine` (§3).
+- **The same holds on the ticket board.** `list_tickets` is paged: quote `pagination.total`, and ask
+  for `page + 1` while `pagination.hasMore`.
+
+---
+
 ## Quick self-check before you write
 
 1. Is every count paired with its universe?
 2. Did I turn a small-N count into a percentage?
 3. Did I pool anything across engines?
 4. Did I order two brands whose ranges overlap, or call a difference a movement?
-5. Did I treat a `null` as a zero, or an unreadable page as an absence?
+5. Did I treat a `null` as a zero, or an unreadable page as an absence — or a `null` rank as *not
+   measured* rather than *not named in any answer*?
 6. Did I check the sign on `mentionRateGap`?
 7. Did I say "cited" where I meant "retrieved"?
 8. Did I pass `actionHint.text` and `limits.sentences` through verbatim?
 9. Did I present model prose as fact?
 10. Did I lead with a score instead of membership?
+11. Did I count the rows of one page as the whole list, or call a company absent that is on a later
+    page?

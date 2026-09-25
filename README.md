@@ -124,7 +124,10 @@ Every skill carries `references/reading-the-data.md`, which is the reporting dis
 enforces on itself:
 
 - **`null` means we did not measure it.** Never zero, never empty, never "no". A real `0` is a finding;
-  a `null` is a gap in our reading, and the two must never share a sentence.
+  a `null` is a gap in our reading, and the two must never share a sentence. One carve-out: a rank is
+  `null` on a brand named in no answer, and that is measured — *not named in any answer*.
+- **A page is not the whole list.** The long lists arrive one page at a time; the count is the page
+  object's `total`, never the rows you hold.
 - **Counts, never rates.** "Named in 8 of 69 answers", not "12%". The question set is small by design
   and a share computed from it is false precision.
 - **Per engine, never pooled.** The engines read different pages; a combined figure describes a list

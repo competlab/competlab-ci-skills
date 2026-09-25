@@ -4,10 +4,10 @@ description: |
   Turns CompetLab monitoring data into a sales-ready battlecard against one competitor — at-a-glance comparison, why we win, where they are genuinely strong, objection handling, feature matrix, killer facts and landmines. Built for a rep scanning it in 60 seconds before a call, not for a reader who wants analysis. Use when the user asks to "create a battlecard", "sales battlecard for [competitor]", "competitive comparison card", "why us vs [competitor]", "win against [competitor]", "how to beat [competitor]", "objection handling for [competitor]", "sales cheat sheet", or "competitive one-pager". NOT for the full dossier behind it (use competlab-competitor-dive). Requires the CompetLab MCP server with an active project where this competitor is monitored.
 argument-hint: <competitor-name-or-domain>
 license: MIT
-allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_pricing_dashboard mcp__competlab__get_positioning_dashboard mcp__competlab__get_tech_trust_dashboard mcp__competlab__get_content_dashboard mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_ai_sources_dashboard mcp__competlab__get_briefing mcp__competlab__fetch_url WebSearch Read
+allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_pricing_dashboard mcp__competlab__get_positioning_dashboard mcp__competlab__get_tech_trust_dashboard mcp__competlab__get_content_dashboard mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_ai_visibility_trend mcp__competlab__get_ai_sources_dashboard mcp__competlab__get_briefing mcp__competlab__fetch_url WebSearch Read
 metadata:
   author: competlab
-  version: "3.2.2"
+  version: "3.3.0"
   website: https://competlab.com
   category: competitive-intelligence
 ---
@@ -61,6 +61,11 @@ What belongs on a card is membership, in counts: which companies the AI models n
 and whether the customer and this rival are among them. **Never the AI Visibility Score** — it is a
 blended figure, it answers a question no prospect asked, and a rep cannot defend it. Order is by
 presence, never by position, and **two brands whose ranges overlap are tied** — say tied, do not pick.
+
+The dashboard's map is one page — the top rows plus the customer's own — so this rival may not be on
+it. `mcp__competlab__get_ai_visibility_trend` carries every tracked competitor, and its `now` is the
+latest map: take the rival's count from there. A rival at 0 of N was named in no answer; that is a
+count the card can carry, never "not measured".
 
 **4. AI Sources — where they are on the page and we are not.**
 `mcp__competlab__get_ai_sources_dashboard`. If this rival is named on hosts that more than one engine

@@ -6,7 +6,7 @@ license: MIT
 allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_briefing mcp__competlab__get_briefing_history mcp__competlab__get_briefing_edition mcp__competlab__list_tickets mcp__competlab__list_alerts Read
 metadata:
   author: competlab
-  version: "3.2.1"
+  version: "3.2.2"
   website: https://competlab.com
   category: competitive-intelligence
 ---
@@ -82,10 +82,23 @@ The 14 deep sections: `deep-ai-visibility`, `deep-ai-sources`, `deep-positioning
 briefing opens as a ticket on the project's Strategic Tickets board, most important first, and the
 board is the only place it lives. The hub keeps its "if you do only three things" moves. For the
 rest, call `list_tickets` with `origin: "briefing"` and the edition's `runId` as `briefingRunId` (the
-`runId` that `get_briefing` and `get_briefing_history` return). The briefing's `tickets` field says how
-many it opened and how they stand by column now. The team has had them since, so report where a
+`runId` that `get_briefing` and `get_briefing_history` return). The briefing's `tickets` field says what
+the edition did to the board, in one call: `opened` (and `total` / `byStatus`, how those stand by
+column now), `commented` (the comments it wrote on tickets already there — `ticketId`, `commentId`,
+`kind`, `body`), `alreadyOnBoard` (the tickets its recommendations matched instead of opening a second
+one, each with the recommendation) and `recheckedUnchanged` (open tickets it measured again and found
+where they stood). A ticket in neither `commented` nor `recheckedUnchanged` was not measured by this
+edition — say *not checked*, never *unchanged*. The team has had the tickets since, so report where a
 ticket stands (`todo`, `in_progress`, `done`, or `dismissed` — the team decided not to) rather than
-re-proposing work they already closed.
+re-proposing work they already closed, and name a recommendation that is `alreadyOnBoard` by its
+ticket number rather than as new work.
+
+**An edition's comment is a measurement, not a verdict.** A thread entry whose `briefing` is set was
+written by an edition; `kind` says why — `result` (Measured after close: the check before the ticket
+opened beside the first after it closed), `basis_weaker`, `basis_stronger`, `basis_changed`,
+`basis_gone` (Reason weaker / stronger / changed / gone). Its body is two dated facts joined by
+"then", never a cause. Quote it as it stands; never say the fix worked, and never turn "1 of 8, then
+3 of 8" into a percentage or a trend.
 
 **Read the response's `contains` array** to see what that edition actually holds, rather than assuming
 a section exists.

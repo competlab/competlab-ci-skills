@@ -107,6 +107,19 @@ export const RULES = [
     pattern: /banked from real-world validation/gi,
     message: 'Provenance signalling; remove.',
   },
+  {
+    id: 'result-with-arrow',
+    // "1 → 3 of 8", "2 Sep → 23 Sep": a result stated with an arrow between two counts or dates.
+    pattern: /\b\d+(?:\s+of\s+\d+)?\s*(?:→|->|=>)\s*\d+|\b\d{1,2}\s+[A-Z][a-z]{2,3}\s*(?:→|->|=>)\s*\d{1,2}\s+[A-Z][a-z]{2,3}\b/g,
+    message:
+      'A result is two dated facts with no verb or arrow between them: "1 of 8 at the check of 14 Sep, then 3 of 8 at the check of 5 Oct".',
+  },
+  {
+    id: 'google-aio-recommended',
+    pattern: /Google\s+AI\s+Overviews?\s+(?:recommend(?:s|ed)?|rank(?:s|ed)?)\b/gi,
+    message:
+      'Google AI Overviews names companies in prose and ranks nothing — say "named", never "recommended" or "ranked".',
+  },
 ];
 
 const SKIP_DIRS = new Set(['.git', 'node_modules']);

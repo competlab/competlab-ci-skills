@@ -6,6 +6,23 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ---
 
+## [3.2.2] — 2026-09-25
+
+### Changed
+
+- The briefing skill and the shared platform notes follow Strategic Tickets phase 3.2: from the
+  second edition on, the briefing reads the board before it writes. The briefing's `tickets` field
+  now says what the edition did to the board in one call — `opened`, `commented`, `alreadyOnBoard`,
+  `recheckedUnchanged` — and a thread entry with `briefing` set is the edition's comment, with a
+  `kind` (`result` — Measured after close; `basis_weaker` / `basis_stronger` / `basis_changed` /
+  `basis_gone` — Reason weaker / stronger / changed / gone).
+- The rule that goes with it: **an edition's comment is a measurement, not a verdict.** Report it as
+  it states it — two dated facts joined by "then" — never as the fix having worked, never as a
+  percentage or a trend, and say *not checked* (never *unchanged*) for a ticket the edition did not
+  measure.
+- `check:facts` gains two rules: a result stated with an arrow between two counts or dates, and
+  "Google AI Overviews recommended" (it names companies in prose and ranks nothing — it *names*). <!-- facts-ok -->
+
 ## [3.2.1] — 2026-09-24
 
 ### Fixed

@@ -125,6 +125,16 @@ Read `contains` to see what an edition actually holds. There is no `actions` sec
 recommendation opens as a ticket on the project's Strategic Tickets board, most important first.
 Read one edition's with `list_tickets` (`origin: "briefing"`, `briefingRunId`).
 
+From the second edition on, the briefing reads the board before it writes: a recommendation the
+board already holds opens no second ticket, and the edition comments on tickets already there when
+something was measured. The briefing's `tickets` field says what the edition did to the board in one
+call — `opened`, `commented` (`ticketId`, `commentId`, `kind`, `body`), `alreadyOnBoard` and
+`recheckedUnchanged`; a ticket in neither `commented` nor `recheckedUnchanged` was not measured by
+that edition (not checked, never unchanged). A thread entry with `briefing` set is the edition's:
+`kind` is `result` (Measured after close), `basis_weaker`, `basis_stronger`, `basis_changed` or
+`basis_gone` (Reason weaker / stronger / changed / gone), and its body is dated facts, never a cause.
+**Report an edition's comment as it states it, never as the fix having worked.**
+
 **Do not re-research the eight areas the briefing already covers.** It probes more sources, keeps
 history to difference against, and states its own limits. Read the section.
 

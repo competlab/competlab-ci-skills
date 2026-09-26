@@ -1,12 +1,12 @@
 ---
 name: competlab-ai-sources
 description: |
-  Reads CompetLab's AI Sources dimension — which pages Perplexity and Google AI Overviews actually retrieved while answering a category's buying questions, which companies those answers named, and which of those pages name the customer's competitors and not the customer. Produces the work list of approachable hosts. Use when the user asks "why are they recommended and not us", "what does AI read about my market", "which pages decide the AI answers", "where do I need to appear", "AI sources report", or "who is on the pages the engines read". NOT for whether AI recommends you at all (use competlab-ai-visibility). Requires the CompetLab MCP server with an active project.
+  Reads CompetLab's AI Sources dimension — which pages Perplexity and Google AI Overviews actually retrieved while answering a category's buying questions, which companies those answers named, and which of those pages name other companies and not the customer. Produces the work list of approachable hosts. Use when the user asks "why are they recommended and not us", "what does AI read about my market", "which pages decide the AI answers", "where do I need to appear", "AI sources report", or "who is on the pages the engines read". NOT for whether AI recommends you at all (use competlab-ai-visibility). Requires the CompetLab MCP server with an active project.
 license: MIT
 allowed-tools: mcp__competlab__list_projects mcp__competlab__list_competitors mcp__competlab__get_ai_sources_dashboard mcp__competlab__get_ai_sources_history mcp__competlab__get_ai_sources_check_detail Read
 metadata:
   author: competlab
-  version: "3.3.2"
+  version: "3.3.3"
   website: https://competlab.com
   category: competitive-intelligence
 ---
@@ -20,8 +20,8 @@ and this is the dimension that opens that up.
 
 It asks the project's **8 buying questions** on the two engines that hand back the pages they
 retrieved — **Perplexity and Google AI Overviews** — reads those pages, and reports, per engine, which
-companies the answer named, which pages the engine pulled, and which of those pages name competitors
-and not the customer.
+companies the answer named, which pages the engine pulled, and which of those pages name other
+companies and not the customer.
 
 ## What it is not
 

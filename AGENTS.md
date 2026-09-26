@@ -30,7 +30,7 @@ different prompt set from AI Visibility's 3, and the two dimensions share no dat
 ## Available Skills
 
 - **competlab-ai-visibility** — reads the AI Visibility dimension and reports which companies the five engines name in the category, and whether the brand is one of them
-- **competlab-ai-sources** — reads the AI Sources dimension and reports, per engine, which retrieved pages named competitors and which named the brand
+- **competlab-ai-sources** — reads the AI Sources dimension and reports, per engine, which retrieved pages named other companies and which named the brand
 - **competlab-briefing** — reads the platform's own Strategic Briefing across its 14 analysis areas, at the depth the question needs. It reads the briefing; it does not rebuild the analysis
 - **competlab-competitor-dive** — builds a dossier on a single monitored competitor from every dimension the platform holds on it
 - **competlab-battlecard** — turns the same monitoring data into a sales-ready battlecard with objection handling

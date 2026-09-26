@@ -7,14 +7,14 @@
   },
   "metadata": {
     "description": "Seven competitive intelligence skills that read a CompetLab project's monitoring data across six dimensions — AI Visibility (queried across ChatGPT, Claude, Gemini, Perplexity and Google AI Overviews), AI Sources, Positioning, Pricing Intelligence, Content Intelligence, and Tech & Trust Profile — and shape it into briefings, dossiers, battlecards, audits and monitoring configuration.",
-    "version": "3.3.2"
+    "version": "3.3.3"
   },
   "plugins": [
     {
       "name": "competlab-ci-skills",
       "source": "./",
       "description": "Seven skills that read the CompetLab monitoring platform over its six dimensions — AI Visibility across five engines (ChatGPT, Claude, Gemini, Perplexity, Google AI Overviews), AI Sources, Positioning, Pricing Intelligence, Content Intelligence, Tech & Trust Profile — and turn that data into competitive reports rather than doing their own research.",
-      "version": "3.3.2",
+      "version": "3.3.3",
       "author": {
         "name": "CompetLab",
         "email": "support@competlab.com"

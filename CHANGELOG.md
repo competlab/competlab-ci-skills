@@ -6,6 +6,16 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ---
 
+## [3.3.3] — 2026-09-26
+
+### Fixed
+
+- **An AI Sources page names other companies, not "the customer's competitors".** The companies
+  on a retrieved page are any the engines name for the market, tracked or not; across nine projects,
+  21 of 39 such rows named no tracked competitor at all. `competlab-ai-sources` now says the pages
+  "name other companies and not the customer", as the MCP server has since 2026-09-26.
+- `check-facts` carries a rule against the old phrasing.
+
 ## [3.3.2] — 2026-09-26
 
 ### Changed
@@ -248,7 +258,7 @@ thirteen, and a much smaller surface to keep true.
 
 - **`competlab-ai-sources`** — the sixth dimension, which had no skill. Which pages Perplexity and
   Google AI Overviews retrieved while answering the category's buying questions, which companies those
-  answers named, and the work list of approachable hosts that name competitors and not you. Ships with
+  answers named, and the work list of approachable hosts that name competitors and not you. Ships with <!-- facts-ok: historical entry -->
   the two limits that travel with every claim: training data often outweighs what the models read, and
   a source can be read by every engine and belong to a company none of them recommend.
 - **`competlab-site-audit`** — runs on any public domain with no project and no competitors configured;

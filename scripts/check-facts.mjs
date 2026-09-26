@@ -131,6 +131,15 @@ export const RULES = [
     message: 'Stale answer sizes. The measured figures are in shared/PLATFORM.md § Answer sizes.',
   },
   {
+    // An AI Sources page names companies the engines name for the market, tracked or not; in 21
+    // of 39 rows across 9 projects none was a tracked competitor (Suny, 2026-09-25). competlab #452.
+    id: 'ai-sources-competitors',
+    pattern: /\b(?:competitors|rivals)\s+and\s+not\s+(?:you|us|them|the\s+customer|the\s+brand)\b|\bpages?\s+(?:that\s+)?name[sd]?\s+(?:the\s+customer's\s+|your\s+)?(?:competitors|rivals)\b/gi,
+    message:
+      'An AI Sources page names other companies — any the engines name for the market, tracked or not. ' +
+      'Say "name other companies and not the customer".',
+  },
+  {
     id: 'google-aio-recommended',
     pattern: /Google\s+AI\s+Overviews?\s+(?:recommend(?:s|ed)?|rank(?:s|ed)?)\b/gi,
     message:

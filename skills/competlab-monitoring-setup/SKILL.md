@@ -6,7 +6,7 @@ license: MIT
 allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__list_schedules mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_ai_visibility_trend mcp__competlab__get_briefing Read
 metadata:
   author: competlab
-  version: "3.3.3"
+  version: "3.3.4"
   website: https://competlab.com
   category: competitive-intelligence
 ---
@@ -47,7 +47,7 @@ prompts may not describe this project's market, and every reading built on them 
 Questions that return industry registries rather than vendors look like a working check and measure
 the wrong universe.
 
-AI Visibility asks the project's **3 prompts**. AI Sources asks **8 fixed buying questions** that are
+AI Visibility asks the project's **8 prompts** (eight on every plan and in the trial). AI Sources asks **8 fixed buying questions** that are
 not user-editable — so prompt quality is an AI Visibility question only, and never propose editing the
 AI Sources set.
 
@@ -73,14 +73,14 @@ tracked competitor, one named in no answer included (0 of N), while the dashboar
 no row for a competitor no answer named.
 
 **4. Frame every roster change as a swap.**
-A project monitors a limited number of competitors, so **adding one means dropping one.** Never write
+A project monitors up to 8 competitors on Monitor and in the trial, 10 on Process, so at the cap **adding one means dropping one.** Never write
 an open-ended "also consider adding these" — that is a list the customer cannot act on without
 deciding the hard half themselves. Each proposal names the brand in, the brand out, and the evidence
 on both sides. If nothing is weak enough to drop, say that, and say the roster is full.
 
 **5. Cadence — report what the API returns.**
 Give the interval, the last run and the next run per dimension exactly as `list_schedules` reports
-them. Per-dimension minimums exist and cadence is deliberately in flux while the product is young.
+them. Per-dimension minimums are the plan's clocks; a dimension can run slower or pause, never faster.
 **Read every interval from the API and never quote one from memory** — a number that was right last
 month is a wrong recommendation this month.
 

@@ -6,7 +6,7 @@ license: MIT
 allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_ai_visibility_trend mcp__competlab__get_ai_visibility_history mcp__competlab__get_ai_visibility_check_detail Read
 metadata:
   author: competlab
-  version: "3.3.3"
+  version: "3.3.4"
   website: https://competlab.com
   category: competitive-intelligence
 ---
@@ -68,7 +68,7 @@ here. This check comes first, every time.
 
 or
 
-> "Eight companies make up this market. The customer is not one of them — named in 1 of the 15 answers
+> "Eight companies make up this market. The customer is not one of them — named in 1 of the 40 answers
 > this check, against the leader's 14."
 
 Find the customer's row by `isOwn: true` — it is always on the page. Use `marketMap.coreSize`,

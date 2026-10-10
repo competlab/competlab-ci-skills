@@ -11,14 +11,14 @@ monitoring, the skills do the reading and the writing.
 
 CompetLab monitors **6 dimensions** across a project's competitors:
 
-1. **AI Visibility** — which companies the AI engines name in answer to the project's **3 prompts**, and whether the customer is one of them
+1. **AI Visibility** — which companies the AI engines name in answer to the project's **8 prompts**, and whether the customer is one of them
 2. **AI Sources** — which pages the engines retrieved while answering the project **8 buying questions**, per engine
 3. **Positioning** — how competitors describe themselves and to whom
 4. **Pricing Intelligence** — plans, prices, packaging and how they change
 5. **Content Intelligence** — what competitors publish and when
 6. **Tech & Trust Profile** — stack, security posture and trust signals
 
-AI Visibility asks the project's 3 prompts across **5 engines**: ChatGPT, Claude, Gemini, Perplexity,
+AI Visibility asks the project's 8 prompts across **5 engines**: ChatGPT, Claude, Gemini, Perplexity,
 and Google AI Overviews. **Nothing here is positional.** The engines are not asked to order anything
 and none of them publish a placement, so brand order is by **presence** — how often a brand is named
 — and by nothing else. Google AI Overviews is a results page rather than a chat model: it names

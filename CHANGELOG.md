@@ -6,6 +6,21 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ---
 
+## [3.3.4] — 2026-10-10
+
+### Changed
+
+- **Eight AI Visibility prompts on every plan and in the trial**, as the platform serves since the
+  pricing epic's phase 3 (2026-10-10): `AGENTS.md`, `shared/PLATFORM.md` and
+  `competlab-monitoring-setup` say 8, a check is 40 answers, and `check-facts` pins the new count.
+  A project set up before 2026-10-10 may carry fewer until its questions are topped up; the skills
+  count the prompts array rather than assuming.
+- **Cadence is the plan's, not "in flux":** Monitor runs content and tech & trust daily, pricing and
+  positioning every three days and the two AI dimensions weekly; Process runs everything daily and
+  the AI dimensions every three days; an owner may run a dimension slower or pause it, never faster.
+  `competlab-monitoring-setup` frames the roster as up to 8 competitors on Monitor and the trial,
+  10 on Process.
+
 ## [3.3.3] — 2026-09-26
 
 ### Fixed

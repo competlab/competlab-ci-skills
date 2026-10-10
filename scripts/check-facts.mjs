@@ -79,8 +79,8 @@ export const RULES = [
   },
   {
     id: 'queries-per-check',
-    pattern: /(?:\b9\s+total\s+AI\s+queries\b|\b3\s*prompts\s*[x\u00d7]\s*3\b)/gi,
-    message: 'A check is 3 prompts x 5 engines = 15 answers.',
+    pattern: /(?:\b9\s+total\s+AI\s+queries\b|\b3\s*prompts\s*[x\u00d7]\s*[35]\b|project'?s\s+\*{0,2}3 prompts\*{0,2}|\b15\s+answers\b)/gi,
+    message: 'A check is 8 prompts x 5 engines = 40 answers (eight on every plan and in the trial since 2026-10-10).',
   },
   {
     id: 'mcp-endpoint',

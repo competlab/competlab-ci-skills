@@ -52,7 +52,7 @@ Each has its own page, its own history, and its own schedule.
 
 AI Visibility is the dimension no other CI platform has. AI Sources is its companion.
 
-**Cadence is deliberately in flux** while the product is young. Read it from `list_schedules` rather
+**Cadence is the plan's.** Monitor: content and tech & trust daily, pricing and positioning every three days, the two AI dimensions weekly. Process: everything daily, the AI dimensions every three days. An owner may run a dimension slower or pause it, never faster. Read the live interval from `list_schedules` rather
 than assuming it, and do not write an interval into anything durable.
 
 ---
@@ -67,7 +67,7 @@ than assuming it, and do not write an interval into anything durable.
 | Perplexity | `perplexity` |
 | Google AI Overviews | `google_ai_overviews` |
 
-A check asks the project's **3 prompts** across all five engines.
+A check asks the project's **8 prompts** across all five engines: 40 answers. Eight on every plan and in the trial since 2026-10-10; a project set up before that may still carry fewer until its questions are topped up, so count the prompts array rather than assuming.
 
 Google AI Overviews behaves differently from the other four: it names companies in prose and ranks
 nothing, and it supplies none of the per-brand description the chat models do. See

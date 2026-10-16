@@ -114,9 +114,10 @@ month*; *$249 a month, billed annually*. An `amount` of 0 is a free plan. `visib
 **6. Where the customer stands** — `run.setups[]`, built by the check's code from each company's
 setup quote. The setups are two or three typical buyers in this market, written on the first check
 and kept the same so the order means the same every time; each is priced at the cheapest plan that
-fits it. Per setup: `label` (the buyer in words), `assumptions`, `rows[]` cheapest first with `rank`,
-`plan`, `price`, the page's `quote`, `pageUrl`, `readAt`; then the rows that cannot serve it, with
-`fits: false` and the page's own `reason`; then `notPriced[]`.
+fits it. Per setup: `label` (the buyer in words), `assumptions` (which say which rate the rows
+carry — the monthly, or the annual rate a month; say it once with the table), `rows[]` cheapest
+first with `rank`, `plan`, `price`, the page's `quote`, `pageUrl`, `readAt`; then the rows that
+cannot serve it, with `fits: false` and the page's own `reason`; then `notPriced[]`.
 
 - The rank sentence, only when `of` is 2 or more: *For {label}, {cheapest} is cheapest at {price}
   and you are {customerRank} of {of} at {your price}.* With one priced row: *Only {plan} is priced

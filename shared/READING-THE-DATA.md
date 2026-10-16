@@ -25,17 +25,18 @@ which tool answers a question; open this one before you write a sentence about w
 
 **It never means zero, empty, false, or "no".**
 
-A measured value is always reported as itself. A real `0` trust signals, a real `false` for "has a
-free plan", a real empty list — those are findings, and you should report them as findings. Only the
-unmeasured case is `null`.
+A measured value is always reported as itself. A real `0` trust signals, a measured `fits: false` on
+a pricing setup row (the page says that plan cannot serve the buyer), a real empty list — those are
+findings, and you should report them as findings. Only the unmeasured case is `null`.
 
 ```
 trustSignals: 0        → measured. "Zero trust signals on the homepage." A finding.
 trustSignals: null     → not measured. "We could not read this." Not a finding about the site.
 ```
 
-Where a reason exists, it arrives in a sibling `…Available` object — `pricingDataAvailable`,
-`engineDataAvailable`, `latestCheckDataAvailable`. Read it and pass the reason on.
+Where a reason exists, it arrives in a sibling `…Available` object — `engineDataAvailable`,
+`latestCheckDataAvailable`, and on Pricing `factsAvailable` and `setupsAvailable`. Read it and pass
+the reason on.
 
 **One documented exception.** On a trust-signals scan, `headerInspection: { available: false }` is a
 note about the *fetch*, not a caveat on the numbers: the page body was read in full, every rule reads
@@ -262,6 +263,10 @@ rather than guessing.
 A project with no enabled alert channels is the **expected** state, not a misconfiguration and not a
 defect. Zero alerts is not evidence that nothing happened.
 
+A pricing alert carries a `level` beside its `severity`. A record (`level: record`) is stored and
+listed by `list_alerts`, never sent on any channel, and not in the app's alert list by default — so
+an alert list with no records in it is not a check that raised none.
+
 ---
 
 ## 13. Don't lead with a score
@@ -331,6 +336,33 @@ The long lists come one page at a time, and the rows you hold are not the count.
 
 ---
 
+## 16. A price is the page's number, and a change is two dated facts
+
+The Pricing Intelligence check reads each company's pricing page as a visitor from the US and keeps
+what the page says, in the page's own words. The shapes it serves follow from that:
+
+- **An absent key means the page does not say it.** We read the page; it is not there. `null` means
+  we did not measure it, with the reason in a sibling `…Available` object. A plan with no `price`
+  shows no amount on the page; a blank cell in a plan table is *not on the page*, never *none* and
+  never *0*, which are values the page stated.
+- **No arithmetic on a price.** An amount is the page's own number with its currency, period and
+  billing — never converted, summed or averaged across companies. There is no average across
+  companies and no price position, by design. The one multiplication is the check's `perYear` on an outside price,
+  and it is marked as the check's. The setups card (`run.setups`) is ordered cheapest first by the
+  check; you report `rank` and `customerRank`, and never compute a rank of your own.
+- **A change is written from X to Y, with the two read dates.** Quote the alert's `title` and
+  `detail` as the check wrote them. Never rebuild a change from `from` and `to` with an arrow, and
+  never add a verb of interpretation — the page says, the company charges; nothing *signals*.
+- **A company that could not be read shows its last read's facts**, dated `shownAsReadAt`. Say that
+  date. Only `never_read` and `no_page` have no facts, and neither is a company with no prices. A
+  page that could not be read gets no reason and no promise — the next check's date is the sentence.
+- **Two price sets on one page is a test** (`priceSets`), listed and never a change. A price in
+  another currency or period with the same amount, or a reordered list, is not a change either.
+- **The level is the customer's word.** `now` is *Tell me now*, `this_week` is *Tell me this week*,
+  `record` is *Keep a record*. A record is listed and never sent.
+
+---
+
 ## Quick self-check before you write
 
 1. Is every count paired with its universe?
@@ -346,3 +378,5 @@ The long lists come one page at a time, and the rows you hold are not the count.
 10. Did I lead with a score instead of membership?
 11. Did I count the rows of one page as the whole list, call a company absent that is on another
     page, or count a row kept on every page more than once?
+12. Did I convert, sum, average or rank a price myself, write a change with an arrow, or read a
+    company whose page could not be read as one with no prices?

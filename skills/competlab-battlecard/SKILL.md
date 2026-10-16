@@ -7,7 +7,7 @@ license: MIT
 allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_pricing_dashboard mcp__competlab__get_positioning_dashboard mcp__competlab__get_tech_trust_dashboard mcp__competlab__get_content_dashboard mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_ai_visibility_trend mcp__competlab__get_ai_sources_dashboard mcp__competlab__get_briefing mcp__competlab__fetch_url WebSearch Read
 metadata:
   author: competlab
-  version: "3.3.4"
+  version: "3.4.0"
   website: https://competlab.com
   category: competitive-intelligence
 ---
@@ -43,9 +43,13 @@ or domain (the customer's own row is marked `isOwn: true`) → `mcp__competlab__
 each dimension last ran. Those dates go on the card beside the figures they produced.
 
 **2. Pull the four monitored surfaces.**
-- `mcp__competlab__get_pricing_dashboard` — both sides' plans, billing and free tiers. A side-by-side
-  price line is the most-used row on the card. A `null` plan is a page we could not read — never
-  "they have no free plan".
+- `mcp__competlab__get_pricing_dashboard` — both sides' plans as a US buyer sees them, in the page's
+  own words and currency: the customer's entry and this rival's in `run.companies[]`, and the two
+  rows on each typical buyer setup in `run.setups[]`, cheapest first — the rank is the check's, never
+  yours. A side-by-side price line is the most-used row on the card. A company whose page could not
+  be read shows its last read's facts, dated `shownAsReadAt`: put that date on the card, and never
+  "they have no free plan". A change in `run.changes[]` goes on the card as the check wrote it, from
+  X to Y with the two dates.
 - `mcp__competlab__get_positioning_dashboard` — what they claim on their homepage. This is what the
   prospect already saw.
 - `mcp__competlab__get_tech_trust_dashboard` — stack, security headers, trust signals. A measured `0`
@@ -77,9 +81,11 @@ cited**: the engines do not say which pages they leaned on, so there is no citat
 platform already researched, with history behind them. Check `meta.status`: on `running` or `failed`
 the `item` is null, which is not "no briefing" — build the card from the dimensions and move on.
 
-**6. Verify the price before a rep quotes it.** `mcp__competlab__fetch_url` on their pricing page with
-`cleanHtml: true`. If it disagrees with the last run, put both on the card with their dates and say
-which is which. A rep quoting a price that changed last week loses the room.
+**6. Date the price before a rep quotes it.** Every price on the card carries the `readAt` of the
+read it came from, and the check reads as a visitor from the US. If you open their pricing page with
+`mcp__competlab__fetch_url` (`cleanHtml: true`) to see it today, know that this fetch is not from the
+US: a different currency or amount is the vantage, not a change. A change goes on the card only as
+the check wrote it, with its two dates. A rep quoting a price that changed last week loses the room.
 
 **7. Gaps only.** `WebSearch` for an objection nothing above answers. Verify anything it returns with
 the fetch above, and drop what does not verify — a rep will repeat this to a prospect.
@@ -95,8 +101,8 @@ the fetch above, and drop what does not verify — a rep will repeat this to a p
 ## At a glance
 | | {Our brand} | {Competitor} |
 |---|---|---|
-| **Pricing** | {plans and entry price} | {plans and entry price} |
-| **Free tier / trial** | {measured value, or "not readable"} | |
+| **Pricing** | {plans and prices as the page shows them, with the read date} | {the same} |
+| **Free plan / trial** | {the page's own line, or "shown as read on {date}"} | |
 | **Who they sell to** | {from positioning} | |
 | **They claim** | {their headline, their words} | |
 | **Trust signals found** | {n of the signals the scan checked} | |

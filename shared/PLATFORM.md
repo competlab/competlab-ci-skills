@@ -46,7 +46,7 @@ Each has its own page, its own history, and its own schedule.
 | **AI Visibility** | `ai-visibility` | Which companies the AI models recommend in this category, and whether the customer is one of them |
 | **AI Sources** | `ai-sources` | Which pages Perplexity and Google AI Overviews read while answering the category's buying questions, and whether the customer is named on them |
 | **Positioning** | `positioning` | Homepage messaging — headline, value proposition, CTAs, audience, differentiator |
-| **Pricing Intelligence** | `pricing` | Plans, billing models, free tiers, enterprise pricing |
+| **Pricing Intelligence** | `pricing` | What each company charges on its pricing page as a visitor from the US sees it — plans with period and unit, what typical buyer setups cost cheapest first, what each plan includes — and every confirmed change from X to Y with its dates and its level |
 | **Content Intelligence** | `content` | Sitemap analysis, categories, publishing activity, gaps |
 | **Tech & Trust Profile** | `tech-trust` | Tech stack, security headers, trust signals, AI crawler access |
 
@@ -112,6 +112,26 @@ and an entirely different set.
 
 ---
 
+## Pricing Intelligence — the check
+
+A check reads every tracked company's pricing page — the customer's own included — **as a visitor
+from the US**, in the page's own words and currency, and compares the read with the previous one. A
+change is raised only when a second read confirms it; a value switching back and forth is a test.
+Each change carries a **level** in the customer's words: `now` (*Tell me now*: a rival goes free or
+undercuts the customer, an offer aimed at the customer's customers, a company closing or bought),
+`this_week` (*Tell me this week*: any other change at a rival) or `record` (*Keep a record*: stored,
+never sent, not in the app's alert list by default). Pricing never raises `critical`.
+
+What it serves, as the Pricing page's cards: how far the check got; the customer's own prices; what
+two or three typical buyer setups cost at each company, cheapest first, with the customer's place —
+built by the check, never by a reader; what each company charges and what each plan includes; the
+prices found elsewhere in a quote-only market, each with its source and date; the changes since the
+previous check, each from X to Y with its two dates; the lines the market writes about the customer;
+the companies that closed, were renamed or bought. Nothing on it scores, averages or flags a gap.
+`competlab-pricing` reads it card by card; the rules are `READING-THE-DATA.md` §16.
+
+---
+
 ## The Strategic Briefing
 
 The platform's own synthesis across **14 analysis areas** — the 6 monitored dimensions above, plus 8
@@ -168,6 +188,12 @@ history to difference against, and states its own limits. Read the section.
 **Per dimension** — each has `get_<dim>_dashboard` (latest), `get_<dim>_history` (paginated runs), and
 `get_<dim>_run_detail` (one run), for `tech_trust`, `content`, `positioning`, `pricing`. Content adds
 `get_content_changelog` (URLs added and removed).
+
+**Pricing Intelligence** — `get_pricing_dashboard` is the newest completed check projected onto the
+Pricing page's cards (`run`; `null` before the first check), `get_pricing_history` one row per check
+with its changes counted by level, `get_pricing_run_detail` the same cards for one check.
+`list_alerts` takes `level` (`now`, `this_week`, `record`) beside `severity`; a record is listed there
+and never sent.
 
 **AI Visibility** — `get_ai_visibility_dashboard`, `get_ai_visibility_history`,
 `get_ai_visibility_check_detail`, `get_ai_visibility_trend`.

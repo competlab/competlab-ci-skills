@@ -6,6 +6,37 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ---
 
+## [3.4.0] — unreleased
+
+### Added
+
+- **`competlab-pricing`** — the Pricing Intelligence dimension, rebuilt on the pricing check: what
+  each company charges as a visitor from the US sees it on its own pricing page, with period and
+  unit; what two or three typical buyer setups cost at each company, cheapest first, and where the
+  customer stands; what each plan includes; the prices found elsewhere in a quote-only market, each
+  with its source and date; every confirmed change written from X to Y with its two read dates and a
+  level in the customer's words (*Tell me now* · *Tell me this week* · *Keep a record*); the lines
+  the market writes about the customer; the companies that closed, were renamed or bought.
+- `shared/READING-THE-DATA.md` §16: a price is the page's number (no conversion, sum, average or
+  rank of your own), a change is two dated facts quoted as the check wrote them, a company whose page
+  could not be read shows its last read's facts with the date, two price sets on one page is a test.
+  `shared/PLATFORM.md` carries the check and the three levels; `list_alerts` takes `level`.
+- `check:facts` gains four rules: the old pricing fields, a price written with an arrow, an average
+  across companies' prices, and the skill count.
+
+### Changed
+
+- The competitor dive, the battlecard and the site audit read the new pricing shape: a company's
+  `state` and its dated `facts`, its rank on the setups card as the check ordered it, a change as the
+  check wrote it. The battlecard dates every price instead of re-fetching the page: the check reads
+  from the US, and a fetch from elsewhere can show another currency, which is the vantage, not a
+  change.
+
+### Removed
+
+- Every sentence about the old pricing surface's averaged market price, price position, tier count,
+  gap flags, `hasFreePlan` and `pricingDataAvailable`, which `/v1` and the MCP tools no longer serve. <!-- facts-ok: historical entry -->
+
 ## [3.3.4] — 2026-10-10
 
 ### Changed
@@ -250,12 +281,12 @@ persist, with prior readings to difference against and its own limits stated. It
 than a skill can in a session, and it remembers.
 
 So the suite changes job. It no longer does the research. It reads the platform correctly and shapes
-what the platform found into the thing someone actually needs. That is seven skills instead of
+what the platform found into the thing someone actually needs. That is seven skills instead of <!-- facts-ok: historical entry -->
 thirteen, and a much smaller surface to keep true.
 
 ### Breaking
 
-- **Seven skills removed.** `competlab-status-watch`, `competlab-funding-watch`,
+- **Seven skills removed.** `competlab-status-watch`, `competlab-funding-watch`, <!-- facts-ok: historical entry -->
   `competlab-hiring-signals`, `competlab-agent-adoption`, `competlab-ai-ecosystem`,
   `competlab-product-watch`, `competlab-customer-voice-snapshot`. Each is now a section of the
   Strategic Briefing: `deep-reliability-status`, `deep-funding-capital`, `deep-hiring-gtm`,

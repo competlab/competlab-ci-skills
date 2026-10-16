@@ -6,7 +6,7 @@ license: MIT
 allowed-tools: mcp__competlab__check_ai_crawlers mcp__competlab__check_sitemap mcp__competlab__fetch_url mcp__competlab__start_agent_adoption_scan mcp__competlab__get_agent_adoption_scan mcp__competlab__start_tech_stack_scan mcp__competlab__get_tech_stack_scan mcp__competlab__start_trust_signals_scan mcp__competlab__get_trust_signals_scan mcp__competlab__list_projects mcp__competlab__list_competitors mcp__competlab__get_tech_trust_dashboard mcp__competlab__get_positioning_dashboard mcp__competlab__get_pricing_dashboard mcp__competlab__get_content_dashboard Bash Read
 metadata:
   author: competlab
-  version: "3.3.4"
+  version: "3.4.0"
   website: https://competlab.com
   category: competitive-intelligence
 ---
@@ -113,8 +113,9 @@ holds it.
 **2. Run the Mode A audit on that domain.**
 
 **3. Cross-check against what the dimensions read.** Pull the customer's own row from
-`get_tech_trust_dashboard`, `get_positioning_dashboard`, `get_pricing_dashboard` and
-`get_content_dashboard`, and set each against the free scans:
+`get_tech_trust_dashboard`, `get_positioning_dashboard`, `get_pricing_dashboard` (the `isSelf` entry
+of `run.companies[]`: its `state` and `facts`) and `get_content_dashboard`, and set each against the
+free scans:
 
 | The dimension's own row | The free scan | What it means |
 |---|---|---|
@@ -129,7 +130,9 @@ does not survive extraction. Say it that way, and name the sibling check that pr
 there.
 
 Never report a `null` dimension as an absence — "no pricing published" when the field is `null` is
-exactly the error this cross-check exists to catch.
+exactly the error this cross-check exists to catch. On Pricing the own row says it as `state`:
+`could_not_read` or `never_read` beside a free scan that read the site fine is the parseability gap;
+`facts: []` is a page that was read and states no price.
 
 ## Verifying a claimed MCP server
 

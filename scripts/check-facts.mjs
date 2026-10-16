@@ -145,6 +145,38 @@ export const RULES = [
     message:
       'Google AI Overviews names companies in prose and ranks nothing — say "named", never "recommended" or "ranked".',
   },
+  {
+    // Gone with the pricing check (2026-10): the Pricing page's cards replaced the old summary, and
+    // none of these names is on /v1 or the MCP tools any more.
+    id: 'pricing-old-fields',
+    pattern: /\b(?:hasFreePlan|pricingDataAvailable|pricingAnalysisAvailable|marketAvgPrice|pricePositionPercent|hasPriceGap|hasFreeTierGap|hasEnterpriseGap|marketPricingUnit|popularPlanUnit)\b/g,
+    message:
+      "The old pricing fields are gone. Read a company's state and facts (factsAvailable), the setups " +
+      '(setupsAvailable) and the changes with their level; competlab-pricing says how.',
+  },
+  {
+    // "$24 → $29": a change written with an arrow. The house writes it from X to Y with the two read
+    // dates; result-with-arrow above covers counts and dates, this one covers amounts.
+    id: 'price-with-arrow',
+    pattern: /(?:\$|€|£)\s?\d[\d,.]*\s*(?:→|->|=>)\s*(?:\$|€|£)?\s?\d/g,
+    message: 'A change is written from X to Y with the two read dates, never with an arrow.',
+  },
+  {
+    // The pricing check averages nothing across companies, by design: the setups card orders cheapest
+    // first, and a buyer-reported median is quoted with its n and its source.
+    id: 'market-average',
+    pattern: /\b(?:market\s+average|average\s+price|price\s+average|averag(?:e|ed|ing)\s+(?:the\s+)?prices?)\b/gi,
+    message:
+      "No average across companies' prices: the setups card orders cheapest first and a reader reports " +
+      'the rank; a buyer-reported median is quoted with its n and its source.',
+  },
+  {
+    // Written like mcp-tool-count: the count that shipped. When a skill is added or removed, change
+    // this rule with it.
+    id: 'skill-count',
+    pattern: /\b(?:seven|7)\s+(?:competitive[- ]intelligence\s+)?skills\b|Skills-7\b/gi,
+    message: 'The suite ships 8 skills since 3.4.0 (competlab-pricing). Change this rule with the next one.',
+  },
 ];
 
 const SKIP_DIRS = new Set(['.git', 'node_modules']);

@@ -76,6 +76,15 @@ means we looked and found none.
 Companies are served by `domain`. Use the domain as served, or the name the check's own `title` uses;
 never derive a name from a domain — a capitalised domain is wrong for a third of most rosters.
 
+Four things on the shape you read past: `run.progress` is the check's working count of every page
+it read, sitemaps and homepages included — never quote it; the header's counts are the pricing
+pages. `run.market` says the market's `kind` (`published`, `quote_only` or `mixed`: which cards the
+check built), the `unit` it prices on in the market's own word, and when the setups were written
+(`decidedAt`). On a fact, `limits` is the plan's numbers as the page lists them, a map in the page's
+words, and `variant` names which version of a page the read saw when the page tests two (`default`
+otherwise). A `nextCheckAt` earlier than today is served as it stands: say the date, in the past
+tense.
+
 ## Steps
 
 **1. Resolve.** `list_projects` → `list_competitors` (the customer's row is `isOwn: true`) →
@@ -107,9 +116,11 @@ of kind `plan`, `addon`, `trial`, `visibility` are its plans as a US buyer sees 
 where the page shows both), `unit`, `includes`, `seats`, `setupFee`, `ai`, `notRead` (what the check
 could not read for this fact, in its words), the page's exact `quote`, `pageUrl`, `readAt`.
 
-Print a price as the page shows it: *$46 a month, or $39 a month billed annually*; *$9 a seat a
-month*; *$249 a month, billed annually*. An `amount` of 0 is a free plan. `visibility: gated` is
-*quote only*; `starting_from` is *from $X*; a plan with no `price` key shows no amount on the page.
+Print the fact's `price` with its billing in words, and its `altPrice` after it: *$39 a month,
+billed annually, or $46 a month billed monthly*; *$9 a seat a month*; cents as the page shows them
+(*$16.50*). An `amount` of 0 is a free plan. `visibility: gated` is *quote only*; `starting_from` is
+*from $X*; a plan with no `price` key shows no amount on the page. `egress` on a fact is the exit
+the read came from, and the day of `readAt`, as served, is the fact's date.
 
 **6. Where the customer stands** — `run.setups[]`, built by the check's code from each company's
 setup quote. The setups are two or three typical buyers in this market, written on the first check
@@ -120,8 +131,11 @@ first with `rank`, `plan`, `price`, the page's `quote`, `pageUrl`, `readAt`; the
 cannot serve it, with `fits: false` and the page's own `reason`; then `notPriced[]`.
 
 - The rank sentence, only when `of` is 2 or more: *For {label}, {cheapest} is cheapest at {price}
-  and you are {customerRank} of {of} at {your price}.* With one priced row: *Only {plan} is priced
-  for this setup so far.*
+  and you are {customerRank} of {of} at {your price}.* `of` counts the companies priced for this
+  setup, not the roster, so the lines under the table (*not priced*, *could not be read*) always go
+  with it. With one priced row: *Only your {plan} is priced for this setup so far*, or *Only
+  {domain}'s {plan} is priced…* when the one row is a rival's. On a project's first check the
+  setups were written on this check: say *chosen on this first check and kept the same from here*.
 - `customerRank` absent: the customer either publishes no price for this setup or cannot serve it.
   The customer's own row says which — `fits: false` with the page's reason, or a `notPriced` entry.
 - `notPriced` is a company with no price for this setup: `could_not_read` (its page was not read),
@@ -141,15 +155,15 @@ per-seat price. Quote the source and both dates: *the median of 379 buyers, $44,
 read 11 Oct; its figures dated Sep 2026)*. A buyer-reported median covers every company size and
 module — say so. No median across companies, no band.
 
-**8. What each company charges** — every entry of `run.companies[]`, one block each, dated by its
-own read. `state` says what the block can show:
+**8. What each company charges** — every rival in `run.companies[]` (the customer's own plans are
+step 5), one block each, dated by its own read. `state` says what the block can show:
 
 | `state` | The block |
 |---|---|
 | `read` | the facts, read at `read.readAt` from `read.egress` |
 | `could_not_read` | the last read's facts, *shown as read on `shownAsReadAt`*; this check tried on `attemptedAt` |
-| `never_read` | *We have not read its pricing page yet.* `factsAvailable.reason: "never_read"` |
-| `no_page` | *No pricing page set.* `lookedAt` names a URL the check tried on its site, when it tried one |
+| `never_read` | *We have not read its pricing page yet.* `configuredUrl` is the page set in the project and `attemptedAt` when this check tried it; `factsAvailable.reason: "never_read"` |
+| `no_page` | *No pricing page set.* With `lookedAt`, the URL the check tried on its site: *No pricing page set. We looked at {lookedAt} on {attemptedAt} and could not read it.* Such a company is also in the header's `unread` and in a setup's `notPriced` as `could_not_read`: one page tried and not read, said once |
 
 `configuredPage` is present when the prices come from another page than the one set in the project:
 *Read at {read.url}; the page set in the project, {configuredUrl}, {redirects there / was not found /
@@ -160,11 +174,14 @@ price sets this check: a test, listed as *showing two price sets since {since}*,
 A company that shows no prices: *Shows no prices. Its pricing page says: '{quote}'.* A promotion
 (`kind: "promotion"`): *{name} is at {price} (read {date}). Its page says: '{quote}'.*
 
-**9. What each plan includes** — the same `plan` facts, one row per plan: `setupFee`, `seats`,
-`ai` (as the page puts it: *included*, *add-on*, *metered: credits*), `unit` (what it prices on:
-*seat*, *monitor*, *company ARR*), `visibility`, and the `trial` facts. A field the page does not
-state is absent — leave the cell blank, and never fill it with *none*. *None* is a value only when
-the page says so.
+**9. What each plan includes** — the same `plan` facts, one row per plan: `setupFee`, `seats` (a
+number, or *unlimited* when the page says so), `ai` (as the page puts it: *included*, *add-on*,
+*metered: credits*), `unit` (what it prices on, in the page's word: *seat*, *monitor*, *responder
+license*, *company ARR*), and the company's `trial` fact on each of its rows (*{n} days*, or *yes,
+length not shown*). *Prices shown* is the company's: *every plan* when every plan it lists has a
+price (a gated enterprise tier aside), *from {price}* when a plan is `starting_from`, *none* when no
+plan is priced. A field the page does not state is absent — leave the cell blank, and never fill it
+with *none*. *None* is a value only when the page says so.
 
 **10. Changed since {date}** — `run.changes[]`, newest first, records included; `run.changesSince` is
 the previous check's date. Each is one confirmed change: quote its `title` verbatim (one sentence:
@@ -172,8 +189,8 @@ the company and the plan with what it includes, from X to Y in words, the two re
 `detail` (one more sentence: the customer's own number, the rank line, or the page's quote), the
 level in the customer's words, `pageUrl` as the live page, and `quoteBefore` / `quoteAfter` as *the
 page's words, before and after*. A company closing or bought also raises its own *Tell me now* line
-here. `changesSince` absent: *First check on {readOn}. Changes show from the next check on.* No
-changes: *Nothing changed since {date}.*
+here. This card is always shown: `changesSince` absent is *First check on {readOn}. Changes show
+from the next check on*; no changes is *Nothing changed since {date}*.
 
 > **Tell me this week** · *statuscake.com's free plan went from 10 monitors to 3 between 28 Sep and
 > 5 Oct.* Its check interval went from 5 minutes to 15. Yours has 50 monitors at 5 minutes. · 5 Oct ·
@@ -242,9 +259,13 @@ reason; then "Not priced: …"}
 
 ## Closed, renamed or bought
 {title · detail · quote · dates}
+
+## Questions for Monday
+{3–5 questions tied to what this check showed; see Decision questions}
 ```
 
-Leave out any section with nothing true to say. Every row carries the date of its own data.
+Leave out any section with nothing true to say, except *Changed since*, which always has its line.
+Every row carries the date of its own data.
 
 ## What NOT to do
 
@@ -269,7 +290,9 @@ Leave out any section with nothing true to say. Every row carries the date of it
 
 ## Decision questions
 
-3–5, tied to what this check actually showed, each with its branches where they differ:
+3–5 at the end of the report, tied to what this check actually showed, each with its branches where
+they differ. A question is not advice: it names the fact and asks what the reader wants to do about
+it.
 
 > "For 100 monitors at 30-second checks and 3 users, hyperping.com is cheapest at $29 and you are
 > 2nd of 9 at $46. That gap has held for three checks. Is $46 a price you hold on what the Team

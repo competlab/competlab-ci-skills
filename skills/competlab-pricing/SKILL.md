@@ -64,8 +64,9 @@ rules carry most of a pricing report:
 
 `get_pricing_dashboard` answers `{ dimension, monitoring, run, nextCheckAt }`. `run` is the newest
 completed check, projected onto the cards the Pricing page shows — `null` before the first check.
-`monitoring.currentRunning` says a check is in flight now; `nextCheckAt` is the next scheduled check,
-`null` when none is scheduled. The response opens with `readingGuide`, the rule for each field in it;
+`monitoring.currentRunning` says a check is in flight now. `nextCheckAt` is the next scheduled check;
+when it is absent and `nextCheckDue` is `true`, a check is due and waits its turn — say *Next check:
+due now*, never a time of day; absent otherwise, none is scheduled — say *No check scheduled*. The response opens with `readingGuide`, the rule for each field in it;
 where it is more specific than this file, it wins.
 
 **The null rule on these shapes:** an **absent** key means the page does not say it (we read the
@@ -227,7 +228,8 @@ sent. Each carries `title` and `detail` verbatim, `level` beside `severity`, and
 
 ```markdown
 # Pricing — {Project}
-*Read {read} of {pages} pricing pages on {readOn}, as a visitor from the US. Next check: {date}.*
+*Read {read} of {pages} pricing pages on {readOn}, as a visitor from the US. Next check: {date} — or
+"due now", or "No check scheduled".*
 
 ## In short
 {run.narrative, quoted. Then the unread companies, each with the date its prices are shown from.}

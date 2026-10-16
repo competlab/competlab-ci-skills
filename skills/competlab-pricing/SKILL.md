@@ -74,8 +74,10 @@ page; it is not there). **`null`** means we did not measure it, with the reason 
 `…Available` object (`factsAvailable`, `setupsAvailable`). A measured zero is a zero; an empty list
 means we looked and found none.
 
-Companies are served by `domain`. Use the domain as served, or the name the check's own `title` uses;
-never derive a name from a domain — a capitalised domain is wrong for a third of most rosters.
+A company carries its `domain` and, when the check stored it, its own `name` as its page writes it.
+Use the name where it is served and the domain where it is not; never derive a name from a domain —
+a capitalised domain is wrong for a third of most rosters. The check's own `title` already uses the
+page's name.
 
 Four things on the shape you read past: `run.progress` is the check's working count of every page
 it read, sitemaps and homepages included — never quote it; the header's counts are the pricing
@@ -102,7 +104,7 @@ each with `shownAsReadAt` where an earlier read exists. `partial: true` means so
 on `readOn` is not on the page yet. `foundNotRead` counts pricing pages found on sites and not read
 inside this check; they are read next time.
 
-> "We read 8 of 9 pricing pages on 11 Oct, as a visitor from the US. We could not read vitally.io's;
+> "We read 8 of 9 pricing pages on 11 Oct, as a visitor from the US. We could not read Rival C's;
 > its prices are shown as read on 4 Oct. Next check: 14 Oct."
 
 Never give a reason a page could not be read. The next check's date is the answer.
@@ -152,8 +154,8 @@ the check did not price.
 **7. Prices found elsewhere** — facts of kind `external_price`, on quote-only and mixed markets.
 Each carries where it was found (`source { kind, url, date }`) and `perYear` where the check wrote
 one: the yearly figure, one multiplication inside the check (×12 for a monthly price), absent for a
-per-seat price. Quote the source and both dates: *the median of 379 buyers, $44,200 a year (Vendr,
-read 11 Oct; its figures dated Sep 2026)*. A buyer-reported median covers every company size and
+per-seat price. Quote the source and both dates: *the median of 379 buyers, $44,200 a year (a
+software-buying marketplace, read 11 Oct; its figures dated Sep 2026)*. A buyer-reported median covers every company size and
 module — say so. No median across companies, no band.
 
 **8. What each company charges** — every rival in `run.companies[]` (the customer's own plans are
@@ -193,9 +195,9 @@ page's words, before and after*. A company closing or bought also raises its own
 here. This card is always shown: `changesSince` absent is *First check on {readOn}. Changes show
 from the next check on*; no changes is *Nothing changed since {date}*.
 
-> **Tell me this week** · *statuscake.com's free plan went from 10 monitors to 3 between 28 Sep and
-> 5 Oct.* Its check interval went from 5 minutes to 15. Yours has 50 monitors at 5 minutes. · 5 Oct ·
-> the live page · the page's words, before and after
+> **Tell me this week** · *Rival B's free plan went from 10 monitors to 3 between 28 Sep and 5 Oct.*
+> Its check interval went from 5 minutes to 15. Yours has 50 monitors at 5 minutes. · 5 Oct · the
+> live page · the page's words, before and after
 
 **11. About you** — `run.aboutYou[]`, in the order served: the market's lines about the customer
 first, the customer's own board last. `kind` is one of `listing_misquotes_price` (a site lists the
@@ -296,6 +298,6 @@ Every row carries the date of its own data.
 they differ. A question is not advice: it names the fact and asks what the reader wants to do about
 it.
 
-> "For 100 monitors at 30-second checks and 3 users, hyperping.com is cheapest at $29 and you are
-> 2nd of 9 at $46. That gap has held for three checks. Is $46 a price you hold on what the Team
-> plan includes, or is this the check to bring to the next pricing review?"
+> "For 100 monitors at 30-second checks and 3 users, Rival A is cheapest at $29 and you are 2nd of
+> 9 at $46. That gap has held for three checks. Is $46 a price you hold on what the Team plan
+> includes, or is this the check to bring to the next pricing review?"

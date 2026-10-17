@@ -7,7 +7,7 @@ license: MIT
 allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_pricing_dashboard mcp__competlab__get_positioning_dashboard mcp__competlab__get_tech_trust_dashboard mcp__competlab__get_content_dashboard mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_ai_visibility_trend mcp__competlab__get_ai_sources_dashboard mcp__competlab__get_briefing mcp__competlab__fetch_url WebSearch Read
 metadata:
   author: competlab
-  version: "3.4.4"
+  version: "3.5.0"
   website: https://competlab.com
   category: competitive-intelligence
 ---
@@ -50,8 +50,8 @@ each dimension last ran. Those dates go on the card beside the figures they prod
   be read shows its last read's facts, dated `shownAsReadAt`: put that date on the card, and never
   "they have no free plan". A change in `item.changes[]` goes on the card as the check wrote it, from
   X to Y with the two dates.
-- `mcp__competlab__get_positioning_dashboard` — what they claim on their homepage. This is what the
-  prospect already saw.
+- `mcp__competlab__get_positioning_dashboard` — what they claim on their homepage, in the page's own
+  words (this rival's entry in `item.companies[]`). This is what the prospect already saw.
 - `mcp__competlab__get_tech_trust_dashboard` — stack, security headers, trust signals. A measured `0`
   is a finding a rep can use. A `null` is an unread scan and belongs nowhere near a call.
 - `mcp__competlab__get_content_dashboard` — volume and categories, as a maturity signal, not a claim.

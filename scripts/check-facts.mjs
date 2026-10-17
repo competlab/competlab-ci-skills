@@ -11,6 +11,9 @@
  * also match one of the given regexes (used for the MCP endpoint rule, where
  * the docs URL is fine in prose and wrong only when used as a server URL).
  *
+ * Optional `files` narrows a rule to the files whose repo-relative path matches it (used for the
+ * words only the positioning skill must not say; the same words are fine elsewhere in the repo).
+ *
  * Opt out of a single line with a trailing `<!-- facts-ok -->` comment.
  *
  * Zero dependencies. Node >= 18.
@@ -27,7 +30,7 @@ const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
 /**
  * The rule table. One entry per stale claim.
- * @type {{id: string, pattern: RegExp, message: string, context?: RegExp[]}[]}
+ * @type {{id: string, pattern: RegExp, message: string, context?: RegExp[], files?: RegExp}[]}
  */
 export const RULES = [
   {
@@ -174,8 +177,47 @@ export const RULES = [
     // Written like mcp-tool-count: the count that shipped. When a skill is added or removed, change
     // this rule with it.
     id: 'skill-count',
-    pattern: /\b(?:seven|7)\s+(?:competitive[- ]intelligence\s+)?skills\b|Skills-7\b/gi,
-    message: 'The suite ships 8 skills since 3.4.0 (competlab-pricing). Change this rule with the next one.',
+    pattern: /\b(?:seven|7|eight|8)\s+(?:competitive[- ]intelligence\s+)?skills\b|Skills-[78]\b/gi,
+    message:
+      'The suite ships 9 skills since 3.5.0 (competlab-positioning, after competlab-pricing in 3.4.0). ' +
+      'Change this rule with the next one.',
+  },
+  {
+    // Positioning's dimension name is Positioning on every surface (Mark, 2026-10-17); the old name
+    // was the homepage's. A homepage is what the check reads, not what the dimension is called.
+    id: 'positioning-old-name',
+    pattern: /\bhomepage\s+(?:messaging|analysis|dimension|intelligence)\b/gi,
+    message:
+      'The dimension is Positioning: what each company says on its homepage as the page says it, ' +
+      'what you say that nobody else does, what changed, and what pages say about you.',
+  },
+  {
+    // Gone with the positioning check (2026-10): the page keeps the claims verbatim and compares text
+    // with itself. None of these is on /v1 or the MCP tools any more.
+    id: 'positioning-old-fields',
+    pattern:
+      /\b(?:messaging[ -]?scores?|messagingScore|value[ -]propositions?|valueProposition|CTA[ -]patterns?|ctaPattern|(?:main[ -]?)?differentiators?|mainDifferentiator|targetAudience)\b/gi,
+    message:
+      'The old positioning fields are gone. A company has claims, each the page\'s own words (kind and ' +
+      'value); competlab-positioning says how to read them. No score, no bucket, no pattern.',
+  },
+  {
+    // The customer-copy lock (2026-10-17): no word that judges a page reaches a reader or an agent. Scoped
+    // to the positioning skill's own file; a kind token (board_ticket_stale) is one word to the regex,
+    // not two, so the wire names pass.
+    id: 'positioning-judges-a-page',
+    pattern: /\b(?:wrong|stale|out[ -]of[ -]date|contested)\b/gi,
+    files: /^skills\/competlab-positioning\/SKILL\.md$/,
+    message:
+      'No word that judges a page. Say the pages\' words with their dates; never which one is right.',
+  },
+  {
+    id: 'positioning-unique',
+    pattern: /\bunique(?:ly)?\b/gi,
+    files: /^skills\/competlab-positioning\/SKILL\.md$/,
+    message:
+      'An empty saidBy is "nobody else says it on the homepages the check read; their pricing pages may", ' +
+      'never "unique".',
   },
 ];
 
@@ -218,6 +260,7 @@ function main() {
     lines.forEach((line, i) => {
       if (line.match(OPT_OUT_RE)) return;
       for (const rule of RULES) {
+        if (rule.files && !rule.files.test(rel)) continue;
         if (rule.context && !rule.context.some((c) => c.test(line))) continue;
         rule.pattern.lastIndex = 0;
         for (const m of line.matchAll(rule.pattern)) {

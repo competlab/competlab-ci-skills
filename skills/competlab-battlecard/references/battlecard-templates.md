@@ -69,7 +69,7 @@ Same card, different order. Lead with the surfaces that buyer actually evaluates
 - **Technical buyer** — tech stack and security headers from the tech & trust run, AI crawler access,
   and what the sitemap does and does not expose.
 - **Economic buyer** — plans, billing model and free tier from the pricing run, set against the
-  audience and differentiator the rival claims in positioning.
+  audience the rival claims on its homepage.
 - **Executive buyer** — membership: which companies the models name in this category, and whether we
   and the rival are among them. Per engine, in counts, with the date.
 

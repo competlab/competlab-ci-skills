@@ -6,15 +6,15 @@
     "email": "support@competlab.com"
   },
   "metadata": {
-    "description": "Eight competitive intelligence skills that read a CompetLab project's monitoring data across six dimensions — AI Visibility (queried across ChatGPT, Claude, Gemini, Perplexity and Google AI Overviews), AI Sources, Positioning, Pricing Intelligence, Content Intelligence, and Tech & Trust Profile — and shape it into briefings, dossiers, battlecards, audits and monitoring configuration.",
-    "version": "3.4.4"
+    "description": "Nine competitive intelligence skills that read a CompetLab project's monitoring data across six dimensions — AI Visibility (queried across ChatGPT, Claude, Gemini, Perplexity and Google AI Overviews), AI Sources, Positioning, Pricing Intelligence, Content Intelligence, and Tech & Trust Profile — and shape it into briefings, dossiers, battlecards, audits and monitoring configuration.",
+    "version": "3.5.0"
   },
   "plugins": [
     {
       "name": "competlab-ci-skills",
       "source": "./",
-      "description": "Eight skills that read the CompetLab monitoring platform over its six dimensions — AI Visibility across five engines (ChatGPT, Claude, Gemini, Perplexity, Google AI Overviews), AI Sources, Positioning, Pricing Intelligence, Content Intelligence, Tech & Trust Profile — and turn that data into competitive reports rather than doing their own research.",
-      "version": "3.4.4",
+      "description": "Nine skills that read the CompetLab monitoring platform over its six dimensions — AI Visibility across five engines (ChatGPT, Claude, Gemini, Perplexity, Google AI Overviews), AI Sources, Positioning, Pricing Intelligence, Content Intelligence, Tech & Trust Profile — and turn that data into competitive reports rather than doing their own research.",
+      "version": "3.5.0",
       "author": {
         "name": "CompetLab",
         "email": "support@competlab.com"
@@ -40,6 +40,7 @@
         "./skills/competlab-ai-visibility",
         "./skills/competlab-ai-sources",
         "./skills/competlab-pricing",
+        "./skills/competlab-positioning",
         "./skills/competlab-briefing",
         "./skills/competlab-competitor-dive",
         "./skills/competlab-battlecard",

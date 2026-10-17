@@ -47,7 +47,7 @@ Each has its own page, its own history, and its own schedule.
 |---|---|---|
 | **AI Visibility** | `ai-visibility` | Which companies the AI models recommend in this category, and whether the customer is one of them |
 | **AI Sources** | `ai-sources` | Which pages Perplexity and Google AI Overviews read while answering the category's buying questions, and whether the customer is named on them |
-| **Positioning** | `positioning` | Homepage messaging — headline, value proposition, CTAs, audience, differentiator |
+| **Positioning** | `positioning` | What each company says on its homepage as the page says it, what you say that nobody else does, what changed, and what pages say about you |
 | **Pricing Intelligence** | `pricing` | What each company charges on its pricing page as a visitor from the US sees it — plans with period and unit, what typical buyer setups cost cheapest first, what each plan includes — and every confirmed change from X to Y with its dates and its level |
 | **Content Intelligence** | `content` | Sitemap analysis, categories, publishing activity, gaps |
 | **Tech & Trust Profile** | `tech-trust` | Tech stack, security headers, trust signals, AI crawler access |
@@ -134,6 +134,23 @@ the companies that closed, were renamed or bought. Nothing on it scores, average
 
 ---
 
+## Positioning — the check
+
+A check reads every tracked company's homepage — the customer's own included, and its pricing page —
+**as a visitor from the US**, keeps what each page says verbatim, and compares the read with the previous
+one. A change is raised only when a second read confirms it; a headline switching back and forth is not
+a change. It carries a **level** in the customer's words, the same three as Pricing: `now` (*Tell me
+now*), `this_week` (*Tell me this week*), `record` (*Keep a record*). Positioning never raises `critical`.
+
+What it serves, as the Positioning page's cards: how far the check got; the customer's own claims and
+the tracked companies that say the same, built by the check, never by a reader; what each company says;
+the changes since the previous check, each from X to Y with its two dates; what pages say about the
+customer, as the pages' words with their dates; the companies that closed, were renamed or bought.
+Nothing on it scores, buckets or advises. `competlab-positioning` reads it card by card; the rules are
+`reading-the-data.md` §17.
+
+---
+
 ## The Strategic Briefing
 
 The platform's own synthesis across **14 analysis areas** — the 6 monitored dimensions above, plus 8
@@ -196,6 +213,13 @@ Pricing page's cards (`run`; `null` before the first check), `get_pricing_histor
 with its changes counted by level, `get_pricing_run_detail` the same cards for one check.
 `list_alerts` takes `level` (`now`, `this_week`, `record`) beside `severity`; a record is listed there
 and never sent.
+
+**Positioning** — `get_positioning_dashboard` is the newest completed check projected onto the
+Positioning page's cards (`item`; the error `no_data_available` before the first check),
+`get_positioning_history` one row per check with its changes in full, `get_positioning_run_detail` the
+same cards for one check. The dashboard and the run detail answer in a compact view by default (each
+company's claims trimmed to what each claim is and its value) and in full on `view: "full"`.
+`list_alerts` takes `level` and `dimension: "positioning"`.
 
 **AI Visibility** — `get_ai_visibility_dashboard`, `get_ai_visibility_history`,
 `get_ai_visibility_check_detail`, `get_ai_visibility_trend`.

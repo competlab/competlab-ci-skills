@@ -6,6 +6,41 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ---
 
+## [3.5.0] — unreleased
+
+Prepared on the branch `positioning-check`. It ships when the served surfaces are on production and read as served.
+
+### Added
+
+- **`competlab-positioning`** — the Positioning dimension, rebuilt on the positioning check: what each
+  company says on its homepage as the page says it (the headline, the line under it, what it calls
+  itself, who it says it is for, the main button and its kind, the numbers, badges and features it
+  claims, the price it leads with), each in the page's own words; which of the customer's claims the
+  tracked companies also make, with the empty answer said as *nobody else says it on the homepages the
+  check read; their pricing pages may*; every confirmed change written from X to Y with its two read
+  dates and a level in the customer's words (*Tell me now* · *Tell me this week* · *Keep a record*); the
+  five kinds of line about the customer, as the pages' words with their dates and never a judgement of a
+  page; the companies that closed, were renamed or bought. Reads `get_positioning_dashboard`,
+  `get_positioning_history`, `get_positioning_run_detail` and `list_alerts` with `level`, in the compact
+  view by default and in full when the report prints the page's words around a claim.
+- `shared/READING-THE-DATA.md` §17: a claim is the page's words, `null` is not measured and an empty list
+  is a page that makes no claim, an empty `saidBy` is scoped and never *unique*, a change is two dated
+  facts, a company that could not be read shows its last read's claims with the date, and a line about
+  the customer is never a judgement of a page. `shared/PLATFORM.md` names Positioning as the page does
+  and carries the check and the three tools.
+- `check:facts` gains four rules: the old name of the dimension, the old positioning fields, and a word that
+  judges a page and the word *unique* (both held to the positioning skill's own file, through a new
+  optional `files` on a rule); the skill count rule now says nine.
+
+### Changed
+
+- The competitor dive and the battlecard read a rival's positioning as its claims, in the page's own
+  words; the README and `AGENTS.md` name the dimension as the Positioning page does.
+
+### Removed
+
+- Every sentence about the old homepage-messaging surface — its value proposition, call-to-action pattern, differentiator and audience buckets — which `/v1` and the MCP tools no longer serve. <!-- facts-ok: historical entry -->
+
 ## [3.4.4] — 2026-10-17
 
 ### Changed
@@ -317,7 +352,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 When v2 shipped in May, CompetLab monitored five dimensions and the interesting signals about a <!-- facts-ok: describing the product as it was in May 2026 -->
 competitor — funding, hiring, launches, reliability, reviews, developer ecosystem — lived outside the
-platform. Eight skills went and fetched them. That was the right shape for the product as it stood.
+platform. Eight skills went and fetched them. That was the right shape for the product as it stood. <!-- facts-ok: historical entry -->
 
 CompetLab now researches all of it natively. The Strategic Briefing covers **14 analysis areas** — the
 six monitored dimensions plus eight it researches for the briefing alone — in numbered editions that

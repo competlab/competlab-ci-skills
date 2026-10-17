@@ -363,6 +363,41 @@ what the page says, in the page's own words. The shapes it serves follow from th
 
 ---
 
+## 17. A claim is the page's words, and a change is two dated facts
+
+The Positioning check reads each company's homepage as a visitor from the US and keeps what the page
+says, verbatim, with the quote it sits in. The shapes it serves follow from that:
+
+- **A claim is the page's words.** `value` is the claim as the page prints it and `quote` the words
+  around it. Nothing is summarised, scored or bucketed: an audience or a category is kept as the page
+  writes it. A sentence about the customer is never among a company's claims; it is a line under About
+  you.
+- **`null` is not measured, an empty list is a page that makes no claim.** A company's `claims` is
+  `null` with `claimsAvailable.reason` `never_read`, `no_page` or `not_judged` (the homepage was read
+  and the check wrote nothing for it this time): never "says nothing". An empty list means the page was
+  read and makes no claim the check keeps. An absent key on a claim means the page does not say it.
+- **An empty `saidBy` is an answer, and it is scoped.** Nobody else says it on the homepages the check
+  read; their pricing pages may. Never call a claim unique. <!-- facts-ok: the bad example -->
+  `saidBy` holds tracked companies only. For a number or a price, a company is listed with its own
+  figure for the same thing: the two figures and the two quotes, never a word that compares them.
+- **A change is written from X to Y, with the two read dates.** Quote the `title` and `detail` as the
+  check wrote them. `from` and `to` are the page's words: an empty `from` is a thing added, an empty
+  `to` a thing gone. Never rebuild a change with an arrow, never add a verb of interpretation, never a
+  motive. A headline that switches between two versions, a reordered list or a line rewritten with the
+  same words is not a change.
+- **A company that could not be read shows its last read's claims**, dated `shownAsReadAt`. Say that
+  date. Only `never_read` and `no_page` have none, and neither is a company that says nothing. A page
+  that could not be read gets no reason and no promise: the next check's date is the sentence.
+- **About you is the pages' words with their dates, never a judgement of a page.** A line is the page's
+  words with their date and, where the customer's own page says otherwise, that page's words with theirs.
+  Never say which is right and never call either page anything. The check's own sentence (`line`) is
+  quoted as written. Two kind names, `comparison_page_stale` and `board_ticket_stale`, are names that
+  code matches on; they are not said to a reader.
+- **The level is the customer's word.** `now` is *Tell me now*, `this_week` is *Tell me this week*,
+  `record` is *Keep a record*. A record is listed and never sent.
+
+---
+
 ## Quick self-check before you write
 
 1. Is every count paired with its universe?
@@ -380,3 +415,5 @@ what the page says, in the page's own words. The shapes it serves follow from th
     page, or count a row kept on every page more than once?
 12. Did I convert, sum, average or rank a price myself, write a change with an arrow, or read a
     company whose page could not be read as one with no prices?
+13. Did I score, rank or bucket a claim, call a claim unique, read a `null` as "says nothing", write a
+    change with an arrow or a motive, or call a page anything instead of quoting it with its date?

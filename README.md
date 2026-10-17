@@ -5,14 +5,14 @@
 # CompetLab Agent Skills
 
 [![Agent Skills](https://img.shields.io/badge/Agent_Skills-Standard-7C3AED)](https://agentskills.io)
-[![8 Skills](https://img.shields.io/badge/Skills-8-brightgreen)](#the-skills)
+[![9 Skills](https://img.shields.io/badge/Skills-9-brightgreen)](#the-skills)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Cross-Agent](https://img.shields.io/badge/Works_with-Claude_Code_·_Cursor_·_Codex_·_Gemini_CLI-blue)](#cross-agent-compatibility)
 
 > Competitive intelligence your agent can read — and read *correctly*.
 
 CompetLab monitors your competitors across six dimensions and writes a Strategic Briefing over
-fourteen analysis areas. These eight skills give an AI agent the vocabulary to read that data the way
+fourteen analysis areas. These nine skills give an AI agent the vocabulary to read that data the way
 the platform intends, and to shape it into the thing you actually need — a pulse, a dossier, a
 battlecard, a work list.
 
@@ -85,6 +85,7 @@ Setup guide: [competlab.com/developers/mcp](https://competlab.com/developers/mcp
 | **[competlab-ai-visibility](skills/competlab-ai-visibility/)** | Which companies do AI models recommend in my category — and am I one of them? | *"Are we in the core?"* |
 | **[competlab-ai-sources](skills/competlab-ai-sources/)** | Which pages do the engines read before answering, and who is named on them? | *"Why them and not us?"* |
 | **[competlab-pricing](skills/competlab-pricing/)** | What does each company charge, what would a typical buyer pay at each, and what changed since the last check? | *"Did anyone change their prices?"* |
+| **[competlab-positioning](skills/competlab-positioning/)** | What does each company say on its homepage, what do I say that nobody else does, what changed, and what do pages say about me? | *"Did anyone change their headline?"* |
 | **[competlab-briefing](skills/competlab-briefing/)** | What changed, what it means, what to do — at pulse, landscape or dimension depth | *"Catch me up"* |
 | **[competlab-competitor-dive](skills/competlab-competitor-dive/)** | Everything we know about one rival, across six dimensions | *"Deep dive on [competitor]"* |
 | **[competlab-battlecard](skills/competlab-battlecard/)** | A 60-second sales reference for a live call | *"Battlecard vs [competitor]"* |
@@ -105,7 +106,7 @@ signals.
 |---|---|
 | **AI Visibility** | Which companies AI models recommend in your category, and where you sit among them |
 | **AI Sources** | The pages Perplexity and Google AI Overviews read while answering your buyers' questions |
-| **Positioning** | Homepage messaging — headline, value proposition, CTAs, audience, differentiator |
+| **Positioning** | What each company says on its homepage as the page says it, what you say that nobody else does, what changed, and what pages say about you |
 | **Pricing Intelligence** | What each company charges on its pricing page as a buyer in the US sees it, what typical buyer setups cost cheapest first, and every change from X to Y with its dates |
 | **Content Intelligence** | Sitemap analysis, categories, publishing activity, gaps |
 | **Tech & Trust Profile** | Tech stack, security headers, trust signals, AI crawler access |

@@ -3,7 +3,7 @@
 This repository contains competitive intelligence skills following the [Agent Skills](https://agentskills.io) open standard.
 
 Every skill here READS through the CompetLab MCP server and shapes what comes back into something a
-human can act on — seven of them read a project's monitoring data, and `competlab-site-audit` reads a
+human can act on — eight of them read a project's monitoring data, and `competlab-site-audit` reads a
 bare domain through the free scans. None of them run their own market research: the platform does the
 monitoring, the skills do the reading and the writing.
 
@@ -13,7 +13,7 @@ CompetLab monitors **6 dimensions** across a project's competitors:
 
 1. **AI Visibility** — which companies the AI engines name in answer to the project's **8 prompts**, and whether the customer is one of them
 2. **AI Sources** — which pages the engines retrieved while answering the project **8 buying questions**, per engine
-3. **Positioning** — how competitors describe themselves and to whom
+3. **Positioning** — what each company says on its homepage as the page says it, what you say that nobody else does, what changed, and what pages say about you
 4. **Pricing Intelligence** — what each company charges on its pricing page as a visitor from the US sees it, what typical buyer setups cost cheapest first, what each plan includes, and every confirmed change from X to Y with its dates
 5. **Content Intelligence** — what competitors publish and when
 6. **Tech & Trust Profile** — stack, security posture and trust signals
@@ -32,6 +32,7 @@ different prompt set from AI Visibility's 3, and the two dimensions share no dat
 - **competlab-ai-visibility** — reads the AI Visibility dimension and reports which companies the five engines name in the category, and whether the brand is one of them
 - **competlab-ai-sources** — reads the AI Sources dimension and reports, per engine, which retrieved pages named other companies and which named the brand
 - **competlab-pricing** — reads the Pricing Intelligence dimension and reports what each company charges as a US buyer sees it, what typical buyer setups cost cheapest first and where the customer stands, and every change since the last check, from X to Y with its dates and its level
+- **competlab-positioning** — reads the Positioning dimension and reports what each company says on its homepage in the page's own words, which of the customer's claims nobody else makes on the homepages read, every change since the last check from X to Y with its dates and its level, and what pages say about the customer, with their dates and never a judgement of a page
 - **competlab-briefing** — reads the platform's own Strategic Briefing across its 14 analysis areas, at the depth the question needs. It reads the briefing; it does not rebuild the analysis
 - **competlab-competitor-dive** — builds a dossier on a single monitored competitor from every dimension the platform holds on it
 - **competlab-battlecard** — turns the same monitoring data into a sales-ready battlecard with objection handling

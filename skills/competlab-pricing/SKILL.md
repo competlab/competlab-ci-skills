@@ -6,7 +6,7 @@ license: MIT
 allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_pricing_dashboard mcp__competlab__get_pricing_history mcp__competlab__get_pricing_run_detail mcp__competlab__list_alerts Read
 metadata:
   author: competlab
-  version: "3.4.3"
+  version: "3.4.4"
   website: https://competlab.com
   category: competitive-intelligence
 ---
@@ -98,37 +98,45 @@ tense.
 **1. Resolve.** `list_projects` → `list_competitors` (the customer's row is `isOwn: true`) →
 `get_project` for when pricing last ran.
 
-**2. `get_pricing_dashboard`.** If it answers `no_data_available`, no pricing check has completed: say
-so and stop (the next check's day is on the project's Monitoring page, not in this answer). Otherwise
-read `item`'s cards below in order. The order is the founder's order of questions: how
+**2. `get_pricing_dashboard`, with `view: "full"`.** The compact default trims `seats`, `setupFee`, `ai`
+and `limits`, which step 9's table needs; full carries them (compact would leave those cells blank, and
+blank means *not on the page*, a false claim). If it answers `no_data_available`, no pricing check has
+completed: say so and stop (the next check's day is on the project's Monitoring page, not in this
+answer). Otherwise read `item`'s cards below in order. The order is the founder's order of questions: how
 far the check got; what needs me; what do I charge; where do I stand; what does each rival charge;
 what changed; what is said about me.
 
 **3. How far the check got** — `item.header`. `read` of `pages` pricing pages on `readOn`, as a
-visitor from the US. `unread[]` names the companies whose pricing page this check could not read,
-each with `shownAsReadAt` where an earlier read exists. `partial: true` means some of what was read
+visitor from the US — the customer's own page counts among them, and the sentence says it apart from
+the rivals': *We read your pricing page and 7 of 8 rivals' on 11 Oct*; when the customer's page was not
+read it leads the could-not-read clause (*We could not read your pricing page; your prices are shown as
+read on 4 Oct.*). `unread[]` names the companies whose pricing page this check could not read, each
+with `shownAsReadAt` where an earlier read exists. A company read whose `facts` is `null` with
+`factsAvailable.reason: "not_judged"` is in one clause after the vantage, never among the read and
+never among the unread: *2 of them have nothing to show this check.* `partial: true` means some of what was read
 on `readOn` is not on the page yet.
 
-> "We read 8 of 9 pricing pages on 11 Oct, as a visitor from the US. We could not read Rival C's;
+> "We read your pricing page and 7 of 8 rivals' on 11 Oct, as a visitor from the US. We could not read Rival C's;
 > its prices are shown as read on 4 Oct. Next check: 14 Oct."
 
 Never give a reason a page could not be read. The next check's date is the answer.
 
-**4. In short** — `item.narrative`. The check's own paragraphs: what needs the reader this check, one
+**4. In short** — `item.narrative`, `blocks[]` of `prose` and `heading`, quoted in order. The check's own paragraphs: what needs the reader this check, one
 sentence each, each with a number, a name or a date. Quote it; do not rewrite it. Absent when the
 check wrote none.
 
 **5. The customer's own prices** — the company in `item.companies[]` with `isSelf: true`. Its `facts`
-of kind `plan`, `addon`, `trial`, `visibility` are its plans as a US buyer sees them. A fact carries
+of kind `plan`, `addon`, `trial`, `visibility` are its plans as a US buyer sees them (`setup_quote` and `external_price` facts exist too: the first is read
+through `setups[]`, the second in step 7, never printed as plan rows). A fact carries
 `name`, `price { amount, currency, period, billed }`, `altPrice` (the other billing of the same plan,
 where the page shows both), `unit`, `includes`, `seats`, `setupFee`, `ai`, a trial's `trialDays`
-(its length in days, when the page states one), `notRead` (what the check could not read for this
+(its length in days, when the page states one) and its `includes` text (*Trial: 14 days, no card.*), `notRead` (what the check could not read for this
 fact, in its words), `contradiction` (the page lists the thing twice and the two disagree: say both,
 never pick one), the page's exact `quote`, `pageUrl`, `readAt`.
 
 Print the fact's `price` with its billing in words, and its `altPrice` after it: *$39 a month,
 billed annually, or $46 a month billed monthly*; *$9 a seat a month*; cents as the page shows them
-(*$16.50*). An `amount` of 0 is a free plan. `visibility: gated` is *prices behind a form or a login*;
+(*$16.50*). An `amount` of 0 is a free plan. `visibility: full` prints nothing and `no_page` is *no pricing page*; `visibility: gated` is *prices behind a form or a login*;
 `starting_from` is *from $X*; `in_page_code` is *a price only in the page's code* — print the amount
 with those words; a plan with no `price` key shows no amount on the page. `egress` on a fact is the exit
 the read came from, and the day of `readAt`, as served, is the fact's date.
@@ -136,14 +144,16 @@ the read came from, and the day of `readAt`, as served, is the fact's date.
 **6. Where the customer stands** — `item.setups[]`, built by the check's code from each company's
 setup quote. The setups are two or three typical buyers in this market, written on the first check
 and kept the same so the order means the same every time; each is priced at the cheapest plan that
-fits it. Per setup: `label` (the buyer in words), `assumptions` (which say which rate the rows
+fits it. Per setup: `label` and `assumptions` (in `market.setups[]`, joined to `setups[]` by `id`; the assumptions say which rate the rows
 carry — the monthly, or the annual rate a month; say it once with the table), `rows[]` cheapest
 first with `rank`, `plan`, `price`, the page's `quote`, `pageUrl`, `readAt`; then the rows that
-cannot serve it, with `fits: false` and the page's own `reason`; then `notPriced[]`.
+cannot serve it, with `fits: false` and the page's own `reason`; then `notPriced[]`. *Priced on* is `header.readOn`;
+`market.decidedAt` is when the setups were chosen.
 
 - The rank sentence, only when `of` is 2 or more: *For {label}, {cheapest} is cheapest at {price}
   and you are {customerRank} of {of} at {your price}.* — the rank as an ordinal, as the page prints
-  it: *2nd of 3*, never *2 of 3*. <!-- facts-ok: a rank, not an engine count --> `of` counts the companies priced for this
+  it: *2nd of 3*, never *2 of 3*. <!-- facts-ok: a rank, not an engine count --> When the customer's row shares
+  its amount and currency with the row above or below, add *level with {company} {plan}*. `of` counts the companies priced for this
   setup, not the roster, so the lines under the table (*not priced*, *could not be read*) always go
   with it. With one priced row: *Only your {plan} is priced for this setup so far*, or *Only
   {domain}'s {plan} is priced…* when the one row is a rival's. On a project's first check the
@@ -185,6 +195,7 @@ step 5), one block each, dated by its own read. `state` says what the block can 
 | `could_not_read` | the last read's facts, *shown as read on `shownAsReadAt`*; this check tried on `attemptedAt` |
 | `never_read` | *We have not read its pricing page yet.* `configuredUrl` is the page set in the project and `attemptedAt` when this check tried it; `factsAvailable.reason: "never_read"` |
 | `no_page` | *No pricing page set.* With `lookedAt`, the URL the check tried on its site: *No pricing page set. We looked at {lookedAt} on {attemptedAt} and could not read it.* Such a company is also in the header's `unread` and in a setup's `notPriced` as `could_not_read`: one page tried and not read, said once |
+| `read`, `facts: null`, `factsAvailable.reason: "not_judged"` | *Read on {readAt}; nothing to show from this check.* then the last read's facts *shown as read on {shownAsReadAt}* where they exist, else *…yet. Next check: {date}.* Never *Shows no prices.*: nothing is claimed about its prices |
 
 On `could_not_read` and `never_read`, `triedUrl` is the page the check tried on the company's site
 when none is set in the project, and `movedTo` is the site the address set in the project now ends
@@ -205,7 +216,7 @@ its `visibility` fact; a company read whose `facts` is an empty list is *Shows n
 number, or *unlimited* when the page says so), `ai` (as the page puts it: *included*, *add-on*,
 *metered: credits*), `unit` (what it prices on, in the page's word: *seat*, *monitor*, *responder
 license*, *company ARR*), and the company's `trial` fact on each of its rows (*{n} days*, or *yes,
-length not shown*). *Prices shown* is the company's: *every plan* when every plan it lists has a
+length not shown*; the company's trial, not the plan's). *Prices shown* is the company's: *every plan* when every plan it lists has a
 price, *{priced} of {listed} plans* when some are priced and some are not (*2 of 5 plans*; a count,
 never a share), *from {price}* when a plan is `starting_from`, *none* when no plan is priced. A field the page does not state is absent — leave the cell blank, and never fill it
 with *none*. *None* is a value only when the page says so.
@@ -220,7 +231,10 @@ the company and the plan with what it includes, from X to Y in words, the two re
 level in the customer's words, `pageUrl` as the live page, and `quoteBefore` / `quoteAfter` as *the
 page's words, before and after*. A company closing or bought also raises its own *Tell me now* line
 here, by its title (`market_event`). This card is always shown: `changesSince` absent is *First check on {readOn}. Changes show
-from the next check on*; no changes is *Nothing changed since {date}*.
+from the next check on. From the next check, a rival's price move is a Tell me this week alert; a
+rival going free, cutting below your price or offering your customers a deal is Tell me now.*; no
+changes is *Nothing changed since {date} on the pages we compared.*, with the not-judged companies
+named under it (*Rival B and Rival C have nothing to show this check.*) and the unread ones as step 3.
 
 > **Tell me this week** · *Rival B's free plan went from 10 monitors to 3 between 28 Sep and 5 Oct.*
 > Its check interval went from 5 minutes to 15. Yours has 50 monitors at 5 minutes. · 5 Oct · the
@@ -257,7 +271,7 @@ sent. Each carries `title` and `detail` verbatim, `level` beside `severity`, and
 
 ```markdown
 # Pricing — {Project}
-*Read {read} of {pages} pricing pages on {readOn}, as a visitor from the US. Next check: {date} — or
+*Read your pricing page and {rivals read} of {rivals} rivals' on {readOn}, as a visitor from the US. Next check: {date} — or
 "due now", or "No check scheduled".*
 
 ## In short

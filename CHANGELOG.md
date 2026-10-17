@@ -6,6 +6,19 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ---
 
+## [3.4.4] — unreleased
+
+### Changed
+
+- **`competlab-pricing`** follows the Pricing page's morning words: card 0 says the customer's own page apart from
+  the rivals' (*We read your pricing page and 7 of 8 rivals'*); a company the check read but wrote nothing for is
+  *nothing to show from this check* (`factsAvailable.reason: not_judged`), never *Shows no prices.*; the quiet
+  line is *Nothing changed … on the pages we compared*; a tie in the setups' order is said (*level with …*); the
+  first check's card says what the next one will alert on. Reads the dashboard with `view: "full"` so the plan
+  table's seats, setup fee and AI cells are the page's, never blank by trimming. Names what it never named:
+  `visibility` *full* and *no_page*, the `setup_quote` and `external_price` fact kinds, a setup's label and
+  assumptions in `market.setups[]`, the trial's text, the narrative's blocks, the company's trial on every row.
+
 ## [3.4.3] — 2026-10-17
 
 ### Fixed

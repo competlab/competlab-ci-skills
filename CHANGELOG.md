@@ -6,6 +6,18 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ---
 
+## [3.4.2] — 2026-10-17
+
+### Fixed
+
+- **`competlab-pricing`**: a change's `kind` — a `market_event` entry carries only its title, level and page,
+  its words and date live in `marketEvents`; a setup row that fits with no rank and no price is said in the
+  check's own words (*the plans page shows no price*), never as a machine phrase; the rank is an ordinal
+  (*2nd of 3*) as the page prints it; the report names a company by its served `name`, the domain only where
+  none is served; a company read whose facts list is empty is *Shows no prices.*; the trial is a line under
+  the customer's plan table, not a row. From the 3.4.1 validation on production and a cold reader's report on
+  the served dashboard.
+
 ## [3.4.1] — 2026-10-17
 
 ### Fixed

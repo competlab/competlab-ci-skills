@@ -6,7 +6,7 @@ license: MIT
 allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_pricing_dashboard mcp__competlab__get_pricing_history mcp__competlab__get_pricing_run_detail mcp__competlab__list_alerts Read
 metadata:
   author: competlab
-  version: "3.4.1"
+  version: "3.4.2"
   website: https://competlab.com
   category: competitive-intelligence
 ---
@@ -142,13 +142,21 @@ first with `rank`, `plan`, `price`, the page's `quote`, `pageUrl`, `readAt`; the
 cannot serve it, with `fits: false` and the page's own `reason`; then `notPriced[]`.
 
 - The rank sentence, only when `of` is 2 or more: *For {label}, {cheapest} is cheapest at {price}
-  and you are {customerRank} of {of} at {your price}.* `of` counts the companies priced for this
+  and you are {customerRank} of {of} at {your price}.* — the rank as an ordinal, as the page prints
+  it: *2nd of 3*, never *2 of 3*. <!-- facts-ok: a rank, not an engine count --> `of` counts the companies priced for this
   setup, not the roster, so the lines under the table (*not priced*, *could not be read*) always go
   with it. With one priced row: *Only your {plan} is priced for this setup so far*, or *Only
   {domain}'s {plan} is priced…* when the one row is a rival's. On a project's first check the
   setups were written on this check: say *chosen on this first check and kept the same from here*.
 - `customerRank` absent: the customer either publishes no price for this setup or cannot serve it.
   The customer's own row says which — `fits: false` with the page's reason, or a `notPriced` entry.
+- A row with `fits: true` and no `rank` is a plan that fits but could not be placed in the order:
+  no amount, or an amount with no currency. It sits under the ranked rows with no number, in the
+  check's words. With an amount it could not place: *{company} sells it; its page shows '{quote}'.*
+  With no amount, the setup quote's `notRead` sentence: *{company} sells it; the plans page shows
+  no price.* — or, when `notRead` names a control, *{company} sells it; the price is behind a
+  {slider / calculator} on its page.* Never *no amount placed*, and never *depends on the quantity
+  you choose* unless the check's own words say a quantity control.
 - `notPriced` is a company with no price for this setup: `could_not_read` (its page was not read),
   or `no_quote` (read, and the check priced no plan for it). Say *not priced for this setup* or
   *could not be read*. Never a machine word.
@@ -188,7 +196,9 @@ shows no prices}.* `read.egress: "eu"` means the US read failed and the page was
 say so on that block only; every other read is from the US. `priceSets` means the page showed two
 price sets this check: a test, listed as *showing two price sets since {since}*, never a change.
 
-A company that shows no prices: *Shows no prices. Its pricing page says: '{quote}'.* A promotion
+A company that shows no prices: *Shows no prices. Its pricing page says: '{quote}'.* — the quote from
+its `visibility` fact; a company read whose `facts` is an empty list is *Shows no prices.* alone, never
+*stated nothing the check keeps*. A promotion
 (`kind: "promotion"`): *{name} is at {price} (read {date}). Its page says: '{quote}'.*
 
 **9. What each plan includes** — the same `plan` facts, one row per plan: `setupFee`, `seats` (a
@@ -201,12 +211,15 @@ never a share), *from {price}* when a plan is `starting_from`, *none* when no pl
 with *none*. *None* is a value only when the page says so.
 
 **10. Changed since {date}** — `item.changes[]`, newest first, records included; `item.changesSince` is
-the previous check's date. Each is one confirmed change: quote its `title` verbatim (one sentence:
+the previous check's date. Each carries `kind`: `change`, a confirmed change, or `market_event`, a
+company closing, renamed or bought, which carries only `title`, `level` and `pageUrl` here — its words
+and its date are its entry in `item.marketEvents` (step 12); say it from there, and never look for
+`detail` or quotes on it. A `change` is one confirmed change: quote its `title` verbatim (one sentence:
 the company and the plan with what it includes, from X to Y in words, the two read dates), then its
 `detail` (one more sentence: the customer's own number, the rank line, or the page's quote), the
 level in the customer's words, `pageUrl` as the live page, and `quoteBefore` / `quoteAfter` as *the
 page's words, before and after*. A company closing or bought also raises its own *Tell me now* line
-here. This card is always shown: `changesSince` absent is *First check on {readOn}. Changes show
+here, by its title (`market_event`). This card is always shown: `changesSince` absent is *First check on {readOn}. Changes show
 from the next check on*; no changes is *Nothing changed since {date}*.
 
 > **Tell me this week** · *Rival B's free plan went from 10 monitors to 3 between 28 Sep and 5 Oct.*
@@ -252,16 +265,17 @@ sent. Each carries `title` and `detail` verbatim, `level` beside `severity`, and
 
 ## Your prices · read {date}
 | Plan | Price | Billed | Includes |
-{the customer's plan facts, as the page shows them; the free plan, the trial, the add-ons as lines}
+{the customer's plan facts as the rows, as the page shows them; then the free plan, the trial
+(*Trial: 14 days.*) and the add-ons as lines under the table, never as rows}
 
 ## What typical setups cost · priced on {date}
 **{setup label}** · {the rank sentence}
 | | Company | Plan | A month |
-{rows cheapest first; the customer's row marked; then "Can't serve this setup: …" with the page's
-reason; then "Not priced: …"}
+{rows cheapest first; the customer's row marked; then the rows that fit with no rank, each in the
+check's words; then "Can't serve this setup: …" with the page's reason; then "Not priced: …"}
 
 ## What each company charges
-### {domain} · read {date} from the US · [pricing page]
+### {name, or the domain where none is served} · read {date} from the US · [pricing page]
 {the plan table, the trial and add-on lines, the state line where the block is not `read`}
 
 ## What each plan includes

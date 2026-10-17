@@ -256,7 +256,9 @@ company's name as served.
 
 **13. One check, or the run before.** `get_pricing_history` lists checks newest first:
 `completedAt`, `pagesRead` (pricing pages, one per company — never a sitemap or a homepage),
-`pagesFailed`, `partial`, `changes` counted by level, `egress` (the exits its reads came from).
+`pagesFailed`, `pagesNotJudged` (pages read for which the check wrote nothing; counted in `pagesRead` too;
+their companies are in the run detail), `partial`, `changes` counted by level, `egress` (the exits its
+reads came from).
 `get_pricing_run_detail` with a `runId` answers the same cards for that check. Compare two checks by
 their own dates, and say which date each figure is from.
 

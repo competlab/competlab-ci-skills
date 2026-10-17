@@ -318,8 +318,8 @@ sent. Each carries `title` and `detail` verbatim, `level` beside `severity`, and
 (version 1): a `change` with `kind`, `field`, `name`, `from`, `to`, `readAt`, `previousReadAt`,
 `pageUrl`, `quoteBefore`, `quoteAfter` and `egress`, and on a page or a sentence about the customer the
 page's title and date and the customer's own page beside it (`ourPageSays`, `ourPageUrl`, `ourPageName`,
-`ourPageReadAt`); or a `marketEvent`. A record that names `samePricingAlert` is the same fact the
-pricing alert told first: say it once, from that alert. An alert is written once and never revised:
+`ourPageReadAt`); or a `marketEvent`. An alert that names `samePricingAlert` is the same fact the
+pricing alert told first; both keep their level, and each channel was told it once — say it once. An alert is written once and never revised:
 quote it as of its `createdAt`.
 
 ## Output

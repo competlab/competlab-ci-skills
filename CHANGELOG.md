@@ -6,9 +6,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ---
 
-## [3.5.0] — unreleased
+## [3.5.0] — 2026-10-17
 
-Prepared on the branch `positioning-check`. It ships when the served surfaces are on production and read as served.
+Released after phase 3's deploy (backend live 2026-10-17 18:12Z): the served OpenAPI document read at ~18:30Z and the three MCP descriptions read from a fresh tools/list at 18:18Z (Suny, our org's key); the dashboard description at 1,972 of 2,000 characters.
 
 ### Added
 

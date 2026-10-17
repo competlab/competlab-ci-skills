@@ -7,7 +7,7 @@ license: MIT
 allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_pricing_dashboard mcp__competlab__get_positioning_dashboard mcp__competlab__get_tech_trust_dashboard mcp__competlab__get_content_dashboard mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_ai_visibility_trend mcp__competlab__get_ai_sources_dashboard mcp__competlab__get_briefing mcp__competlab__fetch_url WebSearch Read
 metadata:
   author: competlab
-  version: "3.4.0"
+  version: "3.4.1"
   website: https://competlab.com
   category: competitive-intelligence
 ---
@@ -44,11 +44,11 @@ each dimension last ran. Those dates go on the card beside the figures they prod
 
 **2. Pull the four monitored surfaces.**
 - `mcp__competlab__get_pricing_dashboard` — both sides' plans as a US buyer sees them, in the page's
-  own words and currency: the customer's entry and this rival's in `run.companies[]`, and the two
-  rows on each typical buyer setup in `run.setups[]`, cheapest first — the rank is the check's, never
+  own words and currency: the customer's entry and this rival's in `item.companies[]`, and the two
+  rows on each typical buyer setup in `item.setups[]`, cheapest first — the rank is the check's, never
   yours. A side-by-side price line is the most-used row on the card. A company whose page could not
   be read shows its last read's facts, dated `shownAsReadAt`: put that date on the card, and never
-  "they have no free plan". A change in `run.changes[]` goes on the card as the check wrote it, from
+  "they have no free plan". A change in `item.changes[]` goes on the card as the check wrote it, from
   X to Y with the two dates.
 - `mcp__competlab__get_positioning_dashboard` — what they claim on their homepage. This is what the
   prospect already saw.

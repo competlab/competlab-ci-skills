@@ -348,7 +348,7 @@ what the page says, in the page's own words. The shapes it serves follow from th
 - **No arithmetic on a price.** An amount is the page's own number with its currency, period and
   billing — never converted, summed or averaged across companies. There is no average across
   companies and no price position, by design. The one multiplication is the check's `perYear` on an outside price,
-  and it is marked as the check's. The setups card (`run.setups`) is ordered cheapest first by the
+  and it is marked as the check's. The setups card (`item.setups`) is ordered cheapest first by the
   check; you report `rank` and `customerRank`, and never compute a rank of your own.
 - **A change is written from X to Y, with the two read dates.** Quote the alert's `title` and
   `detail` as the check wrote them. Never rebuild a change from `from` and `to` with an arrow, and

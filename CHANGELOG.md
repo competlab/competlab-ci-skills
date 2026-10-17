@@ -6,6 +6,17 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ---
 
+## [3.4.1] — 2026-10-17
+
+### Fixed
+
+- **`competlab-pricing`** reads the shape the MCP tool and `/v1` serve: `get_pricing_dashboard` answers
+  `{ item }` with `readingGuide` first, and the error `no_data_available` before the first completed check.
+  3.4.0 described the app's own page route (`{ dimension, monitoring, run }`, with a check-in-flight flag
+  nothing public serves); every `run.` field is `item.` as served. The battlecard, the competitor dive, the
+  site audit and `READING-THE-DATA.md` §16 name the same fields under `item`. Found validating 3.4.0 on
+  production.
+
 ## [3.4.0] — 2026-10-17
 
 ### Added

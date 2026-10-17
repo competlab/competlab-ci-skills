@@ -7,7 +7,7 @@ license: MIT
 allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_competitor mcp__competlab__get_briefing mcp__competlab__get_briefing_history mcp__competlab__get_briefing_edition mcp__competlab__get_positioning_dashboard mcp__competlab__get_positioning_history mcp__competlab__get_pricing_dashboard mcp__competlab__get_pricing_history mcp__competlab__get_content_dashboard mcp__competlab__get_content_changelog mcp__competlab__get_tech_trust_dashboard mcp__competlab__get_ai_visibility_dashboard mcp__competlab__get_ai_visibility_trend mcp__competlab__get_ai_visibility_history mcp__competlab__get_ai_visibility_check_detail mcp__competlab__get_ai_sources_dashboard mcp__competlab__fetch_url WebSearch Read
 metadata:
   author: competlab
-  version: "3.4.0"
+  version: "3.4.1"
   website: https://competlab.com
   category: competitive-intelligence
 ---
@@ -67,10 +67,10 @@ usually still readable** — `mcp__competlab__get_briefing_history`, then
 - **Positioning** — `mcp__competlab__get_positioning_dashboard` for the headline, value proposition,
   audience and differentiator as they wrote them; `mcp__competlab__get_positioning_history` for
   whether the message has moved, and when.
-- **Pricing** — `mcp__competlab__get_pricing_dashboard`: this rival's entry in `run.companies[]` (its
-  plans as a US buyer sees them, in the page's own words and currency), its rows on `run.setups[]`
+- **Pricing** — `mcp__competlab__get_pricing_dashboard`: this rival's entry in `item.companies[]` (its
+  plans as a US buyer sees them, in the page's own words and currency), its rows on `item.setups[]`
   (the typical buyer setups, cheapest first — report its `rank` of `of`, never a rank of your own),
-  and its lines in `run.changes[]`, each quoted as the check wrote it, from X to Y with the two dates
+  and its lines in `item.changes[]`, each quoted as the check wrote it, from X to Y with the two dates
   and its level in the customer's words. `mcp__competlab__get_pricing_history` for the checks before.
   A company whose page could not be read shows its last read's facts, dated `shownAsReadAt` — say
   the date, and never read it as a company with no prices. No average and no price position: the

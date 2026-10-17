@@ -6,7 +6,7 @@ license: MIT
 allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_pricing_dashboard mcp__competlab__get_pricing_history mcp__competlab__get_pricing_run_detail mcp__competlab__list_alerts Read
 metadata:
   author: competlab
-  version: "3.4.0"
+  version: "3.4.1"
   website: https://competlab.com
   category: competitive-intelligence
 ---
@@ -62,12 +62,17 @@ rules carry most of a pricing report:
 
 ## The shape
 
-`get_pricing_dashboard` answers `{ dimension, monitoring, run, nextCheckAt }`. `run` is the newest
-completed check, projected onto the cards the Pricing page shows — `null` before the first check.
-`monitoring.currentRunning` says a check is in flight now. `nextCheckAt` is the next scheduled check;
-when it is absent and `nextCheckDue` is `true`, a check is due and waits its turn — say *Next check:
-due now*, never a time of day; absent otherwise, none is scheduled — say *No check scheduled*. The response opens with `readingGuide`, the rule for each field in it;
-where it is more specific than this file, it wins.
+`get_pricing_dashboard` answers `{ item }`, and `GET /v1/projects/{id}/pricing` answers the same.
+`item` is the newest completed check, projected onto the cards the Pricing page shows, and it opens
+with `readingGuide`, the rule for each field it carries — where the guide is more specific than this
+file, it wins. Then `runId`, `completedAt`, `market`, `header`, `companies`, `setups` (or
+`setupsAvailable`), `changes` (and `changesSince` from the second check on), `aboutYou`,
+`marketEvents`, `progress`, `partial`, `narrative`, and `nextCheckAt`. Before the first completed
+check there is no `item`: the tool answers the error `no_data_available` (`/v1`: 404) — say that no
+pricing check has completed yet, and stop; nothing in this answer says whether one is running.
+`nextCheckAt` is the next scheduled check; when it is absent and `nextCheckDue` is `true`, a check is
+due and waits its turn — say *Next check: due now*, never a time of day; absent otherwise, none is
+scheduled — say *No check scheduled*.
 
 **The null rule on these shapes:** an **absent** key means the page does not say it (we read the
 page; it is not there). **`null`** means we did not measure it, with the reason in a sibling
@@ -79,9 +84,9 @@ Use the name where it is served and the domain where it is not; never derive a n
 a capitalised domain is wrong for a third of most rosters. The check's own `title` already uses the
 page's name.
 
-Four things on the shape you read past: `run.progress` is the check's working count of every page
+Four things on the shape you read past: `item.progress` is the check's working count of every page
 it read, sitemaps and homepages included — never quote it; the header's counts are the pricing
-pages. `run.market` says the market's `kind` (`published`, `quote_only` or `mixed`: which cards the
+pages. `item.market` says the market's `kind` (`published`, `quote_only` or `mixed`: which cards the
 check built), the `unit` it prices on in the market's own word, and when the setups were written
 (`decidedAt`). On a fact, `limits` is the plan's numbers as the page lists them, a map in the page's
 words, and `variant` names which version of a page the read saw when the page tests two (`default`
@@ -93,12 +98,13 @@ tense.
 **1. Resolve.** `list_projects` → `list_competitors` (the customer's row is `isOwn: true`) →
 `get_project` for when pricing last ran.
 
-**2. `get_pricing_dashboard`.** If `run` is `null`, no check has completed: say so, give `nextCheckAt`,
-and stop. Otherwise read the cards below in order. The order is the founder's order of questions: how
+**2. `get_pricing_dashboard`.** If it answers `no_data_available`, no pricing check has completed: say
+so and stop (the next check's day is on the project's Monitoring page, not in this answer). Otherwise
+read `item`'s cards below in order. The order is the founder's order of questions: how
 far the check got; what needs me; what do I charge; where do I stand; what does each rival charge;
 what changed; what is said about me.
 
-**3. How far the check got** — `run.header`. `read` of `pages` pricing pages on `readOn`, as a
+**3. How far the check got** — `item.header`. `read` of `pages` pricing pages on `readOn`, as a
 visitor from the US. `unread[]` names the companies whose pricing page this check could not read,
 each with `shownAsReadAt` where an earlier read exists. `partial: true` means some of what was read
 on `readOn` is not on the page yet.
@@ -108,11 +114,11 @@ on `readOn` is not on the page yet.
 
 Never give a reason a page could not be read. The next check's date is the answer.
 
-**4. In short** — `run.narrative`. The check's own paragraphs: what needs the reader this check, one
+**4. In short** — `item.narrative`. The check's own paragraphs: what needs the reader this check, one
 sentence each, each with a number, a name or a date. Quote it; do not rewrite it. Absent when the
 check wrote none.
 
-**5. The customer's own prices** — the company in `run.companies[]` with `isSelf: true`. Its `facts`
+**5. The customer's own prices** — the company in `item.companies[]` with `isSelf: true`. Its `facts`
 of kind `plan`, `addon`, `trial`, `visibility` are its plans as a US buyer sees them. A fact carries
 `name`, `price { amount, currency, period, billed }`, `altPrice` (the other billing of the same plan,
 where the page shows both), `unit`, `includes`, `seats`, `setupFee`, `ai`, a trial's `trialDays`
@@ -127,7 +133,7 @@ billed annually, or $46 a month billed monthly*; *$9 a seat a month*; cents as t
 with those words; a plan with no `price` key shows no amount on the page. `egress` on a fact is the exit
 the read came from, and the day of `readAt`, as served, is the fact's date.
 
-**6. Where the customer stands** — `run.setups[]`, built by the check's code from each company's
+**6. Where the customer stands** — `item.setups[]`, built by the check's code from each company's
 setup quote. The setups are two or three typical buyers in this market, written on the first check
 and kept the same so the order means the same every time; each is priced at the cheapest plan that
 fits it. Per setup: `label` (the buyer in words), `assumptions` (which say which rate the rows
@@ -162,7 +168,7 @@ per-seat price. Quote the source and both dates: *the median of 379 buyers, $44,
 software-buying marketplace, read 11 Oct; its figures dated Sep 2026)*. A buyer-reported median covers every company size and
 module — say so. No median across companies, no band.
 
-**8. What each company charges** — every rival in `run.companies[]` (the customer's own plans are
+**8. What each company charges** — every rival in `item.companies[]` (the customer's own plans are
 step 5), one block each, dated by its own read. `state` says what the block can show:
 
 | `state` | The block |
@@ -194,7 +200,7 @@ price, *{priced} of {listed} plans* when some are priced and some are not (*2 of
 never a share), *from {price}* when a plan is `starting_from`, *none* when no plan is priced. A field the page does not state is absent — leave the cell blank, and never fill it
 with *none*. *None* is a value only when the page says so.
 
-**10. Changed since {date}** — `run.changes[]`, newest first, records included; `run.changesSince` is
+**10. Changed since {date}** — `item.changes[]`, newest first, records included; `item.changesSince` is
 the previous check's date. Each is one confirmed change: quote its `title` verbatim (one sentence:
 the company and the plan with what it includes, from X to Y in words, the two read dates), then its
 `detail` (one more sentence: the customer's own number, the rank line, or the page's quote), the
@@ -207,7 +213,7 @@ from the next check on*; no changes is *Nothing changed since {date}*.
 > Its check interval went from 5 minutes to 15. Yours has 50 monitors at 5 minutes. · 5 Oct · the
 > live page · the page's words, before and after
 
-**11. About you** — `run.aboutYou[]`, in the order served: the market's lines about the customer
+**11. About you** — `item.aboutYou[]`, in the order served: the market's lines about the customer
 first, the customer's own board last. `kind` is one of `listing_misquotes_price` (a site lists the
 customer at a price their own page does not say), `page_names_you` (a rival's page names the
 customer's price or plans), `switching_offer` (a rival offers the customer's customers something),
@@ -217,7 +223,7 @@ check found it) — say both, never *first seen* alone: *their page is dated 5 M
 Oct*. `ourPageSays` is what the customer's own page says beside it. On a stale ticket, `ticket`
 names it and `thereOn` is when the quoted line was last read on the page.
 
-**12. Closed, renamed or bought** — `run.marketEvents[]`: the check's `title` and `detail`, the
+**12. Closed, renamed or bought** — `item.marketEvents[]`: the check's `title` and `detail`, the
 `quote` that states the event, `pageDate`, `firstSeen`. Said once; the other cards keep the
 company's name as served.
 
@@ -242,7 +248,7 @@ sent. Each carries `title` and `detail` verbatim, `level` beside `severity`, and
 "due now", or "No check scheduled".*
 
 ## In short
-{run.narrative, quoted. Then the unread companies, each with the date its prices are shown from.}
+{item.narrative, quoted. Then the unread companies, each with the date its prices are shown from.}
 
 ## Your prices · read {date}
 | Plan | Price | Billed | Includes |

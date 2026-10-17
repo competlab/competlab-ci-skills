@@ -25,8 +25,8 @@ pricing page, and the pages on other sites that name the customer. It compares t
 previous one and raises a change only when a second read confirms it. A headline that switches back and
 forth between two versions, a reordered list and a line rewritten with the same words are not changes.
 
-Everything it reports is something the user could go and read on the page today. The two things it adds
-are the comparison between this read and the last, and the matching: the customer's own claims set
+Every claim it reports is on the page today, and a change's before is the page as it was, with the date it was
+read on. The two things it adds are the comparison between this read and the last, and the matching: the customer's own claims set
 beside the tracked companies that say the same, found by the check.
 
 ## What it is not

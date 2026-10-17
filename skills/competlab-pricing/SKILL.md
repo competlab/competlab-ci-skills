@@ -122,9 +122,9 @@ never pick one), the page's exact `quote`, `pageUrl`, `readAt`.
 
 Print the fact's `price` with its billing in words, and its `altPrice` after it: *$39 a month,
 billed annually, or $46 a month billed monthly*; *$9 a seat a month*; cents as the page shows them
-(*$16.50*). An `amount` of 0 is a free plan. `visibility: gated` is *quote only*; `starting_from` is
-*from $X*; `in_page_code` is *a price shown only in the page's code* — print the amount with those
-words; a plan with no `price` key shows no amount on the page. `egress` on a fact is the exit
+(*$16.50*). An `amount` of 0 is a free plan. `visibility: gated` is *prices behind a form or a login*;
+`starting_from` is *from $X*; `in_page_code` is *a price only in the page's code* — print the amount
+with those words; a plan with no `price` key shows no amount on the page. `egress` on a fact is the exit
 the read came from, and the day of `readAt`, as served, is the fact's date.
 
 **6. Where the customer stands** — `run.setups[]`, built by the check's code from each company's
@@ -190,8 +190,8 @@ number, or *unlimited* when the page says so), `ai` (as the page puts it: *inclu
 *metered: credits*), `unit` (what it prices on, in the page's word: *seat*, *monitor*, *responder
 license*, *company ARR*), and the company's `trial` fact on each of its rows (*{n} days*, or *yes,
 length not shown*). *Prices shown* is the company's: *every plan* when every plan it lists has a
-price (a gated enterprise tier aside), *from {price}* when a plan is `starting_from`, *none* when no
-plan is priced. A field the page does not state is absent — leave the cell blank, and never fill it
+price, *{priced} of {listed} plans* when some are priced and some are not (*2 of 5 plans*; a count,
+never a share), *from {price}* when a plan is `starting_from`, *none* when no plan is priced. A field the page does not state is absent — leave the cell blank, and never fill it
 with *none*. *None* is a value only when the page says so.
 
 **10. Changed since {date}** — `run.changes[]`, newest first, records included; `run.changesSince` is

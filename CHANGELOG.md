@@ -6,6 +6,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ---
 
+## [3.4.3] — 2026-10-17
+
+### Fixed
+
+- The eight generated copies of `READING-THE-DATA.md` (`skills/*/references/reading-the-data.md`) carry the 3.4.1
+  wording (§16 reads the setups card as `item.setups`): the copies were synced but not committed in 3.4.1 and 3.4.2.
+  Found validating 3.4.2 on production.
+
 ## [3.4.2] — 2026-10-17
 
 ### Fixed

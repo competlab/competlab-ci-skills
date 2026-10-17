@@ -6,7 +6,7 @@ license: MIT
 allowed-tools: mcp__competlab__list_projects mcp__competlab__get_project mcp__competlab__list_competitors mcp__competlab__get_pricing_dashboard mcp__competlab__get_pricing_history mcp__competlab__get_pricing_run_detail mcp__competlab__list_alerts Read
 metadata:
   author: competlab
-  version: "3.4.2"
+  version: "3.4.3"
   website: https://competlab.com
   category: competitive-intelligence
 ---

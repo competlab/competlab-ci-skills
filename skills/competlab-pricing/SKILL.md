@@ -101,8 +101,7 @@ what changed; what is said about me.
 **3. How far the check got** — `run.header`. `read` of `pages` pricing pages on `readOn`, as a
 visitor from the US. `unread[]` names the companies whose pricing page this check could not read,
 each with `shownAsReadAt` where an earlier read exists. `partial: true` means some of what was read
-on `readOn` is not on the page yet. `foundNotRead` counts pricing pages found on sites and not read
-inside this check; they are read next time.
+on `readOn` is not on the page yet.
 
 > "We read 8 of 9 pricing pages on 11 Oct, as a visitor from the US. We could not read Rival C's;
 > its prices are shown as read on 4 Oct. Next check: 14 Oct."
@@ -116,13 +115,16 @@ check wrote none.
 **5. The customer's own prices** — the company in `run.companies[]` with `isSelf: true`. Its `facts`
 of kind `plan`, `addon`, `trial`, `visibility` are its plans as a US buyer sees them. A fact carries
 `name`, `price { amount, currency, period, billed }`, `altPrice` (the other billing of the same plan,
-where the page shows both), `unit`, `includes`, `seats`, `setupFee`, `ai`, `notRead` (what the check
-could not read for this fact, in its words), the page's exact `quote`, `pageUrl`, `readAt`.
+where the page shows both), `unit`, `includes`, `seats`, `setupFee`, `ai`, a trial's `trialDays`
+(its length in days, when the page states one), `notRead` (what the check could not read for this
+fact, in its words), `contradiction` (the page lists the thing twice and the two disagree: say both,
+never pick one), the page's exact `quote`, `pageUrl`, `readAt`.
 
 Print the fact's `price` with its billing in words, and its `altPrice` after it: *$39 a month,
 billed annually, or $46 a month billed monthly*; *$9 a seat a month*; cents as the page shows them
 (*$16.50*). An `amount` of 0 is a free plan. `visibility: gated` is *quote only*; `starting_from` is
-*from $X*; a plan with no `price` key shows no amount on the page. `egress` on a fact is the exit
+*from $X*; `in_page_code` is *a price shown only in the page's code* — print the amount with those
+words; a plan with no `price` key shows no amount on the page. `egress` on a fact is the exit
 the read came from, and the day of `readAt`, as served, is the fact's date.
 
 **6. Where the customer stands** — `run.setups[]`, built by the check's code from each company's
@@ -152,7 +154,9 @@ You never compute a rank, never average the column, and never add the customer's
 the check did not price.
 
 **7. Prices found elsewhere** — facts of kind `external_price`, on quote-only and mixed markets.
-Each carries where it was found (`source { kind, url, date }`) and `perYear` where the check wrote
+Each carries where it was found (`source { kind, url, date }`; `kind` is `vendor_page`, `listing`,
+`review_site`, `other_page` — another page of the company's site, a calculator or a docs page — or
+`redirect`, the page the company's address now sends to) and `perYear` where the check wrote
 one: the yearly figure, one multiplication inside the check (×12 for a monthly price), absent for a
 per-seat price. Quote the source and both dates: *the median of 379 buyers, $44,200 a year (a
 software-buying marketplace, read 11 Oct; its figures dated Sep 2026)*. A buyer-reported median covers every company size and
@@ -167,6 +171,10 @@ step 5), one block each, dated by its own read. `state` says what the block can 
 | `could_not_read` | the last read's facts, *shown as read on `shownAsReadAt`*; this check tried on `attemptedAt` |
 | `never_read` | *We have not read its pricing page yet.* `configuredUrl` is the page set in the project and `attemptedAt` when this check tried it; `factsAvailable.reason: "never_read"` |
 | `no_page` | *No pricing page set.* With `lookedAt`, the URL the check tried on its site: *No pricing page set. We looked at {lookedAt} on {attemptedAt} and could not read it.* Such a company is also in the header's `unread` and in a setup's `notPriced` as `could_not_read`: one page tried and not read, said once |
+
+On `could_not_read` and `never_read`, `triedUrl` is the page the check tried on the company's site
+when none is set in the project, and `movedTo` is the site the address set in the project now ends
+on: *The page set in the project now points to {movedTo}.*
 
 `configuredPage` is present when the prices come from another page than the one set in the project:
 *Read at {read.url}; the page set in the project, {configuredUrl}, {redirects there / was not found /

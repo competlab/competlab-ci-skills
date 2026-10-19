@@ -25,6 +25,12 @@
 import { readdirSync, readFileSync, existsSync } from 'node:fs';
 import { join, dirname, resolve, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createHash } from 'node:crypto';
+
+const INTERNAL_NAME_HASHES = new Set([
+  '23d61e66185e6784a15fa47cae156c910c78959373daf71ec5baf97aa27da6ce',
+  'b26a70a9ac6b13771ffecb2243aec0c7e20d0f0a0ec3bf2f9dcad298ba5a7551',
+]);
 
 const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -105,8 +111,11 @@ export const RULES = [
     message: 'Say Agent Adoption, or describe it: how well a site is set up for AI agents to discover, access and read it.',
   },
   {
+    // The names are kept as SHA-256 hashes of the lower-cased word: a rule that spelled out an
+    // internal name would publish it. Add a name by appending the hash of its lower-cased form.
     id: 'internal-names',
-    pattern: /\b(?:Itrinity|Sequenzy)\b/gi,
+    pattern: /\b[A-Za-z][A-Za-z0-9]{3,}\b/g,
+    filter: (word) => INTERNAL_NAME_HASHES.has(createHash('sha256').update(word.toLowerCase()).digest('hex')),
     message: 'Internal name must not appear in a public repo.',
   },
   {
@@ -273,6 +282,7 @@ function main() {
         if (rule.context && !rule.context.some((c) => c.test(line))) continue;
         rule.pattern.lastIndex = 0;
         for (const m of line.matchAll(rule.pattern)) {
+          if (rule.filter && !rule.filter(m[0])) continue;
           total++;
           perRule.set(rule.id, perRule.get(rule.id) + 1);
           if (!hitsByFile.has(rel)) hitsByFile.set(rel, []);

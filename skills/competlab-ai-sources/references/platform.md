@@ -93,10 +93,11 @@ It reads a different prompt set from AI Visibility and shares no data with it.
 
 The work list is `summary.coreHosts` filtered to `status: "missing"` — hosts two or more engines read
 for this market that do not name the customer — then split on `ownership`, which has exactly two
-values. `competitor_owned` is the site of a competitor the project tracks, and is not a target.
-`third_party` is approachable — including a site that belongs to a company the engines named but the
-project does not track; its pages carry `ownedBy`. `summary.funnel.missingPublishers` and
-`missingCompetitorOwned` carry that split already.
+values. `competitor_owned` is a company's own site — a competitor the project tracks, or a company the
+engines named — and is not a target; `ownedBy` says whose. `third_party` is everything else: a review
+site, a community, a blog platform, or a site nobody has classified, which may still be a company's
+blog. Its `actionHint.text` says what can be done there and never advises a pitch.
+`summary.funnel.missingPublishers` and `missingCompetitorOwned` carry that split already.
 
 `kind` (`publisher`, `community`, `review_site`, `video`) is a separate field describing the sort of
 site, not a filter for the work list.

@@ -6,7 +6,7 @@ license: MIT
 allowed-tools: mcp__competlab__list_projects mcp__competlab__list_competitors mcp__competlab__get_ai_sources_dashboard mcp__competlab__get_ai_sources_history mcp__competlab__get_ai_sources_check_detail Read
 metadata:
   author: competlab
-  version: "3.5.0"
+  version: "3.5.1"
   website: https://competlab.com
   category: competitive-intelligence
 ---
@@ -88,12 +88,16 @@ nothing usable. Neither is a zero, and neither is a fact about the customer.
 From `summary.coreHosts`, take every row with `status: "missing"` — hosts two or more engines read for
 this market that do not name the customer. Then split on **`ownership`**, which has exactly two values:
 
-- `ownership: "third_party"` → **approachable. This is the work list.** It includes a site that
-  belongs to a company the engines named but the project does not track — its pages carry `ownedBy`.
-- `ownership: "competitor_owned"` → **not a target:** the site of a competitor the project tracks.
-  You cannot pitch your way onto a rival's own site. Count them, name them, and set them aside.
+- `ownership: "third_party"` → **the work list:** review sites, communities, blog platforms, and sites
+  nobody has classified. A site nobody has classified may be a publication or another company's blog;
+  the check has not looked, and its `actionHint.text` says so. Do not turn it into advice to pitch: say
+  what the check says, and let the customer see whose site it is.
+- `ownership: "competitor_owned"` → **not a target:** a company's own site — a competitor the project
+  tracks, or a company the engines named that the project may not track. Name the company from
+  `ownedBy`; never call an untracked one the customer's competitor. Count them, name them, and set them
+  aside.
 
-`summary.funnel` has already done this split — `missingPublishers` is the approachable count and
+`summary.funnel` has already done this split — `missingPublishers` is the work list's count and
 `missingCompetitorOwned` the rest. Quote those rather than recounting, so your number and the
 platform's cannot disagree.
 
@@ -139,12 +143,12 @@ that the customer fell off anything. Say which.
 | Pages read | | |
 | Pages naming the customer, independent | | |
 
-## The work list — {n} approachable hosts
+## The work list — {n} hosts
 | Host | Read by | What the check says to do |
 |---|---|---|
 {publisher/community rows with actionHint.text verbatim}
 
-{n} further core hosts are tracked competitors' own sites and are not targets: {list}.
+{n} further core hosts are other companies' own sites and are not targets: {list, each with whose site it is}.
 {n} could not be read and are not counted against the customer: {list}.
 
 ## What the engines read of the customer's own site

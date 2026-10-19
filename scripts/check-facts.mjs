@@ -219,6 +219,15 @@ export const RULES = [
       'An empty saidBy is "nobody else says it on the homepages the check read; their pricing pages may", ' +
       'never "unique".',
   },
+  {
+    // AI Sources stopped advising pitches on 2026-10-19 (CL-348): a site nobody has classified may be
+    // a company's own blog, and competitor_owned covers a company the engines named, tracked or not.
+    id: 'ai-sources-pitch-advice',
+    pattern: /Pitch an update to this page|Pitch a mention on this page|site of a competitor the project tracks/gi,
+    message:
+      'AI Sources gives no pitch advice: render actionHint.text as served. competitor_owned is a company\'s ' +
+      'own site, a competitor the project tracks or a company the engines named.',
+  },
 ];
 
 const SKIP_DIRS = new Set(['.git', 'node_modules']);

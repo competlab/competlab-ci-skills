@@ -6,6 +6,17 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ---
 
+## [3.5.1] — 2026-10-19
+
+Released after the AI Sources change went live (2026-10-19 21:38:32Z): the served OpenAPI document read at 21:39Z and the AI Sources dashboard read on production over MCP the same hour.
+
+### Changed
+
+- **`competlab-ai-sources`** and `shared/PLATFORM.md`: AI Sources gives no pitch advice any more. `competitor_owned` is a company's own site, a competitor the project tracks or a company the engines named, and is never a target; the skill names the company from `ownedBy` and never calls an untracked one the customer's competitor. `third_party` is a review site, a community, a blog platform, or a site nobody has classified, which may still be a company's blog; the skill renders `actionHint.text` as served and does not turn it into advice to pitch. The report's work list heading counts hosts, not "approachable hosts".
+- `check-facts`: a rule against the retired pitch sentences and the old meaning of `competitor_owned`.
+
+---
+
 ## [3.5.0] — 2026-10-17
 
 Released after phase 3's deploy (backend live 2026-10-17 18:12Z): the served OpenAPI document read at ~18:30Z and the three MCP descriptions read from a fresh tools/list at 18:18Z (Suny, our org's key); the dashboard description at 1,972 of 2,000 characters.
